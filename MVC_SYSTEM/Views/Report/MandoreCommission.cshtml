@@ -1,0 +1,79 @@
+﻿@using MVC_SYSTEM.Class;
+@{
+    ViewBag.Title = "Mandore Commission";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+    AjaxOptions options = new AjaxOptions
+    {
+        HttpMethod = "Get",
+        UpdateTargetId = "searchResult",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "divLoading"
+    };
+}
+
+<script src="~/Asset/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div id="divLoading" style="display:none;">
+    <div class="progressTest">
+        <label>
+            @GlobalResDataEntry.WaitMsg
+        </label>
+    </div>
+</div>
+
+<section class="content-wrapper main-content clear-fix">
+    <div class="well bottom" style="padding-bottom: 16px">
+        @using (Ajax.BeginForm("_MandoreCommission", "Report", null, options, new { @id = "ReportSearch" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.Label("Mondore List")
+                    @Html.DropDownList("SupplyerCode", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.Label(GlobalResCorp.lblRegion)
+                    @Html.DropDownList("WilayahList", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.Label(GlobalResCorp.lblMonth)
+                    @Html.DropDownList("MonthList", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    @Html.Label(GlobalResCorp.lblYear)
+                    @Html.DropDownList("YearList", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2" style="padding-top: 24px">
+                    <input class="btn btn-primary btn-block" type="submit" name="Lihat" value="Lihat" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="well" style="margin-top: 7px">
+        <div class="modal-body">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Mandore Commission Report</div>
+                <div class="panel-body">
+                    <div id="searchResult">
+                        @Html.Action("_MandoreCommission")
+                    </div>
+                    <a href="#" onclick="HTMLtoExcel('MandoreCommission')">Download Excel</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a href=@Url.Action("Index", "Report") class="btn btn-warning" role="button">@GlobalResCorp.btnBack</a>
+        </div>
+
+    </div>
+</section>
+<script src="~/Asset/Scripts/FromHTML.js"></script>
+<script src="~/Asset/Scripts/FileSaver.js"></script>
+@section scripts{
+    @Scripts.Render("~/Asset/Scripts/AjaxModal.js")
+}
+
+

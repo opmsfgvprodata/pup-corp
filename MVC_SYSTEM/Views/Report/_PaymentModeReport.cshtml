@@ -1,0 +1,151 @@
+﻿@using MVC_SYSTEM.Class
+@using MVC_SYSTEM.Models
+@model IEnumerable<MVC_SYSTEM.ModelsSP.sp_PaymentModeReport_Result>
+
+@{
+    GetConfig GetConfig = new GetConfig();
+
+    int bil = 0;
+    decimal? totaleachladang = 0;
+    decimal? totalcash = 0;
+    decimal? totalcheque = 0;
+    decimal? totalcdmas = 0;
+    decimal? totalewallet = 0;
+    decimal? grandtotal = 0;
+    ChangeTimeZone ChangeTimeZone = new ChangeTimeZone();
+    DateTime Todaydate = ChangeTimeZone.gettimezone();
+    string uniquefilename = "PaymentModeReport" + "_" + Todaydate.Year.ToString() + Todaydate.Month.ToString() + Todaydate.Day.ToString() + Todaydate.Hour.ToString() + Todaydate.Minute.ToString() + Todaydate.Second.ToString();
+
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+    <div id="scrollArea" class="modal-body">
+        @foreach (var wilayah in Model.Select(s => s.fld_WilayahID).Distinct())
+        {
+            <p align="center" style="font-size: 11px" :><b>@ViewBag.NamaSyarikat</b></p>
+            <p align="center" style="font-size: 11px" :><b>@GlobalResNoSkb.hdrCmpnyNo : @ViewBag.NoSyarikat</b></p>
+            <p align="center" style="font-size: 11px" :><b>Payment Mode Report</b></p>
+            <br />
+
+            foreach (var ladang in Model.Where(x => x.fld_WilayahID == wilayah).Select(s => s.fld_LadangID).Distinct())
+            {
+                totalcash = 0;
+                totalcheque = 0;
+                totalcdmas = 0;
+                totalewallet = 0;
+                grandtotal = 0;
+
+                <p align="center" style="font-size: 11px" :><b>@GlobalResCorp.lblRegion : @GetConfig.GetWilayahNameFromID(wilayah)</b></p>
+
+                <table class="table table-hover" style="font-size: 11px;" border="0">
+                    <thead>
+                        <tr>
+                            <th colspan="7" bgcolor="#CC6600" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">
+                                <font color="white">@GetConfig.GetLadangKodFromID(ladang) - @GetConfig.GetLadangNameFromID(ladang)</font>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" width="1%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">No</th>
+                            <th rowspan="2" width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Division Name</th>
+                            <th colspan="4" width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Payment Mode</th>
+                            <th rowspan="2" width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Total</th>
+                        </tr>
+                        <tr>
+                            <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Cash (RM)</th>
+                            <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Cheque (RM)</th>
+                            <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">CDMAS (RM)</th>
+                            <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">EWallet (RM)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var paymentModeData in Model.Where(x => x.fld_LadangID == ladang))
+                        {
+                            bil += 1;
+                            totaleachladang = paymentModeData.fld_Cash + paymentModeData.fld_Cheque + paymentModeData.fld_Cdmas + paymentModeData.fld_Ewallet;
+
+                            <tr>
+                                <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @bil
+                                </td>
+                                <td align="left" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @paymentModeData.fld_DivisionName
+                                </td>
+                                <td align="Right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @paymentModeData.fld_Cash
+                                </td>
+                                <td align="Right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @paymentModeData.fld_Cheque
+                                </td>
+                                <td align="Right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @paymentModeData.fld_Cdmas
+                                </td>
+                                <td align="Right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @paymentModeData.fld_Ewallet
+                                </td>
+                                <td align="Right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                    @totaleachladang
+                                </td>
+                            </tr>
+                            totalcash = totalcash + paymentModeData.fld_Cash;
+                            totalcheque = totalcheque + paymentModeData.fld_Cheque;
+                            totalcdmas = totalcdmas + paymentModeData.fld_Cdmas;
+                            totalewallet = totalewallet + paymentModeData.fld_Ewallet;
+                        }
+                        @{
+                            grandtotal = totalcash + totalcheque + totalcdmas + totalewallet;
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" bgcolor="#ffcc80" style="color:black;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">Total</th>
+                            <th bgcolor="#ffcc80" style="color:black;text-align:Right;vertical-align:middle !important;border:1px solid black;" border="1">@totalcash</th>
+                            <th bgcolor="#ffcc80" style="color:black;text-align:Right;vertical-align:middle !important;border:1px solid black;" border="1">@totalcheque</th>
+                            <th bgcolor="#ffcc80" style="color:black;text-align:Right;vertical-align:middle !important;border:1px solid black;" border="1">@totalcdmas</th>
+                            <th bgcolor="#ffcc80" style="color:black;text-align:Right;vertical-align:middle !important;border:1px solid black;" border="1">@totalewallet</th>
+                            <th bgcolor="#ffcc80" style="color:black;text-align:Right;vertical-align:middle !important;border:1px solid black;" border="1">@grandtotal</th>
+                        </tr>
+                    </tfoot>
+
+                </table>
+            }
+        }
+    </div>
+
+    <div style="text-align:right; margin-top:10px">
+        @*<a class="btn btn-default btn-sm" href="#" id="downloadpdf">
+                <span><img src="~/Asset/Images/pdf-icon.png" width="20px" height="20px" /></span> @GlobalResEstate.btnDownloadPdf
+            </a>*@
+        <a class="btn btn-default btn-sm" href="#" onclick="HTMLtoExcel('@uniquefilename')">
+            <span><img src="~/Asset/Images/excel-icon.png" width="20px" height="20px" /></span> Excel
+        </a>
+    </div>
+
+}
+
+@*@if (Model.Count() == 0)*@
+else
+{
+    <div id="scrollArea2" class="modal-body" style="text-align: center">
+        <p style="color: red">@ViewBag.Message</p>
+
+    </div>
+}
+
+<script src="~/Asset/Scripts/FromHTML.js"></script>
+<script src="~/Asset/Scripts/FileSaver.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#printpage").click(function () {
+            var DivElement = document.getElementById("scrollArea2").innerHTML;
+            var oldPage = document.body.innerHTML;
+            document.body.innerHTML = DivElement;
+            window.print();
+            document.body.innerHTML = oldPage;
+        })
+    });
+</script>
+

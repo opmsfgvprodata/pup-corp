@@ -1,0 +1,88 @@
+﻿@using MVC_SYSTEM.Class
+@model IEnumerable<MVC_SYSTEM.ModelsSP.sp_MandoreCommisionDetail_Result>
+
+@{
+    GetConfig GetConfig = new GetConfig();
+    GetTriager GetTriager = new GetTriager();
+    int bil = 0;
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+<div id="scrollArea" class="modal-body">
+    <p align="center" style="font-size: 11px" :><b>@ViewBag.NamaSyarikat</b></p>
+    <p align="center" style="font-size: 11px" :><b>@GlobalResNoSkb.hdrCmpnyNo : @ViewBag.NoSyarikat</b></p>
+    <p align="center" style="font-size: 11px" :><b>Mandore Commission Report</b></p>
+    <br />
+
+    @foreach (var SplyerCode in Model.Select(s => new { s.fld_SplyerCode, s.fld_MandorName }).Distinct())
+    {
+        decimal? TotalCommision = 0;
+        <p align="center" style="font-size: 11px" :><b>Mandore Detail : @SplyerCode.fld_SplyerCode - @SplyerCode.fld_MandorName</b></p>
+        <table class="table table-hover" style="font-size: 11px;" border="0">
+            <thead>
+                <tr>
+                    <th width="1%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">@GlobalResLocalWorkerInfo.hdrNo</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">@GlobalResCorp.hdrNoPkj</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">@GlobalResCorp.hdrName</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Work Type</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Gross Amount (RM)</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Commission Amount (RM)</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Estate Name</th>
+                    <th width="3%" bgcolor="#ffcc80" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">Division Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Details in Model.Where(x => x.fld_SplyerCode == SplyerCode.fld_SplyerCode))
+                {
+                    bil += 1;
+
+                    <tr>
+                        <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @bil
+                        </td>
+                        <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @Details.fld_WorkerNo
+                        </td>
+                        <td align="left" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @Details.fld_WorkerName
+                        </td>
+                        <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @Details.fld_TypeWork.ToUpper()
+                        </td>
+                        <td align="right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @GetTriager.GetTotalForMoney(Details.fld_GrossAmount)
+                        </td>
+                        <td align="right" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @GetTriager.GetTotalForMoney(Details.fld_Commision)
+                        </td>
+                        <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @Details.fld_NamaLadang
+                        </td>
+                        <td align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                            @Details.fld_DivisionName
+                        </td>
+                    </tr>
+                    TotalCommision = TotalCommision + Details.fld_Commision;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td bgcolor="#f4a142" colspan="5" style="color:black; text-align: right; vertical-align:middle !important;border:1px solid black;" border="1">Total Commission (RM)</td>
+                    <td bgcolor="#f4a142" style="color:black; text-align: right; vertical-align:middle !important;border:1px solid black;" border="1">@GetTriager.GetTotalForMoney(TotalCommision)</td>
+                    <td bgcolor="#f4a142" colspan="2" style="color:black; text-align: center; vertical-align:middle !important;border:1px solid black;" border="1"></td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+</div>
+}
+
+@if (Model.Count() == 0)
+{
+    <div id="scrollArea2" class="modal-body" style="text-align: center">
+        <p style="color: red">@ViewBag.Message</p>
+
+    </div>
+}
+

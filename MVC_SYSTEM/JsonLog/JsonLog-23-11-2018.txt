@@ -1,0 +1,4 @@
+Title : Data Kehadiran, DateTime : 23/11/2018 05:57:21 PM
+Data : [{"fld_AttandanceID":0,"fld_Nopkj":"FM941018006","fld_KodKumpulan":"P001","fld_Tarikh":"\/Date(1541260800000)\/","fld_Hujan":0,"fld_Kdhdct":"H01","fld_DataSource":"M","fld_NegaraID":1,"fld_SyarikatID":1,"fld_WilayahID":1,"fld_LadangID":2,"fld_CreatedBy":"PUPMOBILE","fld_CreatedDT":"\/Date(1541301639000)\/"}], DateTime : 23/11/2018 05:57:21 PM
+Title : Data Kehadiran, DateTime : 23/11/2018 05:57:58 PM
+Data : [{"fld_AttandanceID":0,"fld_Nopkj":"FM941018006","fld_KodKumpulan":"P001","fld_Tarikh":"\/Date(1541260800000)\/","fld_Hujan":0,"fld_Kdhdct":"H01","fld_DataSource":"M","fld_NegaraID":1,"fld_SyarikatID":1,"fld_WilayahID":1,"fld_LadangID":2,"fld_CreatedBy":"PUPMOBILE","fld_CreatedDT":"\/Date(1541301639000)\/"}], DateTime : 23/11/2018 05:57:58 PM

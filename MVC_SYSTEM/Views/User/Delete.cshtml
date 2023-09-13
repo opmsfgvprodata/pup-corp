@@ -1,0 +1,60 @@
+﻿@model MVC_SYSTEM.AuthModels.tblUser
+
+<div class="modal-header">
+    @*<h3 class="modal-title">Delete User</h3> comment by wani 15.2.2021*@
+    <h3 class="modal-title">User</h3> @*add by wani 15.2.2021*@
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <span id="progress" class="text-center" style="display: none;">
+                <img src="~/Asset/Images/wait.gif" alt="wait" />
+            </span>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.fldUserName, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.fldUserName, new { @class = "form-control required", @disabled = "disabled" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.fldUserFullName, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.fldUserFullName, new { @class = "form-control required", @disabled = "disabled" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <h3>
+                        <span class="label label-danger">
+                            @*add by wani 6.4.2021*@
+                            @if (Model.fldDeleted == false)
+                            {
+                                @GlobalResCorp.msgDisable
+                            }
+                            else
+                            {
+                                @GlobalResCorp.msgReuse
+                            }
+                            @*closed add by wani 6.4.2021*@
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <div class="modal-footer">
+            <input class="btn btn-success" type="submit" value=@GlobalResCorp.btnYes>
+            <button class="btn btn-danger" data-dismiss="modal">@GlobalResCorp.btnNo</button>
+        </div>
+    </div>
+}

@@ -1,0 +1,115 @@
+﻿@model IEnumerable<MVC_SYSTEM.ModelsCorporate.vw_PermohonanKewangan>
+@using MVC_SYSTEM.Class
+@{
+    int bill = 1;
+    string btnsemakid, btnsokongid, btntolakid;
+    string NoAcc, NoGL, NoCIT;
+    GetTriager GetTriager = new GetTriager();
+    GetLadang GetLadang = new GetLadang();
+    int? tableid = Model.Select(s => s.fld_WilayahID).Take(1).FirstOrDefault();
+    long id;
+    string textcolor = "green";
+    decimal? totalprmhnnwng = 0;
+}
+<table class="table table-bordered table-hover" id="@tableid" style="font-size: 11px;" border="0">
+    <thead>
+        <tr>
+            <th colspan="6" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">
+                @Model.Select(s => s.fld_WlyhName).Take(1).FirstOrDefault()
+            </th>
+        </tr>
+        <tr>
+            <th width="5%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">@GlobalResWorkerTransacSalary.hdrNo</th>
+            <th width="5%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">@GlobalResWorkerTransacSalary.hdrKodLdg</th>
+            <th width="10%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">@GlobalResWorkerTransacSalary.hdrNamaLdg</th>
+            <th width="10%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">@GlobalResWorkerTransacSalary.hdrGajiBuruh</th>
+            <th width="20%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">Action History</th>
+            <th width="20%" bgcolor="#073e5f" style="color:white;text-align:center;vertical-align:middle !important;border:1px solid black;" border="1">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            btnsemakid = "smk" + item.fld_ID;
+            btnsokongid = "skg" + item.fld_ID;
+            btntolakid = "tlk" + item.fld_ID;
+            id = item.fld_ID;
+            //GetLadang.GetLadangAcc(out NoAcc, out NoGL, out NoCIT, item.fld_LadangID, item.fld_WilayahID);
+            NoAcc = item.fld_NoAcc;
+            NoGL = item.fld_NoGL;
+            NoCIT = item.fld_NoCIT;
+            <tr>
+                <td width="5%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @bill
+                </td>
+                <td width="5%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @item.fld_LdgCode
+                </td>
+                <td width="10%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @item.fld_LdgName
+                </td>
+                <td width="10%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @GetTriager.GetTotalForMoney(item.fld_JumlahPermohonan)
+                </td>
+                <td width="20%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @*@if (item.fld_TolakWil_Status == 1 || item.fld_TolakWilGM_Status == 1 || item.fld_TolakHQ_Status == 1)
+                    {
+                            textcolor = "red";
+                    }
+                    else
+                    {
+                        textcolor = "green";
+                    }*@
+                    @{
+                        Html.RenderAction("ApplicationSupportHistoryDetail", "ApplicationSupport", new { SPWID = id });
+                    }
+                </td>
+                <td width="20%" align="center" style="vertical-align:middle !important;border:1px solid black;" border="1">
+                    @if (item.fld_SemakWil_Status == 0 && item.fld_TolakWil_Status == 0 && item.fld_SokongWilGM_Status == 0 && item.fld_TolakWilGM_Status == 0 && item.fld_TerimaHQ_Status == 0 && item.fld_TolakHQ_Status == 0 && ViewBag.getgmstatus == 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-lg" style="font-size:10px;" id="@btnsemakid" onclick="UpdateStatus(this,@item.fld_ID,'SemakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan', '@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Semak</button>
+                        <button type="button" class="btn btn-danger btn-lg" style="font-size:10px;" id="@btntolakid" onclick="UpdateStatus(this,@item.fld_ID,'TolakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Tolak</button>
+                    }
+                    else if (item.fld_SemakWil_Status == 1 && item.fld_TolakWil_Status == 0 && item.fld_SokongWilGM_Status == 0 && item.fld_TolakWilGM_Status == 0 && item.fld_TerimaHQ_Status == 0 && item.fld_TolakHQ_Status == 0 && ViewBag.getgmstatus == 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-lg" disabled style="font-size:10px;" id="@btnsemakid" onclick="UpdateStatus(this,@item.fld_ID,'SemakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Semak</button>
+                        <button type="button" class="btn btn-danger btn-lg" style="font-size:10px;" id="@btntolakid" onclick="UpdateStatus(this,@item.fld_ID,'TolakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Tolak</button>
+                    }
+                    else if (item.fld_SemakWil_Status == 0 && item.fld_TolakWil_Status == 1 && item.fld_SokongWilGM_Status == 0 && item.fld_TolakWilGM_Status == 0 && item.fld_TerimaHQ_Status == 0 && item.fld_TolakHQ_Status == 0 && ViewBag.getgmstatus == 0)
+                    {
+                        <button type="button" class="btn btn-primary btn-lg" style="font-size:10px;" id="@btnsemakid" onclick="UpdateStatus(this,@item.fld_ID,'SemakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Semak</button>
+                        <button type="button" class="btn btn-danger btn-lg" disabled style="font-size:10px;" id="@btntolakid" onclick="UpdateStatus(this,@item.fld_ID,'TolakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Tolak</button>
+                    }
+                    else if ((item.fld_SemakWil_Status == 1 && item.fld_TolakWil_Status == 0) && (item.fld_SokongWilGM_Status == 1 || item.fld_TolakWilGM_Status == 1 || item.fld_TerimaHQ_Status == 1 || item.fld_TolakHQ_Status == 1 || ViewBag.getgmstatus > 0))
+                    {
+                        <button type="button" class="btn btn-primary btn-lg" disabled style="font-size:10px;" id="@btnsemakid" onclick="UpdateStatus(this,@item.fld_ID,'SemakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Semak</button>
+                        <button type="button" class="btn btn-danger btn-lg" disabled style="font-size:10px;" id="@btntolakid" onclick="UpdateStatus(this,@item.fld_ID,'TolakWil','@btnsemakid','@tableid','@item.fld_JumlahPermohonan','@NoAcc', '@NoGL', '@NoCIT', '@item.fld_LdgName','@item.fld_SkbNo');">Tolak</button>
+                    }
+                </td>
+            </tr>
+                                    totalprmhnnwng = totalprmhnnwng + item.fld_JumlahPermohonan;
+                                    bill++;
+                                }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" bgcolor="#085480" style="color:white; text-align: right; vertical-align:middle !important;border:1px solid black;" border="1">
+                Jumlah
+            </td>
+            <td bgcolor="#085480" style="color:white; text-align: center; vertical-align:middle !important;border:1px solid black;" border="1">
+                @GetTriager.GetTotalForMoney(totalprmhnnwng)
+            </td>
+            <td bgcolor="#085480" style="color:white; text-align: right; vertical-align:middle !important;border:1px solid black;" border="1"></td>
+            <td bgcolor="#085480" style="color:white; text-align: center; vertical-align:middle !important;border:1px solid black;" border="1">
+                @if (ViewBag.getgmstatus > 0)
+                {
+                    <button type="button" class="btn btn-primary btn-lg" style="font-size:10px;" id="emailgm" disabled onclick="EmailToGM('@tableid');">Email Untuk Sokongan Kepada GM</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-primary btn-lg" style="font-size:10px;" id="emailgm" onclick="EmailToGM('@tableid');">Email Untuk Sokongan Kepada GM</button>
+                }
+            </td>
+        </tr>
+    </tfoot>
+</table>
