@@ -339,3 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 MVC_SYSTEM/Web.config
+/MVC_SYSTEM/Web.config
+/MVC_SYSTEM/Web.Debug.config
+/MVC_SYSTEM/Web.Release.config
