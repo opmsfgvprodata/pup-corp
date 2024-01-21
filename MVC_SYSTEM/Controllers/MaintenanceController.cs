@@ -3700,7 +3700,7 @@ namespace MVC_SYSTEM.Controllers
                          x.fldDeleted == false)
                 .fldOptConfValue;
 
-            var getCurrentRunningLeaveAndActivityCode = dbview.tblOptionConfigsWeb
+            var getCurrentRunningLeaveAndActivityCode = db.tblOptionConfigsWebs
                 .Where(x => x.fldOptConfFlag1 == "cuti" && x.fldOptConfFlag2 == "xhadirkerja" &&
                             x.fldOptConfValue.Contains(paidLeaveCode) && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID)
                 .OrderByDescending(o => o.fldOptConfValue)
