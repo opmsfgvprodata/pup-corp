@@ -29,7 +29,7 @@ namespace MVC_SYSTEM.ModelsCorporate
 
         [Required(ErrorMessageResourceType = typeof(GlobalResCorp), ErrorMessageResourceName = "msgModelValidation")]
 
-        [StringLength(4)]
+        [StringLength(10)]
         public string fld_KodAktvt { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(GlobalResCorp), ErrorMessageResourceName = "msgModelValidation")]
@@ -59,7 +59,7 @@ namespace MVC_SYSTEM.ModelsCorporate
         public string fld_WaktuBayaranCuti { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(GlobalResCorp), ErrorMessageResourceName = "msgModelValidation")]
-        [StringLength(4)]
+        [StringLength(10)]
         public string fld_KodAktvt { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(GlobalResCorp), ErrorMessageResourceName = "msgModelValidation")]
