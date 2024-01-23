@@ -135,6 +135,7 @@ namespace MVC_SYSTEM.ModelsCorporate
         public virtual DbSet<tbl_PkjIncrmntApp> tbl_PkjIncrmntApp { get; set; }
         public virtual DbSet<vw_NSWL_2> vw_NSWL_2 { get; set; }
         public virtual DbSet<tbl_Division> tbl_Division { get; set; }
+        public virtual DbSet<tbl_TaxRelief> tbl_TaxRelief { get; set; }
 
         //Added by Shazana on 20/10
         public virtual DbSet<tbl_CustomerVendorGLMap> tbl_CustomerVendorGLMap { get; set; }
