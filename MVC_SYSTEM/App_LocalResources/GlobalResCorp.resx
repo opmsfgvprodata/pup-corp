@@ -3627,4 +3627,25 @@
   <data name="msgReuse" xml:space="preserve">
     <value>Anda pasti ingin aktifkan semula pengguna ini?</value>
   </data>
+  <data name="lblPaidLeaveGenerateInfo" xml:space="preserve">
+    <value>Maklumat Jana Cuti Pekerja</value>
+  </data>
+  <data name="lblTitlePaidLeaveGenerateMaintenance" xml:space="preserve">
+    <value>Jana Cuti Berbayar Pekerja</value>
+  </data>
+  <data name="lblAtleastChoosePaidLeaveGenerate" xml:space="preserve">
+    <value>Sila pilih tahun, wilayah dan ladang, sekurang-kurangnya</value>
+  </data>
+  <data name="StartWorking" xml:space="preserve">
+    <value>Tarikh Lantikan</value>
+  </data>
+  <data name="lblGenerateLeave" xml:space="preserve">
+    <value>Jana Cuti Pekerja</value>
+  </data>
+  <data name="msgGenerateLeaveFail" xml:space="preserve">
+    <value>Proses Jana Cuti Gagal</value>
+  </data>
+  <data name="msgGenerateLeaveSuccess" xml:space="preserve">
+    <value>Proses Jana Cuti Berjaya</value>
+  </data>
 </root>

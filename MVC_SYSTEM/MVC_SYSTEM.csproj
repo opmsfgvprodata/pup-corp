@@ -994,6 +994,7 @@
     <Compile Include="ModelsCorporate\vw_UserIDDetail.cs" />
     <Compile Include="ModelsCustom\CusMod_tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
+    <Compile Include="ModelsCustom\CustMod_GeneratePaidLeave.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
     <Compile Include="ModelsCustom\UserIDApplication.cs" />
     <Compile Include="ModelsEstate\MVC_SYSTEM_ModelsEstate.cs" />
@@ -3487,6 +3488,9 @@
     <Content Include="Views\User\_User.cshtml" />
     <Content Include="Views\Report\PaymentModeReport.cshtml" />
     <Content Include="Views\Report\_PaymentModeReport.cshtml" />
+    <Content Include="Views\Maintenance\PaidLeaveGenerateMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_PaidLeaveGenerateInfoMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_PaidLeaveGenerateMaintenanceCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
