@@ -962,6 +962,7 @@
     <Compile Include="ModelsCorporate\tbl_SubCarumanTambahan.cs" />
     <Compile Include="ModelsCorporate\tbl_SuperAdminSelection.cs" />
     <Compile Include="ModelsCorporate\tbl_Syarikat.cs" />
+    <Compile Include="ModelsCorporate\tbl_TaxRelief.cs" />
     <Compile Include="ModelsCorporate\tbl_Upah.cs" />
     <Compile Include="ModelsCorporate\tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCorporate\tbl_UpahMenuai.cs" />
@@ -1320,6 +1321,7 @@
     <Compile Include="ViewingModels\tbl_PembekalList.cs" />
     <Compile Include="ViewingModels\tbl_EmailList.cs" />
     <Compile Include="ViewingModels\tbl_SocsoList.cs" />
+    <Compile Include="ViewingModels\tbl_TaxRelief.cs" />
     <Compile Include="ViewingModels\tbl_UpahAktivitiList.cs" />
     <Compile Include="ViewingModels\tbl_UpahMenuaiList.cs" />
     <Compile Include="ViewingModels\tbl_WilayahList.cs" />
