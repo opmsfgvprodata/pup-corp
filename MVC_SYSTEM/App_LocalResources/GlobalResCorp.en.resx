@@ -2454,4 +2454,40 @@
   <data name="msgReuse" xml:space="preserve">
     <value>Are you sure to Reset/Reuse this user?</value>
   </data>
+  <data name="lblContributionTaxreliefCode" xml:space="preserve">
+    <value>Tax Relief Code</value>
+  </data>
+  <data name="lblContributionTaxreliefDelete" xml:space="preserve">
+    <value>DELETE TAX RELIEF</value>
+  </data>
+  <data name="lblContributionTaxreliefItem" xml:space="preserve">
+    <value>Tax Relief Item</value>
+  </data>
+  <data name="lblContributionTaxreliefLimit" xml:space="preserve">
+    <value>Tax Relief Item (RM)</value>
+  </data>
+  <data name="lblContributionTaxreliefTableCount" xml:space="preserve">
+    <value>tax relief table information(s)</value>
+  </data>
+  <data name="lblContributionTaxreliefUpdate" xml:space="preserve">
+    <value>UPDATE TAX RELIEF</value>
+  </data>
+  <data name="lblTaxReliefTableAdd" xml:space="preserve">
+    <value>ADD TAX RELIEF</value>
+  </data>
+  <data name="lblTitleTaxReliefMaintenance" xml:space="preserve">
+    <value>TAX RELIEF TABLE</value>
+  </data>
+  <data name="titleTaxReliefTable" xml:space="preserve">
+    <value>TAX RELIEF INFORMATION</value>
+  </data>
+  <data name="msgUndelete" xml:space="preserve">
+    <value>Information successfully activate</value>
+  </data>
+  <data name="lblContributionTaxreliefUndelete" xml:space="preserve">
+    <value>ACTIVATE TAX RELIEF</value>
+  </data>
+  <data name="msgUndelete2" xml:space="preserve">
+    <value>Are you sure to activate the following information?</value>
+  </data>
 </root>
