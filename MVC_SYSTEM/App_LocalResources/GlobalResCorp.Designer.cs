@@ -10688,5 +10688,21 @@ namespace MVC_SYSTEM.App_LocalResources {
                 return ResourceManager.GetString("WorkerAccReport", resourceCulture);
             }
         }
+
+        public static string msgAllFieldsMandatory
+        {
+            get
+            {
+                return ResourceManager.GetString("msgAllFieldsMandatory", resourceCulture);
+            }
+        }
+
+        public static string lblContributionTableEmpyeeM
+        {
+            get
+            {
+                return ResourceManager.GetString("lblContributionTableEmpyeeM", resourceCulture);
+            }
+        }
     }
 }
