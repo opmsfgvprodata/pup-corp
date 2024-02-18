@@ -9599,7 +9599,15 @@ namespace MVC_SYSTEM.App_LocalResources {
                 return ResourceManager.GetString("msgAlert5", resourceCulture);
             }
         }
-        
+
+        public static string msgAllFieldsMandatory
+        {
+            get
+            {
+                return ResourceManager.GetString("msgAllFieldsMandatory", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Sila masukkan nilai luas sama atau tidak melebihi luas yang telah ditetapkan.
         /// </summary>
@@ -10686,6 +10694,14 @@ namespace MVC_SYSTEM.App_LocalResources {
         public static string WorkerAccReport {
             get {
                 return ResourceManager.GetString("WorkerAccReport", resourceCulture);
+            }
+        }
+
+        public static string lblContributionTableEmpyeeM
+        {
+            get
+            {
+                return ResourceManager.GetString("lblContributionTableEmpyeeM", resourceCulture);
             }
         }
     }
