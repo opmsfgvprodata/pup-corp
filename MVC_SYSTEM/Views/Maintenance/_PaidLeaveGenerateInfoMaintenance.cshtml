@@ -33,7 +33,7 @@
                     @if (bilSemua == 0)
                     {
                         <tr>
-                            <th colspan="16">
+                            <th colspan="@(7 + ViewBag.leaveTitle.Count)">
                                 <p align="center" style="font-size: 11px" :><b>@GlobalResCorp.lblRegion : @GetConfig.GetWilayahNameFromID(division.wilayahID)</b></p>
                             </th>
                         </tr>
@@ -42,7 +42,7 @@
                         <th colspan="1" rowspan="3" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">
                             @GlobalResLocalWorkerInfo.hdrNo
                         </th>
-                        <th colspan="15" rowspan="1" bgcolor="#FFCC80" style="color: black; vertical-align: middle !important; border: 1px solid black;" border="1">
+                        <th colspan="@(6 + ViewBag.leaveTitle.Count)" rowspan="1" bgcolor="#FFCC80" style="color: black; vertical-align: middle !important; border: 1px solid black;" border="1">
                             <font color="white">Ladang: @GetConfig.GetLadangKodFromID(division.ladangID) - @GetConfig.GetLadangNameFromID(division.ladangID) (@division.divisionName)</font>
                         </th>
                     </tr>
@@ -59,9 +59,12 @@
                         <th colspan="1" rowspan="2" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">
                             @GlobalResCorp.StartWorking
                         </th>
-                        <th colspan="@ViewBag.leaveTitle.Count" rowspan="1" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">
-                            Jumlah Cuti (Hari)
-                        </th>
+                        @if (ViewBag.leaveTitle.Count > 0)
+                        {
+                            <th colspan="@ViewBag.leaveTitle.Count" rowspan="1" style="color: black; text-align: center; vertical-align: middle !important; border: 1px solid black;" border="1">
+                                Jumlah Cuti (Hari)
+                            </th>
+                        }
                     </tr>
                     <tr>
                         @foreach (var title in ViewBag.leaveTitle)
@@ -93,11 +96,14 @@
                             <td colspan="1" align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
                                 @pkj.tarikhMulaKerja.Value.ToString("dd/MM/yyyy")
                             </td>
-                            @foreach (var cuti in pkj.cuti)
+                            @if (ViewBag.leaveTitle.Count > 0)
                             {
-                                <td colspan="1" align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
-                                    @cuti.leaveAmount
-                                </td>
+                                foreach (var cuti in pkj.cuti)
+                                {
+                                    <td colspan="1" align="center" style="vertical-align: middle !important; border: 1px solid black;" border="1">
+                                        @cuti.leaveAmount
+                                    </td>
+                                }
                             }
                         </tr>
                     }

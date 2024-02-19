@@ -5079,10 +5079,11 @@ namespace MVC_SYSTEM.Controllers
                         x.fld_SyarikatID == SyarikatID &&
                         PaidLeaveGenerateModalCreate.fld_CutiKategoriID.Contains(x.fld_JenisCuti))
                     .ToList();
-                } else
-                {
-                    throw new Exception();
                 }
+                //else
+                //{
+                //    throw new Exception();
+                //}
 
                 #endregion
 
