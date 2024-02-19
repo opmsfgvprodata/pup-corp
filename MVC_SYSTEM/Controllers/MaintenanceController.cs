@@ -22884,6 +22884,7 @@ namespace MVC_SYSTEM.Controllers
                             .fldOptConfValue;
 
                         var selectedPublicHolidayCount = db.tbl_CutiUmumLdg.Count(x =>
+                            x.fld_Year == tblCutiUmumLdgViewModelCreateHq.fld_Year && //5 Feb 2024 fizam added
                             x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID &&
                             x.fld_WilayahID == ladangData.fld_WlyhID && x.fld_LadangID == ladangID &&
                             x.fld_Deleted == false);
