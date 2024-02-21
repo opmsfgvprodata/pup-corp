@@ -2511,4 +2511,7 @@
   <data name="msgAllFieldsMandatory" xml:space="preserve">
     <value>All fields are mandatory</value>
   </data>
+  <data name="lblEstate" xml:space="preserve">
+    <value>Estate</value>
+  </data>
 </root>
