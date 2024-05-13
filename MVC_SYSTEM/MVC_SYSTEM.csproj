@@ -3497,6 +3497,7 @@
     <Content Include="Views\Report\_PaymentModeReport.cshtml" />
     <Content Include="Views\MaybankFileGen\TaxCP39.cshtml" />
     <Content Include="Views\MaybankFileGen\_TaxCP39.cshtml" />
+    <Content Include="Views\MaybankFileGen\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

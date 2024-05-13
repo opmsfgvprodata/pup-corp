@@ -365,7 +365,7 @@ namespace MVC_SYSTEM.Controllers
                 fileContent += GetGenerateFile.TextFileContent(item.fld_CountryCode, 2, " ", true);
                 fileContent += GetGenerateFile.TextFileContent((item.fld_CarumanPekerja * 100).ToString("0"), 8, "0", true);
                 fileContent += GetGenerateFile.TextFileContent((item.fld_CP38Amount * 100).ToString("0"), 8, "0", true);
-                fileContent += GetGenerateFile.TextFileContent("", 10, " ", false);
+                fileContent += GetGenerateFile.TextFileContent(item.fld_Nopkj, 10, " ", false);
                 if (taxCP39.IndexOf(item) != taxCP39.Count - 1)
                 {
                     fileContent += Environment.NewLine;
@@ -381,6 +381,21 @@ namespace MVC_SYSTEM.Controllers
             statusmsg = "success";
 
             return Json(new { msg, statusmsg, link });
+        }
+
+        public FileResult Download(string filePath, string filename)
+        {
+            string path = HttpContext.Server.MapPath(filePath);
+
+            DownloadFiles.FileDownloads objs = new DownloadFiles.FileDownloads();
+
+            var filesCol = objs.GetFiles(path);
+            var CurrentFileName = filesCol.Where(x => x.FileName == filename).FirstOrDefault();
+
+            string contentType = string.Empty;
+            contentType = "application/txt";
+            return File(CurrentFileName.FilePath, contentType, CurrentFileName.FileName);
+
         }
 
     }
