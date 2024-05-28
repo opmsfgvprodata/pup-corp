@@ -9681,14 +9681,6 @@ namespace MVC_SYSTEM.App_LocalResources {
             }
         }
 
-        public static string msgAllFieldsMandatory
-        {
-            get
-            {
-                return ResourceManager.GetString("msgAllFieldsMandatory", resourceCulture);
-            }
-        }
-
         /// <summary>
         ///   Looks up a localized string similar to Semua maklumat wajib diisi.
         /// </summary>
@@ -10802,14 +10794,6 @@ namespace MVC_SYSTEM.App_LocalResources {
         public static string WorkerAccReport {
             get {
                 return ResourceManager.GetString("WorkerAccReport", resourceCulture);
-            }
-        }
-
-        public static string lblContributionTableEmpyeeM
-        {
-            get
-            {
-                return ResourceManager.GetString("lblContributionTableEmpyeeM", resourceCulture);
             }
         }
     }
