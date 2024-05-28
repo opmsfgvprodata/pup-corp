@@ -2197,4 +2197,16 @@
   <data name="msgAllFieldsMandatory" xml:space="preserve">
     <value>Semua maklumat wajib diisi</value>
   </data>
+  <data name="lblTotalCP38Amt" xml:space="preserve">
+    <value>Total CP38 Amount</value>
+  </data>
+  <data name="lblTotalCP38Rec" xml:space="preserve">
+    <value>Total CP38 Records</value>
+  </data>
+  <data name="lblTotalMTDAmt" xml:space="preserve">
+    <value>Total MTD Amount</value>
+  </data>
+  <data name="lblTotalMTDRec" xml:space="preserve">
+    <value>Total MTD Records</value>
+  </data>
 </root>
