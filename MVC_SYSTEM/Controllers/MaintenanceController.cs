@@ -12941,7 +12941,7 @@ namespace MVC_SYSTEM.Controllers
         }
 
         public ActionResult _IncentiveMaintenance(string IncentiveList, int page = 1,
-            string sort = "fld_KodInsentif",
+            string sort = "fld_JenisInsentifID",
             string sortdir = "ASC")
         {
             int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
@@ -13088,10 +13088,11 @@ namespace MVC_SYSTEM.Controllers
 
             if (!String.IsNullOrEmpty(incentiveType))
             {
+
                 var getIncentiveRunningNo = db.tbl_JenisInsentif
                     .Where(x => x.fld_KodInsentif.Contains(incentiveType) && x.fld_NegaraID == NegaraID &&
                                 x.fld_SyarikatID == SyarikatID)
-                    .OrderByDescending(o => o.fld_KodInsentif)
+                    .OrderByDescending(o => o.fld_JenisInsentifID)
                     .Select(s => new { s.fld_KodInsentif, s.fld_KodAktvt })
                     .FirstOrDefault();
 
@@ -13108,6 +13109,8 @@ namespace MVC_SYSTEM.Controllers
                 {
                     int generateNewInsentiveNo =
                         Convert.ToInt32(getIncentiveRunningNo.fld_KodInsentif.Substring(incentiveTypeCodeLength)) + 1;
+
+                    
                     incentiveCode = incentiveType + generateNewInsentiveNo.ToString("00");
                 }
 
