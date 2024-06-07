@@ -2197,6 +2197,15 @@
   <data name="msgAllFieldsMandatory" xml:space="preserve">
     <value>Semua maklumat wajib diisi</value>
   </data>
+  <data name="hdrValidDate" xml:space="preserve">
+    <value>Tarikh Sah</value>
+  </data>
+  <data name="lblBackDatedKeyIn" xml:space="preserve">
+    <value>Back Dated Key In</value>
+  </data>
+  <data name="lblCheckrollLock" xml:space="preserve">
+    <value>Sekatan Checkroll</value>
+  </data>
   <data name="lblTotalCP38Amt" xml:space="preserve">
     <value>Total CP38 Amount</value>
   </data>
