@@ -9717,14 +9717,6 @@ namespace MVC_SYSTEM.App_LocalResources {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Semua maklumat wajib diisi.
-        /// </summary>
-        public static string msgAllFieldsMandatory {
-            get {
-                return ResourceManager.GetString("msgAllFieldsMandatory", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to Sila masukkan nilai luas sama atau tidak melebihi luas yang telah ditetapkan.
