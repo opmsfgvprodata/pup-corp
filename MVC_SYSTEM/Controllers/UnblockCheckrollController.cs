@@ -136,14 +136,28 @@ namespace MVC_SYSTEM.Controllers
             //    ViewBag.Message = "Sila Pilih Bulan, Tahun, Wilayah dan Ladang";
             //    return View();
             //}
+            IQueryable<tbl_BlckKmskknDataKerja> unitData;
 
-            var unitData = db.tbl_BlckKmskknDataKerja
-                .Where(x => x.fld_WilayahID == WlyhList &&
-                            x.fld_LadangID == EstList &&
-                            x.fld_DivisionID == DivList &&  //add by wani 18.6.2021
-                            x.fld_Year == YearList &&
-                            x.fld_Month == MonthList &&
-                            x.fld_Purpose == SelectionCategory); // fatin added - 23/05/2024
+            if (SelectionCategory == "blockdataentry")
+            {
+                unitData = db.tbl_BlckKmskknDataKerja
+               .Where(x => x.fld_WilayahID == WlyhList &&
+                           x.fld_LadangID == EstList &&
+                           x.fld_DivisionID == DivList &&  //add by wani 18.6.2021
+                           x.fld_Year == YearList &&
+                           x.fld_Month == MonthList &&
+                           x.fld_Purpose == SelectionCategory); // fatin added - 23/05/2024
+            }
+            else
+            {
+                unitData = db.tbl_BlckKmskknDataKerja
+               .Where(x => x.fld_WilayahID == WlyhList &&
+                           x.fld_LadangID == EstList &&
+                           x.fld_DivisionID == DivList &&  //add by wani 18.6.2021
+                           x.fld_Purpose == SelectionCategory); // fatin added - 23/05/2024
+            }
+
+           
 
             if (unitData != null)
             {
@@ -163,6 +177,7 @@ namespace MVC_SYSTEM.Controllers
                 records.PageSize = pageSize;
                 ViewBag.RoleID = role;
                 ViewBag.pageSize = 1;
+                ViewBag.SelectionCategory = SelectionCategory; //fatin added - 07/06/2024
 
                 return View(records);
             }
@@ -178,6 +193,8 @@ namespace MVC_SYSTEM.Controllers
                 //    records.TotalRecords = unitData
                 //        .Count();
             }
+
+           
 
 
 
@@ -265,8 +282,8 @@ namespace MVC_SYSTEM.Controllers
 
             try
             {
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+                //{
                     var unitData = db.tbl_BlckKmskknDataKerja.SingleOrDefault(
                         x => x.fld_ID == optionConfigsWeb.fld_ID &&
                              x.fld_NegaraID == NegaraID &&
@@ -276,12 +293,14 @@ namespace MVC_SYSTEM.Controllers
                     if (unitData.fld_Purpose == "blockdataentry")
                     {
                         unitData.fld_ValidDT = ChangeTimeZone.gettimezone();
+                        unitData.fld_BlokStatus = optionConfigsWeb.fld_BlokStatus;
                     }
                     else
                     {
                         unitData.fld_ValidDT = optionConfigsWeb.fld_ValidDT;
+                        unitData.fld_BlokStatus = null;
                     }
-                        unitData.fld_BlokStatus = optionConfigsWeb.fld_BlokStatus;
+                        //unitData.fld_BlokStatus = optionConfigsWeb.fld_BlokStatus;
                         unitData.fld_Remark = optionConfigsWeb.fld_Remark;
                         unitData.fld_UnBlockAppBy = getuserid;
                         unitData.fld_UnBlockAppDT = ChangeTimeZone.gettimezone();
@@ -312,18 +331,18 @@ namespace MVC_SYSTEM.Controllers
                         action = "_UnblockCheckroll",
                         controller = "UnblockCheckroll"
                     });
-                }
+                //}
 
-                else
-                {
-                    return Json(new
-                    {
-                        success = false,
-                        msg = GlobalResCorp.msgErrorData,
-                        status = "danger",
-                        checkingdata = "0"
-                    });
-                }
+                //else
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        msg = GlobalResCorp.msgErrorData,
+                //        status = "danger",
+                //        checkingdata = "0"
+                //    });
+                //}
             }
             catch (Exception ex)
             {
