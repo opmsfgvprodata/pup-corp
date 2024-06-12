@@ -9,6 +9,7 @@ namespace MVC_SYSTEM.ModelsCorporate
     public partial class tbl_BlckKmskknDataKerjaHistory
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //fatin added - 20/05/2024
         public Guid fld_ID { get; set; }
 
         public bool? fld_BlokStatus { get; set; }
@@ -37,6 +38,9 @@ namespace MVC_SYSTEM.ModelsCorporate
         [StringLength(300)]
         public string fld_Remark { get; set; }
         public int? fld_DivisionID { get; set; } //add by wani 2.7.2021
+
+        [StringLength(50)]
+        public string fld_Purpose { get; set; } //fatin added - 29/05/2024
 
     }
 }
