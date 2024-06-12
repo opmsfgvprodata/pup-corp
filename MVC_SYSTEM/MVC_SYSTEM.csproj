@@ -3507,6 +3507,9 @@
     <Content Include="Views\Maintenance\_BlokDataDailyOTMaintenanceEdit.cshtml" />
     <Content Include="Views\Maintenance\_BlokDataMonthlyOTMaintenanceEdit.cshtml" />
     <Content Include="Views\Maintenance\_BlokDataBackDatedMaintenanceEdit.cshtml" />
+    <Content Include="Views\Maintenance\BlokTotalDaysWorkingMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_BlokTotalDaysWorkingMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_BlokTotalDaysWorkingMaintenanceEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

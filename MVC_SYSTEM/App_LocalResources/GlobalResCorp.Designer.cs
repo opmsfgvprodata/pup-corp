@@ -8854,6 +8854,24 @@ namespace MVC_SYSTEM.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maklumat Jumlah Hari Bekerja.
+        /// </summary>
+        public static string lblTotalDaysWorking {
+            get {
+                return ResourceManager.GetString("lblTotalDaysWorking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kemaskini Jumlah Hari Bekerja.
+        /// </summary>
+        public static string lblTotalDaysWorkingUpdate {
+            get {
+                return ResourceManager.GetString("lblTotalDaysWorkingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jumlah Potongan.
         /// </summary>
         public static string lblTotalDeduction {
@@ -10839,6 +10857,24 @@ namespace MVC_SYSTEM.App_LocalResources {
         public static string titleTaxReliefTable {
             get {
                 return ResourceManager.GetString("titleTaxReliefTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tempoh Jumlah Hari Bekerja.
+        /// </summary>
+        public static string titleTotalDaysWorking {
+            get {
+                return ResourceManager.GetString("titleTotalDaysWorking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Penyelenggaraan Jumlah Hari Bekerja.
+        /// </summary>
+        public static string titleTotalDaysWorkingMaintenance {
+            get {
+                return ResourceManager.GetString("titleTotalDaysWorkingMaintenance", resourceCulture);
             }
         }
         
