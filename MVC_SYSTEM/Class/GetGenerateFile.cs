@@ -101,6 +101,7 @@ namespace MVC_SYSTEM.Class
             string day = PaymentDate.ToString("dd");
             string month = PaymentDate.ToString("MM");
             string year = PaymentDate.ToString("yyyy");
+            string WorkerTaxNo = "";
             DateTime? PaymentDateFormat = new DateTime(PaymentDate.Year, PaymentDate.Month, PaymentDate.Day);
 
             GetNSWL.GetSyarikatRCMSDetail(Region, Estate, out CorpID, out ClientID, out AccNo, out InitialName);
@@ -235,8 +236,18 @@ namespace MVC_SYSTEM.Class
 
                         //***Hashing***
                         TaxNoLength = maybankrcms.fld_TaxNo.Length;
-                        TaxNoFirst8Digit = Int64.Parse(maybankrcms.fld_TaxNo.Substring(2, 8));
-                        TaxNoLast2Digit = Int64.Parse(maybankrcms.fld_TaxNo.Substring(TaxNoLength - 2, 2));
+
+                        if (TaxNoLength < 11 || maybankrcms.fld_TaxNo == null || maybankrcms.fld_TaxNo == "")
+                        {
+                            WorkerTaxNo = "IG00000000000";
+                        }
+                        else
+                        {
+                            WorkerTaxNo = maybankrcms.fld_TaxNo;
+                        }
+
+                        TaxNoFirst8Digit = Int64.Parse(WorkerTaxNo.Substring(2, 8));
+                        TaxNoLast2Digit = Int64.Parse(WorkerTaxNo.Substring(WorkerTaxNo.Length - 2, 2));
 
                         WifeCodeInt = Int32.Parse(maybankrcms.fld_WifeCode);
 
@@ -293,7 +304,7 @@ namespace MVC_SYSTEM.Class
                             }
                             else if (i == 7)
                             {
-                                Body.Insert(i, maybankrcms.fld_TaxNo + "|");
+                                Body.Insert(i, WorkerTaxNo + "|");
                             }
                             else if (i == 8) //nokp
                             {

@@ -501,26 +501,34 @@ namespace MVC_SYSTEM.Controllers
                 .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
                 .Select(s => s.fld_CorporateID)
                 .FirstOrDefault();
-            ClientId = dbC.tbl_Ladang
+            ViewBag.ClientId = dbC.tbl_Ladang
                 .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
                 .Select(s => s.fld_ClientBatchID)
                 .FirstOrDefault();
-            if (ClientId == null || ClientId == "")
-            {
-                if (WilayahIDList == 1)
-                {
-                    ViewBag.clientid = "PUP" + MonthList + YearList;
-                }
 
-                if (WilayahIDList == 2)
-                {
-                    ViewBag.clientid = "YM" + MonthList + YearList;
-                }
-            }
-            else
-            {
-                ViewBag.clientid = ClientId;
-            }
+            //if (filter != "")
+            //{
+            //    ViewBag.clientid = filter;
+            //}
+            //else
+            //{
+            //    if (ClientId == null || ClientId == "")
+            //    {
+            //        if (WilayahIDList == 1)
+            //        {
+            //            ViewBag.clientid = "PUP" + MonthList + YearList;
+            //        }
+
+            //        if (WilayahIDList == 2)
+            //        {
+            //            ViewBag.clientid = "YM" + MonthList + YearList;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ViewBag.clientid = ClientId;
+            //    }
+            //}
 
             ViewBag.AccNo = dbC.tbl_Ladang
                 .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
@@ -528,13 +536,14 @@ namespace MVC_SYSTEM.Controllers
                 .FirstOrDefault();
             ViewBag.NegaraID = NegaraID;
             ViewBag.SyarikatID = SyarikatID;
+            ViewBag.WilayahID = WilayahIDList;
             ViewBag.UserID = getuserid;
             ViewBag.UserName = User.Identity.Name;
             ViewBag.Date = DateTime.Now.ToShortDateString();
             ViewBag.Time = DateTime.Now.ToShortTimeString();
             ViewBag.Print = print;
             //ViewBag.Description = "Region " + NamaSyarikat + " - Salary payment for " + MonthList + "/" + YearList;
-            if (MonthList == null || YearList == null || filter == "" || filter == null)
+            if (MonthList == null || YearList == null)
             {
                 ViewBag.Message = "Please select month, year and payment date";
                 return View(maybankrcmsList);
@@ -636,17 +645,18 @@ namespace MVC_SYSTEM.Controllers
             //var SyarikatDetail = dbC.tbl_Syarikat.Where(x => x.fld_NamaPndkSyarikat == CompCode).FirstOrDefault();
             string filename = "M2E TAX (" + InitialName.ToUpper() + ") " + "" + stringmonth + stringyear + ".txt";
 
-            if (ClientID == null || ClientID == " ")
+            if (ClientID == null || ClientID == "")
             {
-                if (Region == 1)
-                {
-                    ClientIDText = "PUP" + stringmonth + stringyear;
-                }
+                //if (Region == 1)
+                //{
+                //    ClientIDText = "PUP" + stringmonth + stringyear;
+                //}
 
-                if (Region == 2)
-                {
-                    ClientIDText = "YM" + stringmonth + stringyear;
-                }
+                //if (Region == 2)
+                //{
+                //    ClientIDText = "YM" + stringmonth + stringyear;
+                //}
+                ClientIDText = "";
             }
             else
             {
@@ -668,7 +678,9 @@ namespace MVC_SYSTEM.Controllers
 
             dbSP.Dispose();
             dbC.Dispose();
-            return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData, clientid = ClientIDText });
+            //return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData, clientid = ClientIDText });
+            return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData });
+
         }
 
         [HttpPost]
