@@ -3498,6 +3498,8 @@
     <Content Include="Views\MaybankFileGen\TaxCP39.cshtml" />
     <Content Include="Views\MaybankFileGen\_TaxCP39.cshtml" />
     <Content Include="Views\MaybankFileGen\Index.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenTax.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmstax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3616,6 +3618,7 @@
     <EmbeddedResource Include="App_LocalResources\GlobalResCorp.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GlobalResCorp.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="App_LocalResources\GlobalResCorp.id.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
