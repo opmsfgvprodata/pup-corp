@@ -780,6 +780,7 @@
     <Compile Include="Class\CheckSharedFolder.cs" />
     <Compile Include="Class\Connection.cs" />
     <Compile Include="Class\ConnectionStringFactory.cs" />
+    <Compile Include="Class\Constans.cs" />
     <Compile Include="Class\ConvertToPdf.cs" />
     <Compile Include="Class\CreateASC.cs" />
     <Compile Include="Class\DownloadFiles.cs" />
