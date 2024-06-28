@@ -365,7 +365,7 @@ namespace MVC_SYSTEM.Class
                         }
                         else if (i == 2)//3
                         {
-                            Footer.Insert(i, TotalMTDAmount + "|");
+                            Footer.Insert(i, TotalCP38Amount + "|");
                         }
                         else if (i == 3)//4
                         {
