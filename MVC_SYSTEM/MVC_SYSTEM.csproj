@@ -999,6 +999,7 @@
     <Compile Include="ModelsCorporate\vw_Socso.cs" />
     <Compile Include="ModelsCorporate\vw_TKADetail.cs" />
     <Compile Include="ModelsCorporate\vw_UserIDDetail.cs" />
+    <Compile Include="ModelsCustom\CusMod_Password.cs" />
     <Compile Include="ModelsCustom\CusMod_tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
@@ -3501,6 +3502,7 @@
     <Content Include="Views\MaybankFileGen\Index.cshtml" />
     <Content Include="Views\MaybankFileGen\RcmsGenTax.cshtml" />
     <Content Include="Views\MaybankFileGen\_rcmstax.cshtml" />
+    <Content Include="Views\User\Password.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
