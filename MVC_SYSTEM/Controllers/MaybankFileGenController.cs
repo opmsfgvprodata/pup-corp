@@ -571,14 +571,14 @@ namespace MVC_SYSTEM.Controllers
 
                 var noEmployerTax = SyarikatDetail.fld_EmployerTaxNo;
                 char[] noEmployerTaxArr = noEmployerTax.ToCharArray();
-                int arrCountNoEmployerTaxArr = noEmployerTaxArr.Count();
+                int arrCountNoEmployerTaxArr = noEmployerTaxArr.Count() - 1;
                 float noEmployerXPosition = 243;
 
-                for (int i = 0; i < arrCountNoEmployerTaxArr; i++)
+                for (int i = arrCountNoEmployerTaxArr; i >= 0; i--)
                 {
                     cb.BeginText();
                     text = noEmployerTaxArr[i].ToString(); //employer Tax No
-                    if (i == 2)
+                    if (i == 8)
                     {
                         noEmployerXPosition -= 16;
                     }
@@ -684,15 +684,28 @@ namespace MVC_SYSTEM.Controllers
                     mainCell.Border = 0;
                     mainTable.AddCell(mainCell);
 
-                    PdfPTable table = new PdfPTable(11);
+                    PdfPTable table = new PdfPTable(12);
                     chunk = new Chunk();
                     //table.WidthPercentage = 5;
-                    widths = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+                    widths = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
                     table.SetWidths(widths);
 
                     PdfPCell cell = new PdfPCell();
 
-                    for (int y = 9; y >= 0; y--)
+                    //for (int i = arrCountNoEmployerTaxArr; i >= 0; i--)
+                    //{
+                    //    cb.BeginText();
+                    //    text = noEmployerTaxArr[i].ToString(); //employer Tax No
+                    //    if (i == 8)
+                    //    {
+                    //        noEmployerXPosition -= 16;
+                    //    }
+                    //    cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
+                    //    cb.EndText();
+                    //    noEmployerXPosition -= 12;
+                    //}
+
+                    for (int y = 0; y <= arrCountNoEmployerTaxArr; y++)
                     {
                         try
                         {
@@ -709,7 +722,7 @@ namespace MVC_SYSTEM.Controllers
                         cell.Border = Rectangle.BOTTOM_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER | Rectangle.TOP_BORDER;
                         table.AddCell(cell);
 
-                        if (y == 2)
+                        if (y == 8)
                         {
                             chunk = new Chunk("-", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
                             cell = new PdfPCell(new Phrase(chunk));
