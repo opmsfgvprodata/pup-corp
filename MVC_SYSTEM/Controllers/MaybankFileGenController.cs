@@ -572,19 +572,60 @@ namespace MVC_SYSTEM.Controllers
                 var noEmployerTax = SyarikatDetail.fld_EmployerTaxNo;
                 char[] noEmployerTaxArr = noEmployerTax.ToCharArray();
                 int arrCountNoEmployerTaxArr = noEmployerTaxArr.Count() - 1;
-                float noEmployerXPosition = 243;
+                float noEmployerXPosition = 0;
 
-                for (int i = arrCountNoEmployerTaxArr; i >= 0; i--)
+                for (int i = 0; i <= arrCountNoEmployerTaxArr; i++)
                 {
-                    cb.BeginText();
-                    text = noEmployerTaxArr[i].ToString(); //employer Tax No
-                    if (i == 8)
+                    try
                     {
-                        noEmployerXPosition -= 16;
+                        text = noEmployerTaxArr[i].ToString();
                     }
-                    cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
-                    cb.EndText();
-                    noEmployerXPosition -= 12;
+                    catch (Exception ex)
+                    {
+                        text = "";
+                    }
+                    if (text != "")
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                noEmployerXPosition = 100;
+                                break;
+                            case 1:
+                                noEmployerXPosition = 113;
+                                break;
+                            case 2:
+                                noEmployerXPosition = 126;
+                                break;
+                            case 3:
+                                noEmployerXPosition = 140;
+                                break;
+                            case 4:
+                                noEmployerXPosition = 152;
+                                break;
+                            case 5:
+                                noEmployerXPosition = 167;
+                                break;
+                            case 6:
+                                noEmployerXPosition = 180;
+                                break;
+                            case 7:
+                                noEmployerXPosition = 192;
+                                break;
+                            case 8:
+                                noEmployerXPosition = 205;
+                                break;
+                            case 9:
+                                noEmployerXPosition = 230;
+                                break;
+                            case 10:
+                                noEmployerXPosition = 243;
+                                break;
+                        }
+                        cb.BeginText();
+                        cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
+                        cb.EndText();
+                    }
                 }
 
                 var TotalMTDAmt = taxCP39.Sum(s => s.fld_CarumanPekerja);
@@ -691,19 +732,6 @@ namespace MVC_SYSTEM.Controllers
                     table.SetWidths(widths);
 
                     PdfPCell cell = new PdfPCell();
-
-                    //for (int i = arrCountNoEmployerTaxArr; i >= 0; i--)
-                    //{
-                    //    cb.BeginText();
-                    //    text = noEmployerTaxArr[i].ToString(); //employer Tax No
-                    //    if (i == 8)
-                    //    {
-                    //        noEmployerXPosition -= 16;
-                    //    }
-                    //    cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
-                    //    cb.EndText();
-                    //    noEmployerXPosition -= 12;
-                    //}
 
                     for (int y = 0; y <= arrCountNoEmployerTaxArr; y++)
                     {
