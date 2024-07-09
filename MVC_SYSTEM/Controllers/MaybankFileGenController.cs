@@ -661,6 +661,11 @@ namespace MVC_SYSTEM.Controllers
                 cb.EndText();
 
                 cb.BeginText();
+                text = SyarikatDetail.fld_LdgName; //Total Amt
+                cb.ShowTextAligned(0, text, 98, 390, 0);
+                cb.EndText();
+
+                cb.BeginText();
                 text = DateTime.Now.ToString("dd.MM.yyyy"); //Total Amt
                 cb.ShowTextAligned(1, text, 446, 337, 0);
                 cb.EndText();
@@ -676,7 +681,7 @@ namespace MVC_SYSTEM.Controllers
                 ms.Close();
                 byte[] file = ms.ToArray();
 
-                cp39Form = GetConfig.PdfPathFile("CP39 FORM-2.pdf");
+                //cp39Form = GetConfig.PdfPathFile("CP39 FORM-2.pdf");
 
                 // open the reader
 
