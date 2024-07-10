@@ -2038,6 +2038,7 @@
     <Content Include="Asset\MultiSelect\README.markdown" />
     <Content Include="Asset\MultiSelect\scss\multi-select.scss" />
     <Content Include="Asset\MultiSelect\test\lib\jasmine-1.2.0\MIT.LICENSE" />
+    <Content Include="Asset\pdf\CP39 FORM-1.pdf" />
     <None Include="Asset\Scripts\jquery-3.1.0.intellisense.js" />
     <None Include="Asset\Scripts\jquery.validate-vsdoc.js" />
     <None Include="Asset\Scripts\_references.js" />
