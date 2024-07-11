@@ -571,20 +571,61 @@ namespace MVC_SYSTEM.Controllers
 
                 var noEmployerTax = SyarikatDetail.fld_EmployerTaxNo;
                 char[] noEmployerTaxArr = noEmployerTax.ToCharArray();
-                int arrCountNoEmployerTaxArr = noEmployerTaxArr.Count();
-                float noEmployerXPosition = 243;
+                int arrCountNoEmployerTaxArr = noEmployerTaxArr.Count() - 1;
+                float noEmployerXPosition = 0;
 
-                for (int i = 0; i < arrCountNoEmployerTaxArr; i++)
+                for (int i = 0; i <= arrCountNoEmployerTaxArr; i++)
                 {
-                    cb.BeginText();
-                    text = noEmployerTaxArr[i].ToString(); //employer Tax No
-                    if (i == 2)
+                    try
                     {
-                        noEmployerXPosition -= 16;
+                        text = noEmployerTaxArr[i].ToString();
                     }
-                    cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
-                    cb.EndText();
-                    noEmployerXPosition -= 12;
+                    catch (Exception ex)
+                    {
+                        text = "";
+                    }
+                    if (text != "")
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                noEmployerXPosition = 100;
+                                break;
+                            case 1:
+                                noEmployerXPosition = 113;
+                                break;
+                            case 2:
+                                noEmployerXPosition = 126;
+                                break;
+                            case 3:
+                                noEmployerXPosition = 140;
+                                break;
+                            case 4:
+                                noEmployerXPosition = 152;
+                                break;
+                            case 5:
+                                noEmployerXPosition = 167;
+                                break;
+                            case 6:
+                                noEmployerXPosition = 180;
+                                break;
+                            case 7:
+                                noEmployerXPosition = 192;
+                                break;
+                            case 8:
+                                noEmployerXPosition = 205;
+                                break;
+                            case 9:
+                                noEmployerXPosition = 230;
+                                break;
+                            case 10:
+                                noEmployerXPosition = 243;
+                                break;
+                        }
+                        cb.BeginText();
+                        cb.ShowTextAligned(0, text, noEmployerXPosition, 451, 0);
+                        cb.EndText();
+                    }
                 }
 
                 var TotalMTDAmt = taxCP39.Sum(s => s.fld_CarumanPekerja);
@@ -620,6 +661,11 @@ namespace MVC_SYSTEM.Controllers
                 cb.EndText();
 
                 cb.BeginText();
+                text = SyarikatDetail.fld_LdgName; //Total Amt
+                cb.ShowTextAligned(0, text, 98, 390, 0);
+                cb.EndText();
+
+                cb.BeginText();
                 text = DateTime.Now.ToString("dd.MM.yyyy"); //Total Amt
                 cb.ShowTextAligned(1, text, 446, 337, 0);
                 cb.EndText();
@@ -635,7 +681,7 @@ namespace MVC_SYSTEM.Controllers
                 ms.Close();
                 byte[] file = ms.ToArray();
 
-                cp39Form = GetConfig.PdfPathFile("CP39 FORM-2.pdf");
+                //cp39Form = GetConfig.PdfPathFile("CP39 FORM-2.pdf");
 
                 // open the reader
 
@@ -684,15 +730,15 @@ namespace MVC_SYSTEM.Controllers
                     mainCell.Border = 0;
                     mainTable.AddCell(mainCell);
 
-                    PdfPTable table = new PdfPTable(11);
+                    PdfPTable table = new PdfPTable(12);
                     chunk = new Chunk();
                     //table.WidthPercentage = 5;
-                    widths = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
+                    widths = new float[] { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f };
                     table.SetWidths(widths);
 
                     PdfPCell cell = new PdfPCell();
 
-                    for (int y = 9; y >= 0; y--)
+                    for (int y = 0; y <= arrCountNoEmployerTaxArr; y++)
                     {
                         try
                         {
@@ -709,7 +755,7 @@ namespace MVC_SYSTEM.Controllers
                         cell.Border = Rectangle.BOTTOM_BORDER | Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER | Rectangle.TOP_BORDER;
                         table.AddCell(cell);
 
-                        if (y == 2)
+                        if (y == 8)
                         {
                             chunk = new Chunk("-", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
                             cell = new PdfPCell(new Phrase(chunk));
