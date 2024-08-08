@@ -143,6 +143,8 @@ namespace MVC_SYSTEM.ModelsCorporate
 
         //public virtual DbSet<tbl_KategoriAktiviti> tbl_KategoriAktivitiPUP { get; set; }
 
+        public virtual DbSet<WebhookData> WebhookDatas { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<tbl_SubCarumanTambahan>()
@@ -461,6 +463,10 @@ namespace MVC_SYSTEM.ModelsCorporate
             modelBuilder.Entity<tbl_UpahAktiviti>()
                 .Property(e => e.fld_KdhByr)
                 .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<WebhookData>()
+                .Property(e => e.Data)
                 .IsUnicode(false);
         }
     }

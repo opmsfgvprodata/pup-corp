@@ -829,6 +829,7 @@
     <Compile Include="ControllersMobileAPI\MasterDataController.cs" />
     <Compile Include="ControllersMobileAPI\PaySlipController.cs" />
     <Compile Include="ControllersMobileAPI\WorkController.cs" />
+    <Compile Include="ControllersWebhook\WebhooksController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationSupportController.cs" />
@@ -999,11 +1000,13 @@
     <Compile Include="ModelsCorporate\vw_Socso.cs" />
     <Compile Include="ModelsCorporate\vw_TKADetail.cs" />
     <Compile Include="ModelsCorporate\vw_UserIDDetail.cs" />
+    <Compile Include="ModelsCorporate\WebhookData.cs" />
     <Compile Include="ModelsCustom\CusMod_Password.cs" />
     <Compile Include="ModelsCustom\CusMod_tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
     <Compile Include="ModelsCustom\UserIDApplication.cs" />
+    <Compile Include="ModelsCustom\WebhookDTO.cs" />
     <Compile Include="ModelsDapper\sp_TaxCP39_Result.cs" />
     <Compile Include="ModelsEstate\MVC_SYSTEM_ModelsEstate.cs" />
     <Compile Include="ModelsEstate\tblHtmlReport.cs" />
