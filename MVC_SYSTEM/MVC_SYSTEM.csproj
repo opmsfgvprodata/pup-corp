@@ -1004,6 +1004,9 @@
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
     <Compile Include="ModelsCustom\UserIDApplication.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Sip_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Socso_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Kwsp_Result.cs" />
     <Compile Include="ModelsDapper\sp_TaxCP39_Result.cs" />
     <Compile Include="ModelsEstate\MVC_SYSTEM_ModelsEstate.cs" />
     <Compile Include="ModelsEstate\tblHtmlReport.cs" />
@@ -3504,6 +3507,12 @@
     <Content Include="Views\MaybankFileGen\RcmsGenTax.cshtml" />
     <Content Include="Views\MaybankFileGen\_rcmstax.cshtml" />
     <Content Include="Views\User\Password.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Sip.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Sip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
