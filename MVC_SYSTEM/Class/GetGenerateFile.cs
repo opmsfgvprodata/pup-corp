@@ -468,8 +468,9 @@ namespace MVC_SYSTEM.Class
 
                 if (maybankrcmsList.Count() != 0)
                 {
-                    TotalEmployeeCont = decimal.Truncate(maybankrcmsList.Sum(s => s.fld_KWSPPkj));
-                    TotalEmployerCont = decimal.Truncate(maybankrcmsList.Sum(s => s.fld_KWSPMjk));
+                    //TotalEmployeeCont = decimal.Truncate(maybankrcmsList.Sum(s => s.fld_KWSPPkj));
+                    TotalEmployeeCont = maybankrcmsList.Sum(s => s.fld_KWSPPkj);
+                    TotalEmployerCont = maybankrcmsList.Sum(s => s.fld_KWSPMjk);
                     TotalAllAmount = TotalEmployeeCont + TotalEmployerCont;
                     CountEmployeeContData = maybankrcmsList.Where(x => x.fld_KWSPPkj > 0).Count();
                     CountEmployerContData = maybankrcmsList.Where(x => x.fld_KWSPMjk > 0).Count();
