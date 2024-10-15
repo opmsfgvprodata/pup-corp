@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MVC_SYSTEM.ModelsDapper
 {
-    public class sp_MaybankRcmsKwsp_Result
+    public class sp_MaybankRcmsSocso_Result
     {
 		public int fld_ID { get; set; }
 		public string fld_Nopkj { get; set; }

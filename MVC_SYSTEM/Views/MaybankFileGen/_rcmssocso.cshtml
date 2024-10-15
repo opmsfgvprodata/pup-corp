@@ -1,0 +1,240 @@
+﻿
+@using MVC_SYSTEM.Class
+@using MVC_SYSTEM.Models
+@using MVC_SYSTEM.ModelsDapper
+@model IEnumerable<sp_MaybankRcmsSocso_Result>
+
+@{
+    int? month = ViewBag.MonthList;
+    int? year = ViewBag.YearList;
+    int bil = 0;
+    string worker = ViewBag.WorkerList;
+    string uniquefilename = "M2E SOCSO (" + ViewBag.NamaSyarikat + ") " + ViewBag.MonthList + ViewBag.YearList;
+    string clientid = "";
+    decimal? totalEmployerCont = 0;
+    decimal? totalEmployeeCont = 0;
+    decimal? totalEmployerandEmployee = 0;
+    decimal? grandtotal = 0;
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+    <div id="scrollArea" class="modal-body">
+
+        <p style="font-size: 11px" align="right">@ViewBag.Date | @ViewBag.Time</p>
+
+        <table id="page" class="table" style="font-size: 11px; margin-bottom: 0px" border="0">
+            <thead>
+                <tr>
+                    <th colspan="11" style="text-align: center; vertical-align: middle; border: none;">
+                        @ViewBag.NamaSyarikat
+                        <br />
+                        @*(@ViewBag.NoSyarikat)
+                <br />*@
+                        EPF Payment Via M2E
+                        <br />
+                        @ViewBag.MonthList/@ViewBag.YearList
+                        <br />
+                    </th>
+                </tr>
+                <tr>
+                    <th style="border: none;">
+
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="9" style="text-align: left; vertical-align: middle; border: none;">
+                        ID Korporat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: @ViewBag.CorpID
+                        <br />
+                        @*@if (ViewBag.filter == "" || ViewBag.filter == null)
+                        {
+                            clientid = ViewBag.ClientID;
+                        }
+                        else
+                        {
+                            clientid = ViewBag.filter;
+                        }*@
+
+                        @if (ViewBag.filter != "")
+                        {
+                            clientid = ViewBag.filter;
+                        }
+                        else
+                        {
+                            if (ViewBag.ClientId == null || ViewBag.ClientId == "")
+                            {
+                                //if (ViewBag.WilayahID == 1)
+                                //{
+                                //    clientid = "PUP" + ViewBag.MonthList + ViewBag.YearList;
+                                //}
+
+                                //if (ViewBag.WilayahID == 2)
+                                //{
+                                //    clientid = "YM" + ViewBag.MonthList + ViewBag.YearList;
+                                //}
+                                clientid = "";
+                            }
+                            else
+                            {
+                                clientid = ViewBag.ClientId;
+                            }
+                        }
+
+                        ID Klien&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: @clientid
+                        <br />
+                        Nombor Akaun&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: @ViewBag.AccNo
+                    </th>
+                </tr>
+
+                <tr>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">No.</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Estate</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Worker No.</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Worker Name</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">IC No.</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">SOCSO No.</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Employer Contribution (RM)</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Employee Contribution (RM)</th>
+                    <th rowspan="1" style="margin: 2px !important; padding: 5px !important; text-align: center; vertical-align: middle !important; border: 1px solid red;" border="1">Total Contribution (RM)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    bil = bil + 1;
+                    totalEmployerCont += item.fld_SocsoMjk;
+                    totalEmployeeCont += item.fld_SocsoPkj;
+                    totalEmployerandEmployee = item.fld_SocsoMjk + item.fld_SocsoPkj;
+                    grandtotal += totalEmployerandEmployee;
+
+                    <tr>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@bil.</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@item.fld_LdgCode - @item.fld_LdgName</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@item.fld_Nopkj</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@item.fld_Nama.ToUpper()</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@item.fld_Nokp</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: left; border-right: none; border-left: none"><font color="black">@item.fld_Noperkeso</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: right; border-right: none; border-left: none"><font color="black">@item.fld_SocsoMjk</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: right; border-right: none; border-left: none"><font color="black">@item.fld_SocsoPkj</font></td>
+                        <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px dotted gray; text-align: right; border-right: none; border-left: none"><font color="black">@totalEmployerandEmployee</font></td>
+                    </tr>
+                }
+            <tr>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: left; border-bottom: none;border-right: none; border-left: none"><font color="black"></font></td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: right; border-bottom: none;border-right: none; border-left: none; font-weight:bold">@totalEmployerCont</td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: right; border-bottom: none;border-right: none; border-left: none; font-weight:bold">@totalEmployeeCont</td>
+                <td align="center" style="margin: 2px !important; padding: 4px !important; vertical-align: middle !important; border: 1px solid gray; text-align: right; border-bottom: none; border-right: none; border-left: none; font-weight:bold">@grandtotal</td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+        <newpage />
+
+    </div>
+
+    if (ViewBag.Print == null)
+    {
+        <div style="text-align:right; margin-top:10px">
+            <a class="btn btn-default btn-sm" href="#" id="printpage">
+                <span class="glyphicon glyphicon-print"> </span> @GlobalResCorp.btnPrint
+            </a>
+            <a class="btn btn-default btn-sm" href="#" id="downloadpdf">
+                <span><img src="~/Asset/Images/pdf-icon.png" width="20px" height="20px" /></span> @GlobalResCorp.btnDownloadPdf
+            </a>
+            <a class="btn btn-default btn-sm" href="#" onclick="HTMLtoExcel('@uniquefilename')">
+                <span><img src="~/Asset/Images/excel-icon.png" width="20px" height="20px" /></span> @GlobalResCorp.btnDownloadExcel
+            </a>
+            <a class="btn btn-default btn-sm" href="#" id="downloadtxt">
+                <span><img src="~/Asset/Images/notepad.png" width="20px" height="20px" /></span> Download Txt File
+            </a>
+        </div>
+    }
+}
+
+@if (Model.Count() == 0)
+{
+    <div id="scrollArea" class="modal-body" style="text-align: center">
+        <p style="color: red">@ViewBag.Message</p>
+
+    </div>
+}
+<script src="~/Asset/Scripts/FromHTML.js"></script>
+<script src="~/Asset/Scripts/FileSaver.js"></script>
+<style>
+    #page td {
+        padding: 2px;
+        margin: 2px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#printpage").click(function () {
+            var DivElement = document.getElementById("scrollArea").innerHTML;
+            var oldPage = document.body.innerHTML;
+            document.body.innerHTML = DivElement;
+            window.print();
+            document.body.innerHTML = oldPage;
+        });
+
+        $("#downloadtxt").click(function () {
+            var Month = $("#MonthList").val();
+            var Year = $("#YearList").val();
+            var Region = $("#WilayahIDList").val();
+            var Estate = $("#LadangIDList").val();
+            var filter = $("#filter").val();
+            var PaymentDate = $("#PaymentDate").val();
+            $("#UpdateProgress1").css("display", "");
+            var ajxfn = {};
+            ajxfn.url = "@Url.Action("DownloadTextSocso", "MaybankFileGen")";
+            ajxfn.type = "POST";
+            ajxfn.async = false;
+            ajxfn.data = JSON.stringify({ Month: Month, Year: Year, Region: Region, Estate: Estate, filter: filter, PaymentDate: PaymentDate });
+            ajxfn.datatype = "json";
+            ajxfn.contentType = "application/json";
+            ajxfn.success = function (result) {
+                $.simplyToast(result.msg, result.statusmsg);
+                var win = window.open(result.link, '_blank');
+                $("#UpdateProgress1").css("display", "none");
+            };
+            ajxfn.error = function () {
+                $.simplyToast('@GlobalResCorp.msgError', 'danger');
+                $("#UpdateProgress1").css("display", "none");
+            };
+            $.ajax(ajxfn);
+
+            return false;
+        });
+
+        $("#downloadpdf").click(function () {
+          var myHtml = document.getElementById('scrollArea').innerHTML;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ConvertPDF2", "MaybankFileGen")',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({ myHtml: myHtml, filename: "@uniquefilename", reportname: "CP39Report" }),
+                success: function (result) {
+                    if (result.success) {
+                        var win = window.open(result.link, '_blank');
+                        win.focus();
+                    } else {
+                        $.simplyToast(result.msg, result.status);
+                    }
+                },
+                error: function (error) {
+                    $.simplyToast('Sorry to many data', 'danger');
+                }
+            });
+            return false;
+        });
+
+    });
+</script>

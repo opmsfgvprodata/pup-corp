@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MVC_SYSTEM.ModelsDapper
 {
-    public class sp_MaybankRcmsKwsp_Result
+    public class sp_MaybankRcmsSip_Result
     {
 		public int fld_ID { get; set; }
 		public string fld_Nopkj { get; set; }
@@ -35,5 +35,10 @@ namespace MVC_SYSTEM.ModelsDapper
 		public int fld_Month { get; set; }
 		public string fld_LdgCode { get; set; }
 		public string fld_LdgName { get; set; }
+		public string fld_KodCaruman { get; set; }
+		public string fld_KodSubCaruman { get; set; }
+		public decimal fld_CarumanPekerja { get; set; }
+		public decimal fld_CarumanMajikan { get; set; }
+
 	}
 }
