@@ -3510,6 +3510,19 @@
     <Content Include="Views\MaybankFileGen\RcmsGenTax.cshtml" />
     <Content Include="Views\MaybankFileGen\_rcmstax.cshtml" />
     <Content Include="Views\User\Password.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmskwsp.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmssip.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmssocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Sip.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenKwsp.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenSip.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenSocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Sip.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
