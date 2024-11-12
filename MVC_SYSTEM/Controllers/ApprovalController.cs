@@ -2697,7 +2697,7 @@ namespace MVC_SYSTEM.Controllers
                                 dbr.SaveChanges();
                             }
 
-                            var activeContributionCategoryData = dbhq.tbl_CarumanTambahan.Where(x => x.fld_NegaraID == ngraID && x.fld_SyarikatID == syrktID && x.fld_Deleted == false && x.fld_Default == true && x.fld_Warganegara == 2).ToList();
+                            var activeContributionCategoryData = dbhq.tbl_CarumanTambahan.Where(x => x.fld_NegaraID == ngraID && x.fld_SyarikatID == syrktID && x.fld_Deleted == false && x.fld_Default == true && (x.fld_Warganegara == 2 || x.fld_Warganegara == 3) && x.fld_KodCaruman.ToUpper()!= "SBKP").ToList();
 
                             foreach (var activeContribution in activeContributionCategoryData)
                             {
@@ -2739,7 +2739,7 @@ namespace MVC_SYSTEM.Controllers
                             }
 
                             //sip
-                            var activeContributionCategoryData = dbhq.tbl_CarumanTambahan.Where(x => x.fld_NegaraID == ngraID && x.fld_SyarikatID == syrktID && x.fld_Deleted == false && x.fld_Default == true && x.fld_Warganegara == 1).ToList();
+                            var activeContributionCategoryData = dbhq.tbl_CarumanTambahan.Where(x => x.fld_NegaraID == ngraID && x.fld_SyarikatID == syrktID && x.fld_Deleted == false && x.fld_Default == true && (x.fld_Warganegara == 1 || x.fld_Warganegara == 3)).ToList();
 
                             foreach (var activeContribution in activeContributionCategoryData)
                             {
