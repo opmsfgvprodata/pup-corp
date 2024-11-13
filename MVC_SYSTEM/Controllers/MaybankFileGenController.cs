@@ -3104,7 +3104,7 @@ namespace MVC_SYSTEM.Controllers
             var userDetail = getidentity.UserDetail(User.Identity.Name);
 
             GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
-            List<sp_MaybankRcms_Result> maybankRcms_Result = new List<sp_MaybankRcms_Result>();
+            List<sp_MaybankRcmsKwsp_Result> maybankRcms_Result = new List<sp_MaybankRcmsKwsp_Result>();
 
             ViewBag.MonthList = MonthList;
             ViewBag.YearList = YearList;
@@ -3127,7 +3127,7 @@ namespace MVC_SYSTEM.Controllers
                 parameters.Add("Region", WilayahIDList);
                 parameters.Add("Estate", LadangIDList);
                 con.Open();
-                maybankRcms_Result = SqlMapper.Query<sp_MaybankRcms_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+                maybankRcms_Result = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
                 con.Close();
             }
             catch (Exception ex)
@@ -3195,7 +3195,7 @@ namespace MVC_SYSTEM.Controllers
 
                 var month = ((Constans.Month)MonthList).ToString().ToUpper();
                 var contributionMonthStrg = ((Constans.Month)contributionMonth).ToString().ToUpper();
-                var totalKWSP = maybankRcms_Result.Sum(s => s.fld_KWSPMjk + s.fld_KWSPMjk).ToString("n");
+                var totalKWSP = maybankRcms_Result.Sum(s => s.fld_KWSPMjk + s.fld_KWSPPkj).ToString("n");
 
                 bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
                 cb.SetColorFill(BaseColor.BLACK);
