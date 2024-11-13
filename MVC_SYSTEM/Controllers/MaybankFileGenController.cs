@@ -3260,7 +3260,7 @@ namespace MVC_SYSTEM.Controllers
                 
                 cb.BeginText();
                 //text = getidentity.RoleName(userDetail.fldRoleID.Value).ToUpper();
-                text = "-";
+                text = "PAYROLL ADMIN";
                 cb.ShowTextAligned(0, text, 111, 268, 0);
                 cb.EndText();
 
