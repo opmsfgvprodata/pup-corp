@@ -1640,7 +1640,7 @@ namespace MVC_SYSTEM.Controllers
             var tbl_Ladang = dbC.tbl_Ladang.Where(x => x.fld_ID == LadangIDList).FirstOrDefault();
             var NamaSyarikat = tbl_Ladang.fld_LdgName;
             var AlamatSyarikat = tbl_Ladang.fld_Adress;
-            var KodMajikan = tbl_Ladang.fld_EmplyerEPFNo == null ? " " : tbl_Ladang.fld_EmplyerEPFNo;
+            var KodMajikan = tbl_Ladang.fld_EmployerEPFNo == null ? " " : tbl_Ladang.fld_EmployerEPFNo;
             var phoneNo = tbl_Ladang.fld_Tel;
             string pdfForm = GetConfig.PdfPathFile("BBCD Form EPF.pdf");
 
@@ -1782,17 +1782,20 @@ namespace MVC_SYSTEM.Controllers
                 cb.SetFontAndSize(bf, 10);
 
                 cb.BeginText();
-                text = userDetail.fldUserFullName.ToUpper();
+                //text = userDetail.fldUserFullName.ToUpper();
+                text = "NURUL AINI BINTI BAHARUDDIN";
                 cb.ShowTextAligned(0, text, 111, 322, 0);
                 cb.EndText();
                 
                 cb.BeginText();
-                text = getidentity.RoleName(userDetail.fldRoleID.Value).ToUpper();
+                //text = getidentity.RoleName(userDetail.fldRoleID.Value).ToUpper();
+                text = "-";
                 cb.ShowTextAligned(0, text, 111, 268, 0);
                 cb.EndText();
 
                 cb.BeginText();
-                text = phoneNo;
+                //text = phoneNo;
+                text = "03-26138516";
                 cb.ShowTextAligned(0, text, 111, 230, 0);
                 cb.EndText();
 

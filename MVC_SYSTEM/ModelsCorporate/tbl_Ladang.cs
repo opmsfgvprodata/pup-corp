@@ -93,6 +93,6 @@ namespace MVC_SYSTEM.ModelsCorporate
         public string fld_CorporateID { get; set; }
         public string fld_ClientBatchID { get; set; }
         public string fld_EmployerSocsoNo { get; set; }
-        public string fld_EmplyerEPFNo { get; set; }
+        public string fld_EmployerEPFNo { get; set; }
     }
 }
