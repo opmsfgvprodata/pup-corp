@@ -79,11 +79,11 @@ namespace MVC_SYSTEM.Class
 
             myrole = String.Join("", roles); ;
 
-            foreach(string filterrole in ourroles)
+            foreach (string filterrole in ourroles)
             {
                 if (myrole == filterrole)
                 {
-                    result = true; 
+                    result = true;
                 }
             }
 
@@ -163,11 +163,26 @@ namespace MVC_SYSTEM.Class
             return ID;
         }
 
-        public int ? ClientID(string username)
+        public tblUser UserDetail(string username)
+        {
+            MVC_SYSTEM_Auth db = new MVC_SYSTEM_Auth();
+            return db.tblUsers.Where(u => u.fldUserName.Equals(username)).FirstOrDefault();
+        }
+
+        public string RoleName(int roleID)
+        {
+            using (MVC_SYSTEM_Auth dc = new MVC_SYSTEM_Auth())
+            {
+                var role = dc.tblRoles.Find(roleID);
+                return role.fldRoleName.ToString();
+            }
+        }
+
+        public int? ClientID(string username)
         {
             MVC_SYSTEM_Auth db = new MVC_SYSTEM_Auth();
             tblUser User;
-            int ? ID = 0;
+            int? ID = 0;
             User = db.tblUsers.Where(u => u.fldUserName.Equals(username)).FirstOrDefault();
             if (User != null)
             {
@@ -189,7 +204,7 @@ namespace MVC_SYSTEM.Class
             return clientname.ToString();
         }
 
-        public int ? MyCategory(int ? ClientID)
+        public int? MyCategory(int? ClientID)
         {
             MVC_SYSTEM_Auth db = new MVC_SYSTEM_Auth();
             int? categoryid = 0;
@@ -199,7 +214,7 @@ namespace MVC_SYSTEM.Class
             return categoryid;
         }
 
-        public int ? MyCompany(int ? ClientID)
+        public int? MyCompany(int? ClientID)
         {
             MVC_SYSTEM_Auth db = new MVC_SYSTEM_Auth();
             int? companyid = 0;
@@ -237,7 +252,7 @@ namespace MVC_SYSTEM.Class
 
             return result;
         }
-        
+
         public bool SuperAdmin(string username)
         {
             string[] roles = new string[] { };
@@ -432,9 +447,9 @@ namespace MVC_SYSTEM.Class
             return result;
         }
 
-        public int ? getRoleID (int ? id)
+        public int? getRoleID(int? id)
         {
-            int ? roleid = 0;
+            int? roleid = 0;
 
             roleid = db.tblUsers.Where(x => x.fldUserID == id).Select(s => s.fldRoleID).SingleOrDefault();
 
@@ -445,7 +460,7 @@ namespace MVC_SYSTEM.Class
         {
             int? KmplnSyrktID = 0;
 
-            KmplnSyrktID = db.tblUsers.Where(u => u.fldUserName.Equals(username)).Select(s=>s.fld_KmplnSyrktID).FirstOrDefault();//db.tblUsers.Where(x => x.fldUserID == id).Select(s => s.fldRoleID).SingleOrDefault();
+            KmplnSyrktID = db.tblUsers.Where(u => u.fldUserName.Equals(username)).Select(s => s.fld_KmplnSyrktID).FirstOrDefault();//db.tblUsers.Where(x => x.fldUserID == id).Select(s => s.fldRoleID).SingleOrDefault();
 
             return KmplnSyrktID;
         }

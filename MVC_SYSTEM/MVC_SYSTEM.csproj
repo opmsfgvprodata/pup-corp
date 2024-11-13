@@ -1010,6 +1010,7 @@
     <Compile Include="ModelsDapper\sp_MaybankRcmsSip_Result.cs" />
     <Compile Include="ModelsDapper\sp_MaybankRcmsSocso_Result.cs" />
     <Compile Include="ModelsDapper\sp_MaybankRcmsKwsp_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcms_Result.cs" />
     <Compile Include="ModelsDapper\sp_TaxCP39_Result.cs" />
     <Compile Include="ModelsEstate\MVC_SYSTEM_ModelsEstate.cs" />
     <Compile Include="ModelsEstate\tblHtmlReport.cs" />
@@ -3523,6 +3524,10 @@
     <Content Include="Views\MaybankFileGen\RcmsZAP64Sip.cshtml" />
     <Content Include="Views\MaybankFileGen\RcmsZAP64Socso.cshtml" />
     <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsLampiranASocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsBBCDFormKWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsLampiranASip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
