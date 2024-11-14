@@ -1977,18 +1977,18 @@ namespace MVC_SYSTEM.Controllers
                 var month = ((Constans.Month)MonthList).ToString().ToUpper();
                 var totalNoWorker = maybankRcms_Result.Where(x => x.fld_SocsoMjk > 0 || x.fld_SocsoPkj > 0).Count();
                 var totalSocso = maybankRcms_Result.Sum(s => s.fld_SocsoMjk + s.fld_SocsoPkj).ToString("n");
-
+                
                 bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
                 cb.SetColorFill(BaseColor.BLACK);
                 cb.SetFontAndSize(bf, 11);
                 cb.BeginText();
                 string text = month;
-                cb.ShowTextAligned(0, text, 400, 652, 0);
+                cb.ShowTextAligned(1, text, 439, 685, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = month;
-                cb.ShowTextAligned(0, text, 504, 652, 0);
+                cb.ShowTextAligned(1, text, 296, 670, 0);
                 cb.EndText();
 
                 bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
@@ -1997,27 +1997,27 @@ namespace MVC_SYSTEM.Controllers
 
                 cb.BeginText();
                 text = totalNoWorker.ToString();
-                cb.ShowTextAligned(0, text, 163, 573, 0);
+                cb.ShowTextAligned(0, text, 163, 569, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = "RM " + totalSocso;
-                cb.ShowTextAligned(1, text, 422, 500, 0);
+                cb.ShowTextAligned(1, text, 415, 500, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = KodMajikan;
-                cb.ShowTextAligned(0, text, 182, 459, 0);
+                cb.ShowTextAligned(0, text, 182, 452, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = NamaSyarikat;
-                cb.ShowTextAligned(0, text, 182, 444, 0);
+                cb.ShowTextAligned(0, text, 182, 436, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = AlamatSyarikat;
-                cb.ShowTextAligned(0, text, 182, 430, 0);
+                cb.ShowTextAligned(0, text, 182, 421, 0);
                 cb.EndText();
 
                 PdfImportedPage page = writer.GetImportedPage(reader, 1);
@@ -2203,12 +2203,12 @@ namespace MVC_SYSTEM.Controllers
                 cb.SetFontAndSize(bf, 11);
                 cb.BeginText();
                 string text = month;
-                cb.ShowTextAligned(0, text, 400, 652, 0);
+                cb.ShowTextAligned(1, text, 439, 685, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = month;
-                cb.ShowTextAligned(0, text, 504, 652, 0);
+                cb.ShowTextAligned(1, text, 296, 670, 0);
                 cb.EndText();
 
                 bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
@@ -2217,27 +2217,27 @@ namespace MVC_SYSTEM.Controllers
 
                 cb.BeginText();
                 text = totalNoWorker.ToString();
-                cb.ShowTextAligned(0, text, 163, 573, 0);
+                cb.ShowTextAligned(0, text, 163, 569, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = "RM " + totalSip;
-                cb.ShowTextAligned(1, text, 422, 500, 0);
+                cb.ShowTextAligned(1, text, 415, 500, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = KodMajikan;
-                cb.ShowTextAligned(0, text, 182, 459, 0);
+                cb.ShowTextAligned(0, text, 182, 452, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = NamaSyarikat;
-                cb.ShowTextAligned(0, text, 182, 444, 0);
+                cb.ShowTextAligned(0, text, 182, 436, 0);
                 cb.EndText();
 
                 cb.BeginText();
                 text = AlamatSyarikat;
-                cb.ShowTextAligned(0, text, 182, 430, 0);
+                cb.ShowTextAligned(0, text, 182, 421, 0);
                 cb.EndText();
 
                 PdfImportedPage page = writer.GetImportedPage(reader, 1);
