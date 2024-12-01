@@ -99,6 +99,17 @@ namespace MVC_SYSTEM.Class
             return NSWL;
         }
 
+        public List<vw_NSWL_2> GetLadangDetailByRegion(int? regionID)
+        {
+            List<vw_NSWL_2> NSWL = new List<vw_NSWL_2>();
+
+            NSWL = db.vw_NSWL_2.Where(x => x.fld_WilayahID == regionID && x.fld_Deleted_L == false).ToList();
+
+            db.Dispose();
+
+            return NSWL;
+        }
+
         public void GetSyarikatRCMSDetail(int? Region, int? Estate, out string CorpID, out string ClientID, out string AccNo, out string InitialName)
         {
             var getsyarikat = db.tbl_Ladang.Where(x => x.fld_WlyhID == Region && x.fld_ID == Estate).FirstOrDefault();

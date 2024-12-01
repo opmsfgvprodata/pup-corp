@@ -2401,6 +2401,15 @@ namespace MVC_SYSTEM.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lblContributionB_Category_2 {
+            get {
+                return ResourceManager.GetString("lblContributionB Category 2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to B-Kategori 1 &amp; 3 (RM).
         /// </summary>
         public static string lblContributionCategory1 {
@@ -8796,6 +8805,24 @@ namespace MVC_SYSTEM.App_LocalResources {
         public static string lblTotalCP38Rec {
             get {
                 return ResourceManager.GetString("lblTotalCP38Rec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total CP8D Amount.
+        /// </summary>
+        public static string lblTotalCP8DAmt {
+            get {
+                return ResourceManager.GetString("lblTotalCP8DAmt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total CP8D Records.
+        /// </summary>
+        public static string lblTotalCP8DRec {
+            get {
+                return ResourceManager.GetString("lblTotalCP8DRec", resourceCulture);
             }
         }
         
