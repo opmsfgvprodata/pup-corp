@@ -1287,10 +1287,11 @@ namespace MVC_SYSTEM.Controllers
                         var specialIncentive = specialIncentiveList.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
                         var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                         var workerInfo2 = workerInfoList.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
+                        var workerTaxInfo = workerTaxInfoList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent && x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                         taxCP8D_Result.Add(new TaxCP8D_Result
                         {
                             EstateName = estateInfo.fld_NamaLadang,
-                            TINNo = workerTax.Select(s => s.fld_TaxNo).FirstOrDefault(),
+                            TINNo = workerTaxInfo.fld_TaxNo,
                             NoPkerja = workerInfo.fld_NoPkjPermanent,
                             NamaPkerja = workerInfo2.fld_Nama,
                             IDNo = workerInfo2.fld_Nokp,
@@ -1355,10 +1356,6 @@ namespace MVC_SYSTEM.Controllers
                             var workerInfo2 = workerInfoList.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
                             taxCP8D_Result.Add(new TaxCP8D_Result
                             {
-                                EstateName = estateInfo.fld_NamaLadang,
-                                TINNo = workerTax.Select(s => s.fld_TaxNo).FirstOrDefault(),
-                                NoPkerja = workerInfo.fld_NoPkjPermanent,
-                                NamaPkerja = workerInfo2.fld_Nama,
                                 IDNo = workerInfo2.fld_Nokp,
                                 PCB = workerTax.Sum(s => s.fld_PCB) + specialIncentive.Sum(s => s.fld_PCBCarumanPekerja),
                                 CP38 = workerTax.Sum(s => s.fld_CP38),
@@ -1440,12 +1437,12 @@ namespace MVC_SYSTEM.Controllers
                             var specialIncentive = specialIncentiveList.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
                             var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                             var workerInfo2 = workerInfoList.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
-                            var workerTaxInfo = workerTaxInfoList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
                             var otherContribution = otherContributionList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
+                            var workerTaxInfo = workerTaxInfoList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent && x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                             taxCP8D_Result.Add(new TaxCP8D_Result
                             {
                                 NamaPkerja = workerInfo2.fld_Nama,
-                                TINNo = workerTax.Select(s => s.fld_TaxNo).FirstOrDefault(),
+                                TINNo = workerTaxInfo.fld_TaxNo,
                                 NoPkerja = workerInfo.fld_NoPkjPermanent,
                                 IDNo = workerInfo2.fld_Nokp,
                                 KategoryPekerja = workerTaxInfo.fld_TaxMaritalStatus,
