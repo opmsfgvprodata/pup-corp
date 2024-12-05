@@ -1299,7 +1299,6 @@ namespace MVC_SYSTEM.Controllers
                             CP38 = workerTax.Sum(s => s.fld_CP38),
                         });
                     }
-
                 }
             }
             return View(taxCP8D_Result);
