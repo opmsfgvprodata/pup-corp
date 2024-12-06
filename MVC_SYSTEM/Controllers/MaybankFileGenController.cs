@@ -1232,7 +1232,6 @@ namespace MVC_SYSTEM.Controllers
             var taxCP8D_Result = new List<TaxCP8D_Result>();
             var workerInfoList = new List<WorkerInfo>();
             var workerTaxCP8DList = new List<WorkerTaxCP8D>();
-            var workerTaxInfoList = new List<WorkerTaxInfo>();
             var otherContributionList = new List<OtherContribution>();
             var specialIncentiveList = new List<SpecialIncentive>();
             var NSWL = GetNSWL.GetLadangDetailByRegion(WilayahIDList);
@@ -1265,7 +1264,6 @@ namespace MVC_SYSTEM.Controllers
                     var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                     workerInfoList = result.Read<WorkerInfo>().ToList();
                     workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
-                    workerTaxInfoList = result.Read<WorkerTaxInfo>().ToList();
                     otherContributionList = result.Read<OtherContribution>().ToList();
                     specialIncentiveList = result.Read<SpecialIncentive>().ToList();
                     con.Close();
@@ -1287,7 +1285,7 @@ namespace MVC_SYSTEM.Controllers
                         var specialIncentive = specialIncentiveList.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
                         var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                         var workerInfo2 = workerInfoList.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
-                        var workerTaxInfo = workerTaxInfoList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent && x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
+                        var workerTaxInfo = workerTax.OrderByDescending(o => o.fld_Month).Take(1).FirstOrDefault();
                         taxCP8D_Result.Add(new TaxCP8D_Result
                         {
                             EstateName = estateInfo.fld_NamaLadang,
@@ -1337,7 +1335,6 @@ namespace MVC_SYSTEM.Controllers
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 var workerInfoList = result.Read<WorkerInfo>().ToList();
                 var workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
-                var workerTaxInfoList = result.Read<WorkerTaxInfo>().ToList();
                 var otherContributionList = result.Read<OtherContribution>().ToList();
                 var specialIncentiveList = result.Read<SpecialIncentive>().ToList();
                 con.Close();
@@ -1406,7 +1403,6 @@ namespace MVC_SYSTEM.Controllers
             var taxCP8D_Result = new List<TaxCP8D_Result>();
             var workerInfoList = new List<WorkerInfo>();
             var workerTaxCP8DList = new List<WorkerTaxCP8D>();
-            var workerTaxInfoList = new List<WorkerTaxInfo>();
             var otherContributionList = new List<OtherContribution>();
             var specialIncentiveList = new List<SpecialIncentive>();
             var NSWL = GetNSWL.GetLadangDetailByRegion(Region);
@@ -1420,7 +1416,6 @@ namespace MVC_SYSTEM.Controllers
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 workerInfoList = result.Read<WorkerInfo>().ToList();
                 workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
-                workerTaxInfoList = result.Read<WorkerTaxInfo>().ToList();
                 otherContributionList = result.Read<OtherContribution>().ToList();
                 specialIncentiveList = result.Read<SpecialIncentive>().ToList();
                 con.Close();
@@ -1437,7 +1432,7 @@ namespace MVC_SYSTEM.Controllers
                             var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
                             var workerInfo2 = workerInfoList.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
                             var otherContribution = otherContributionList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
-                            var workerTaxInfo = workerTaxInfoList.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent && x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
+                            var workerTaxInfo = workerTax.OrderByDescending(o => o.fld_Month).Take(1).FirstOrDefault();
                             taxCP8D_Result.Add(new TaxCP8D_Result
                             {
                                 NamaPkerja = workerInfo2.fld_Nama,
@@ -1501,7 +1496,7 @@ namespace MVC_SYSTEM.Controllers
                 fileContent += item.PCB == 0 ? "|" : item.PCB + "|";
                 fileContent += item.CP38 == 0 ? "|" : item.CP38 + "|";
                 fileContent += item.InsuransPotonganGaji == 0 ? "|" : item.InsuransPotonganGaji + "|";
-                fileContent += item.PERKESO == 0 ? "|" : item.PERKESO;
+                fileContent += item.PERKESO == 0 ? "|" : item.PERKESO.ToString();
                 if (taxCP8D_Result.IndexOf(item) != taxCP8D_Result.Count - 1)
                 {
                     fileContent += Environment.NewLine;
