@@ -1,7 +1,7 @@
 USE [PUPOPMSESTPUP]
 GO
 
-/****** Object:  View [dbo].[vw_TaxCP8D]    Script Date: 12/6/2024 11:41:51 AM ******/
+/****** Object:  View [dbo].[vw_TaxCP8D]    Script Date: 08/12/2024 12:25:58 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,13 +14,16 @@ SELECT dbo.tbl_GajiBulanan.fld_ID, dbo.tbl_Pkjmast.fld_Psptno, dbo.tbl_Pkjmast.f
              dbo.tbl_Pkjmast.fld_SyarikatID, dbo.tbl_Pkjmast.fld_WilayahID, dbo.tbl_Pkjmast.fld_LadangID, dbo.tbl_Pkjmast.fld_DivisionID, dbo.tbl_GajiBulanan.fld_Year, dbo.tbl_GajiBulanan.fld_Month, dbo.tbl_ByrCarumanTambahan.fld_KodCaruman, 
              dbo.tbl_ByrCarumanTambahan.fld_KodSubCaruman, dbo.tbl_ByrCarumanTambahan.fld_CarumanPekerja, dbo.tbl_TaxWorkerInfo.fld_TaxNo, dbo.tbl_TaxPCB2Form.fld_CP38Amount, dbo.tbl_TaxWorkerInfo.fld_TaxMaritalStatus, dbo.tbl_Pkjmast.fld_ContractExpiryDate, 
              dbo.tbl_Pkjmast.fld_Trlhr, dbo.tbl_GajiBulanan.fld_KWSPPkj, dbo.tbl_GajiBulanan.fld_SocsoPkj, dbo.tbl_ByrCarumanTambahan.fld_C, dbo.tbl_ByrCarumanTambahan.fld_Q, dbo.tbl_TaxWorkerInfo.fld_UniqueID AS fld_WorkerTaxID, dbo.tbl_ByrCarumanTambahan.fld_Z, 
-             dbo.tbl_Pkjmast.fld_Kdaktf, dbo.tbl_ByrCarumanTambahan.fld_Y1
-FROM   dbo.tbl_Pkjmast LEFT OUTER JOIN
-             dbo.tbl_TaxPCB2Form RIGHT OUTER JOIN
+             dbo.tbl_Pkjmast.fld_Kdaktf, dbo.tbl_ByrCarumanTambahan.fld_Y1, dbo.tbl_TaxWorkerInfo.fld_ChildBelow18Full, dbo.tbl_TaxWorkerInfo.fld_ChildBelow18Half, dbo.tbl_TaxWorkerInfo.fld_ChildAbove18CertFull, dbo.tbl_TaxWorkerInfo.fld_ChildAbove18CertHalf, 
+             dbo.tbl_TaxWorkerInfo.fld_ChildAbove18HigherFull, dbo.tbl_TaxWorkerInfo.fld_ChildAbove18HigherHalf, dbo.tbl_TaxWorkerInfo.fld_DisabledChildFull, dbo.tbl_TaxWorkerInfo.fld_DisabledChildHalf, dbo.tbl_TaxWorkerInfo.fld_DisabledChildStudyFull, 
+             dbo.tbl_TaxWorkerInfo.fld_DisabledChildStudyHalf
+FROM   dbo.tbl_TaxPCB2Form RIGHT OUTER JOIN
+             dbo.tbl_Pkjmast LEFT OUTER JOIN
              dbo.tbl_ByrCarumanTambahan INNER JOIN
              dbo.tbl_GajiBulanan ON dbo.tbl_ByrCarumanTambahan.fld_GajiID = dbo.tbl_GajiBulanan.fld_ID AND dbo.tbl_ByrCarumanTambahan.fld_Year = dbo.tbl_GajiBulanan.fld_Year AND dbo.tbl_ByrCarumanTambahan.fld_Month = dbo.tbl_GajiBulanan.fld_Month INNER JOIN
-             dbo.tbl_TaxWorkerInfo ON dbo.tbl_GajiBulanan.fld_Year = dbo.tbl_TaxWorkerInfo.fld_Year ON dbo.tbl_TaxPCB2Form.fld_Year = dbo.tbl_GajiBulanan.fld_Year AND dbo.tbl_TaxPCB2Form.fld_Month = dbo.tbl_GajiBulanan.fld_Month AND 
-             dbo.tbl_TaxPCB2Form.fld_GajiID = dbo.tbl_GajiBulanan.fld_ID ON dbo.tbl_Pkjmast.fld_NoPkjPermanent = dbo.tbl_TaxWorkerInfo.fld_NopkjPermanent AND dbo.tbl_Pkjmast.fld_NoPkjPermanent = dbo.tbl_GajiBulanan.fld_NoPkjPermanent
+             dbo.tbl_TaxWorkerInfo ON dbo.tbl_GajiBulanan.fld_Year = dbo.tbl_TaxWorkerInfo.fld_Year ON dbo.tbl_Pkjmast.fld_LadangID = dbo.tbl_TaxWorkerInfo.fld_LadangID AND dbo.tbl_Pkjmast.fld_NoPkjPermanent = dbo.tbl_TaxWorkerInfo.fld_NopkjPermanent AND 
+             dbo.tbl_Pkjmast.fld_NoPkjPermanent = dbo.tbl_GajiBulanan.fld_NoPkjPermanent ON dbo.tbl_TaxPCB2Form.fld_Year = dbo.tbl_GajiBulanan.fld_Year AND dbo.tbl_TaxPCB2Form.fld_Month = dbo.tbl_GajiBulanan.fld_Month AND 
+             dbo.tbl_TaxPCB2Form.fld_GajiID = dbo.tbl_GajiBulanan.fld_ID
 WHERE (dbo.tbl_ByrCarumanTambahan.fld_CarumanPekerja > 0) AND (dbo.tbl_ByrCarumanTambahan.fld_KodSubCaruman = N'PCB02') AND (dbo.tbl_ByrCarumanTambahan.fld_KodCaruman = N'PCB') AND (dbo.tbl_Pkjmast.fld_Kdaktf = N'1')
 GO
 
@@ -91,8 +94,8 @@ Begin DesignProperties =
    End
    Begin DiagramPane = 
       Begin Origin = 
-         Top = -44
-         Left = -346
+         Top = 0
+         Left = 0
       End
       Begin Tables = 
          Begin Table = "tbl_Pkjmast"
@@ -103,7 +106,7 @@ Begin DesignProperties =
                Right = 431
             End
             DisplayFlags = 280
-            TopColumn = 19
+            TopColumn = 44
          End
          Begin Table = "tbl_TaxPCB2Form"
             Begin Extent = 
@@ -127,20 +130,20 @@ Begin DesignProperties =
          End
          Begin Table = "tbl_GajiBulanan"
             Begin Extent = 
-               Top = 4
-               Left = 743
-               Bottom = 251
-               Right = 1109
+               Top = 9
+               Left = 879
+               Bottom = 256
+               Right = 1245
             End
             DisplayFlags = 280
-            TopColumn = 40
+            TopColumn = 19
          End
          Begin Table = "tbl_TaxWorkerInfo"
             Begin Extent = 
-               Top = 311
-               Left = 429
-               Bottom = 558
-               Right = 847
+               Top = 32
+               Left = 506
+               Bottom = 279
+               Right = 924
             End
             DisplayFlags = 280
             TopColumn = 0
@@ -165,11 +168,10 @@ Begin DesignProperties =
          SortOrder = 1410
          GroupBy = 1350
          Filter = 1350
-' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vw_TaxCP8D'
+     ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vw_TaxCP8D'
 GO
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'
-         Or = 1350
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'    Or = 1350
          Or = 1350
          Or = 1350
       End

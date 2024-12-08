@@ -1,7 +1,7 @@
 USE [PUPOPMSESTPUP]
 GO
 
-/****** Object:  StoredProcedure [dbo].[sp_TaxCP8D]    Script Date: 12/6/2024 11:42:34 AM ******/
+/****** Object:  StoredProcedure [dbo].[sp_TaxCP8D]    Script Date: 08/12/2024 12:26:43 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -42,31 +42,21 @@ BEGIN
 	, fld_DivisionID
 	, fld_TaxNo
 	, fld_Nokp
+	, fld_Kdrkyt
+	, fld_ChildAbove18CertFull
+	, fld_ChildAbove18CertHalf
+	, fld_ChildAbove18HigherFull
+	, fld_ChildAbove18HigherHalf
+	, fld_ChildBelow18Full
+	, fld_ChildBelow18Half
+	, fld_DisabledChildFull
+	, fld_DisabledChildHalf
+	, fld_DisabledChildStudyFull
+	, fld_DisabledChildStudyHalf
+	, fld_ContractExpiryDate
+	, fld_Trlhr
+	, fld_TaxMaritalStatus
 	FROM vw_TaxCP8D WITH (NOLOCK) WHERE fld_Year = @Year 
-
-	SELECT a.fld_UniqueID
-	, a.fld_TaxNo
-	, a.fld_NopkjPermanent
-	, a.fld_TaxMaritalStatus
-	, b.fld_Nokp
-	, b.fld_Nama
-	, b.fld_Kdrkyt
-	, a.fld_ChildAbove18CertFull
-	, a.fld_ChildAbove18CertHalf
-	, a.fld_ChildAbove18HigherFull
-	, a.fld_ChildAbove18HigherHalf
-	, a.fld_ChildBelow18Full
-	, a.fld_ChildBelow18Half
-	, a.fld_DisabledChildFull
-	, a.fld_DisabledChildHalf
-	, a.fld_DisabledChildStudyFull
-	, a.fld_DisabledChildStudyHalf
-	, b.fld_ContractExpiryDate
-	, b.fld_Trlhr
-	, a.fld_DivisionID
-	FROM tbl_TaxWorkerInfo a WITH (NOLOCK) 
-	INNER JOIN tbl_Pkjmast b WITH (NOLOCK) ON a.fld_NopkjPermanent = b.fld_NoPkjPermanent
-    WHERE fld_Year = @Year AND fld_Kdaktf = '1'
 
 	SELECT fld_NoPkjPermanent, fld_CarumanPekerja, fld_KodCaruman, fld_Month, fld_Year FROM vw_CarumanTambahan WHERE fld_KodCaruman IN ('SBKP', 'SIP') AND fld_Year = @Year AND fld_CarumanPekerja > 0
 
