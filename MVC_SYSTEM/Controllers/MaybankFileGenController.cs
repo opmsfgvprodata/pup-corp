@@ -1234,6 +1234,12 @@ namespace MVC_SYSTEM.Controllers
             var workerTaxCP8DList = new List<WorkerTaxCP8D>();
             var otherContributionList = new List<OtherContribution>();
             var specialIncentiveList = new List<SpecialIncentive>();
+
+            var taxCP8D_Result_X = new List<TaxCP8D_Result>();
+            var workerInfoList_X = new List<WorkerInfo>();
+            var workerTaxCP8DList_X = new List<WorkerTaxCP8D>();
+            var otherContributionList_X = new List<OtherContribution>();
+            var specialIncentiveList_X = new List<SpecialIncentive>();
             var NSWL = GetNSWL.GetLadangDetailByRegion(WilayahIDList);
 
             ViewBag.YearList = YearList;
@@ -1260,12 +1266,22 @@ namespace MVC_SYSTEM.Controllers
                 {
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("Year", YearList);
+                    parameters.Add("WorkerStatus", "1");
                     con.Open();
                     var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                     workerInfoList = result.Read<WorkerInfo>().ToList();
                     workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
                     otherContributionList = result.Read<OtherContribution>().ToList();
                     specialIncentiveList = result.Read<SpecialIncentive>().ToList();
+
+                    parameters = new DynamicParameters();
+                    parameters.Add("Year", YearList);
+                    parameters.Add("WorkerStatus", "2");
+                    result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
+                    workerInfoList_X = result.Read<WorkerInfo>().ToList();
+                    workerTaxCP8DList_X = result.Read<WorkerTaxCP8D>().ToList();
+                    otherContributionList_X = result.Read<OtherContribution>().ToList();
+                    specialIncentiveList_X = result.Read<SpecialIncentive>().ToList();
                     con.Close();
                 }
                 catch (Exception ex)
@@ -1296,6 +1312,32 @@ namespace MVC_SYSTEM.Controllers
                             PCB = workerTax.Sum(s => s.fld_PCB) + specialIncentive.Sum(s => s.fld_PCBCarumanPekerja),
                             CP38 = workerTax.Sum(s => s.fld_CP38),
                         });
+                    }
+                }
+
+                foreach (var workerInfo in workerInfoList_X.Select(s => new { s.fld_NoPkjPermanent, s.fld_LadangID, s.fld_DivisionID }).Distinct().ToList())
+                {
+                    if (!taxCP8D_Result.Any(x => x.NoPkerja == workerInfo.fld_NoPkjPermanent))
+                    {
+                        var workerTax = workerTaxCP8DList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
+                        if (workerTax.Count() > 0)
+                        {
+                            var workerNo = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).Select(s => s.fld_Nopkj).ToList();
+                            var specialIncentive = specialIncentiveList_X.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
+                            var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
+                            var workerInfo2 = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
+                            var workerTaxInfo = workerTax.OrderByDescending(o => o.fld_Month).Take(1).FirstOrDefault();
+                            taxCP8D_Result.Add(new TaxCP8D_Result
+                            {
+                                EstateName = estateInfo.fld_NamaLadang,
+                                TINNo = workerTaxInfo.fld_TaxNo,
+                                NoPkerja = workerInfo.fld_NoPkjPermanent,
+                                NamaPkerja = workerInfo2.fld_Nama,
+                                IDNo = workerInfo2.fld_Nokp,
+                                PCB = workerTax.Sum(s => s.fld_PCB) + specialIncentive.Sum(s => s.fld_PCBCarumanPekerja),
+                                CP38 = workerTax.Sum(s => s.fld_CP38),
+                            });
+                        }
                     }
                 }
             }
@@ -1331,12 +1373,22 @@ namespace MVC_SYSTEM.Controllers
                 var NSWL = GetNSWL.GetLadangDetailByRegion(Region);
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("WorkerStatus", "1");
                 con.Open();
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 var workerInfoList = result.Read<WorkerInfo>().ToList();
                 var workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
                 var otherContributionList = result.Read<OtherContribution>().ToList();
                 var specialIncentiveList = result.Read<SpecialIncentive>().ToList();
+
+                parameters = new DynamicParameters();
+                parameters.Add("Year", Year);
+                parameters.Add("WorkerStatus", "2");
+                result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
+                var workerInfoList_X = result.Read<WorkerInfo>().ToList();
+                var workerTaxCP8DList_X = result.Read<WorkerTaxCP8D>().ToList();
+                var otherContributionList_X = result.Read<OtherContribution>().ToList();
+                var specialIncentiveList_X = result.Read<SpecialIncentive>().ToList();
                 con.Close();
 
                 if (workerTaxCP8DList.Count() > 0)
@@ -1359,6 +1411,27 @@ namespace MVC_SYSTEM.Controllers
                         }
 
                     }
+
+                    foreach (var workerInfo in workerInfoList_X.Select(s => new { s.fld_NoPkjPermanent, s.fld_LadangID, s.fld_DivisionID }).Distinct().ToList())
+                    {
+                        if (!taxCP8D_Result.Any(x => x.NoPkerja == workerInfo.fld_NoPkjPermanent))
+                        {
+                            var workerTax = workerTaxCP8DList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
+                            if (workerTax.Count() > 0)
+                            {
+                                var workerNo = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).Select(s => s.fld_Nopkj).ToList();
+                                var specialIncentive = specialIncentiveList_X.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
+                                var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
+                                var workerInfo2 = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
+                                taxCP8D_Result.Add(new TaxCP8D_Result
+                                {
+                                    IDNo = workerInfo2.fld_Nokp,
+                                    PCB = workerTax.Sum(s => s.fld_PCB) + specialIncentive.Sum(s => s.fld_PCBCarumanPekerja),
+                                    CP38 = workerTax.Sum(s => s.fld_CP38),
+                                });
+                            }
+                        }
+                    }
                 }
 
                 TotalMTDAmt = taxCP8D_Result.Sum(s => s.PCB);
@@ -1366,7 +1439,6 @@ namespace MVC_SYSTEM.Controllers
                 TotalCP38Amt = taxCP8D_Result.Sum(s => s.CP38);
                 TotalCP38Rec = taxCP8D_Result.Where(x => x.CP38 > 0).Count();
 
-                con.Close();
             }
             catch (Exception ex)
             {
@@ -1405,6 +1477,12 @@ namespace MVC_SYSTEM.Controllers
             var workerTaxCP8DList = new List<WorkerTaxCP8D>();
             var otherContributionList = new List<OtherContribution>();
             var specialIncentiveList = new List<SpecialIncentive>();
+
+            var taxCP8D_Result_X = new List<TaxCP8D_Result>();
+            var workerInfoList_X = new List<WorkerInfo>();
+            var workerTaxCP8DList_X = new List<WorkerTaxCP8D>();
+            var otherContributionList_X = new List<OtherContribution>();
+            var specialIncentiveList_X = new List<SpecialIncentive>();
             var NSWL = GetNSWL.GetLadangDetailByRegion(Region);
             string constr = Connection.GetConnectionString(Region.Value, SyarikatID.Value, NegaraID.Value);
             var con = new SqlConnection(constr);
@@ -1412,12 +1490,22 @@ namespace MVC_SYSTEM.Controllers
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("WorkerStatus", "1");
                 con.Open();
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 workerInfoList = result.Read<WorkerInfo>().ToList();
                 workerTaxCP8DList = result.Read<WorkerTaxCP8D>().ToList();
                 otherContributionList = result.Read<OtherContribution>().ToList();
                 specialIncentiveList = result.Read<SpecialIncentive>().ToList();
+
+                parameters = new DynamicParameters();
+                parameters.Add("Year", Year);
+                parameters.Add("WorkerStatus", "2");
+                result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
+                workerInfoList_X = result.Read<WorkerInfo>().ToList();
+                workerTaxCP8DList_X = result.Read<WorkerTaxCP8D>().ToList();
+                otherContributionList_X = result.Read<OtherContribution>().ToList();
+                specialIncentiveList_X = result.Read<SpecialIncentive>().ToList();
                 con.Close();
 
                 if (workerTaxCP8DList.Count() > 0)
@@ -1460,10 +1548,51 @@ namespace MVC_SYSTEM.Controllers
                                 PERKESO = (int)otherContribution.Sum(s => s.fld_CarumanPekerja)
                             });
                         }
+                    }
 
+                    foreach (var workerInfo in workerInfoList_X.Select(s => new { s.fld_NoPkjPermanent, s.fld_LadangID, s.fld_DivisionID }).Distinct().ToList())
+                    {
+                        if (!taxCP8D_Result.Any(x => x.NoPkerja == workerInfo.fld_NoPkjPermanent))
+                        {
+                            var workerTax = workerTaxCP8DList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
+                            if (workerTax.Count() > 0)
+                            {
+                                var workerNo = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).Select(s => s.fld_Nopkj).ToList();
+                                var specialIncentive = specialIncentiveList_X.Where(x => workerNo.Contains(x.fld_Nopkj)).ToList();
+                                var estateInfo = NSWL.Where(x => x.fld_DivisionID == workerInfo.fld_DivisionID).FirstOrDefault();
+                                var workerInfo2 = workerInfoList_X.Where(x => x.fld_NoPkjPermanent == workerInfo.fld_NoPkjPermanent).FirstOrDefault();
+                                var otherContribution = otherContributionList_X.Where(x => x.fld_NopkjPermanent == workerInfo.fld_NoPkjPermanent).ToList();
+                                var workerTaxInfo = workerTax.OrderByDescending(o => o.fld_Month).Take(1).FirstOrDefault();
+                                taxCP8D_Result.Add(new TaxCP8D_Result
+                                {
+                                    NamaPkerja = workerInfo2.fld_Nama,
+                                    TINNo = workerTaxInfo.fld_TaxNo,
+                                    NoPkerja = workerInfo.fld_NoPkjPermanent,
+                                    IDNo = workerInfo2.fld_Nokp,
+                                    KategoryPekerja = workerTaxInfo.fld_TaxMaritalStatus,
+                                    StatusPekerja = 2,
+                                    TarikhAkhirBekerja = workerTaxInfo.fld_Kdrkyt == "MA" ? workerTaxInfo.fld_Trlhr.Value.AddYears(60) : workerTaxInfo.fld_ContractExpiryDate ?? workerTaxInfo.fld_Trlhr.Value.AddYears(60),
+                                    MajikanTanggungCukai = 2,
+                                    BilanganAnak = workerTaxInfo.fld_ChildAbove18CertFull + workerTaxInfo.fld_ChildAbove18CertHalf + workerTaxInfo.fld_ChildAbove18HigherFull + workerTaxInfo.fld_ChildAbove18HigherHalf + workerTaxInfo.fld_ChildBelow18Full + workerTaxInfo.fld_ChildBelow18Half + workerTaxInfo.fld_DisabledChildFull + workerTaxInfo.fld_DisabledChildHalf + workerTaxInfo.fld_DisabledChildStudyFull + workerTaxInfo.fld_DisabledChildStudyHalf,
+                                    JumlahPelepasanAnak = (int)workerTax.OrderByDescending(o => o.fld_Month).Select(s => s.fld_PelepasanAnak).Take(1).FirstOrDefault(),
+                                    JumlahSaraanKasar = (int)workerTax.Sum(s => s.fld_SaraanKasar),
+                                    ManfaatBarangan = 0,
+                                    NilaiKediaman = 0,
+                                    ESOS = 0,
+                                    ElaunDikecualikan = 0,
+                                    JumlahTuntutanPelepasan = 0,
+                                    JumlahTututanZakat = 0,
+                                    KWSP = (int)workerTax.Sum(s => s.fld_KWSPPkj) + (int)specialIncentive.Sum(s => s.fld_KWSPPkj),
+                                    ZakatPotonganGaji = (int)workerTax.Sum(s => s.fld_Zakat),
+                                    PCB = workerTax.Sum(s => s.fld_PCB) + specialIncentive.Sum(s => s.fld_PCBCarumanPekerja),
+                                    CP38 = workerTax.Sum(s => s.fld_CP38),
+                                    InsuransPotonganGaji = 0,
+                                    PERKESO = (int)otherContribution.Sum(s => s.fld_CarumanPekerja)
+                                });
+                            }
+                        }
                     }
                 }
-                con.Close();
             }
             catch (Exception ex)
             {
