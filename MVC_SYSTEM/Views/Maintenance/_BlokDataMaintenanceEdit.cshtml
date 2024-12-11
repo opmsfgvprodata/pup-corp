@@ -65,3 +65,23 @@
     $("form").removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse("form");
 </script>
+
+<script>
+    $(document).ready(function () {
+        $('#fldOptConfValue').on('input', function () {
+            var value = $(this).val();
+
+            // Remove leading zeros if there are multiple zeros (e.g., 001 -> 1)
+            if (value.length > 1 && value.startsWith('0')) {
+                value = value.replace(/^0+/, '');
+            }
+
+            // Add leading zero if the value is a single digit (1-9)
+            if (value.length === 1 && !value.startsWith('0')) {
+                value = '0' + value;
+            }
+
+            $(this).val(value);
+        });
+    });
+</script>
