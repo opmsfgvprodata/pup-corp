@@ -119,12 +119,13 @@
         $("#downloadtxt").click(function () {
             var Year = $("#YearList").val();
             var Region = $("#WilayahIDList").val();
+            var Estate = $("#LadangIDList").val();
             $("#UpdateProgress1").css("display", "");
             var ajxfn = {};
             ajxfn.url = "@Url.Action("DownloadCP8DTextFile", "MaybankFileGen")";
             ajxfn.type = "POST";
             ajxfn.async = false;
-            ajxfn.data = JSON.stringify({ Year: Year, Region: Region });
+            ajxfn.data = JSON.stringify({ Year: Year, Region: Region, Estate: Estate });
             ajxfn.datatype = "json";
             ajxfn.contentType = "application/json";
             ajxfn.success = function (result) {

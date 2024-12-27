@@ -1214,16 +1214,28 @@ namespace MVC_SYSTEM.Controllers
             List<SelectListItem> WilayahIDList = new List<SelectListItem>();
             List<SelectListItem> LadangIDList = new List<SelectListItem>();
 
-            wlyhid = getwilyah.GetWilayahID(SyarikatID);
-            WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
 
-            wilayahselection = WilayahID;
-
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+            }
             ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
             return View();
         }
 
-        public ViewResult _TaxCP8D(int? WilayahIDList, int? YearList, string print)
+        public ViewResult _TaxCP8D(int? WilayahIDList, int? LadangIDList, int? YearList, string print)
         {
             int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
             int? getuserid = getidentity.ID(User.Identity.Name);
@@ -1267,6 +1279,7 @@ namespace MVC_SYSTEM.Controllers
                 {
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("Year", YearList);
+                    parameters.Add("EstateID", LadangIDList);
                     parameters.Add("WorkerStatus", "1");
                     con.Open();
                     var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
@@ -1277,6 +1290,7 @@ namespace MVC_SYSTEM.Controllers
 
                     parameters = new DynamicParameters();
                     parameters.Add("Year", YearList);
+                    parameters.Add("EstateID", LadangIDList);
                     parameters.Add("WorkerStatus", "2");
                     result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                     workerInfoList_X = result.Read<WorkerInfo>().ToList();
@@ -1345,7 +1359,7 @@ namespace MVC_SYSTEM.Controllers
             return View(taxCP8D_Result);
         }
 
-        public JsonResult TaxCP8DDetail(int? Region, int Year)
+        public JsonResult TaxCP8DDetail(int? Region, int? Estate, int Year)
         {
             string msg = "";
             string statusmsg = "";
@@ -1374,6 +1388,7 @@ namespace MVC_SYSTEM.Controllers
                 var NSWL = GetNSWL.GetLadangDetailByRegion(Region);
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("EstateID", Estate);
                 parameters.Add("WorkerStatus", "1");
                 con.Open();
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
@@ -1384,6 +1399,7 @@ namespace MVC_SYSTEM.Controllers
 
                 parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("EstateID", Estate);
                 parameters.Add("WorkerStatus", "2");
                 result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 var workerInfoList_X = result.Read<WorkerInfo>().ToList();
@@ -1463,7 +1479,7 @@ namespace MVC_SYSTEM.Controllers
         }
 
         [HttpPost]
-        public ActionResult DownloadCP8DTextFile(int Year, int? Region)
+        public ActionResult DownloadCP8DTextFile(int Year, int? Region, int? Estate)
         {
             string msg = "";
             string statusmsg = "";
@@ -1491,6 +1507,7 @@ namespace MVC_SYSTEM.Controllers
             {
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("EstateID", Estate);
                 parameters.Add("WorkerStatus", "1");
                 con.Open();
                 var result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
@@ -1501,6 +1518,7 @@ namespace MVC_SYSTEM.Controllers
 
                 parameters = new DynamicParameters();
                 parameters.Add("Year", Year);
+                parameters.Add("EstateID", Estate);
                 parameters.Add("WorkerStatus", "2");
                 result = SqlMapper.QueryMultiple(con, "sp_TaxCP8D", parameters, commandType: CommandType.StoredProcedure);
                 workerInfoList_X = result.Read<WorkerInfo>().ToList();
