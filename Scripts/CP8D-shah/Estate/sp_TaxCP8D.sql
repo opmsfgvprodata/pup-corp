@@ -1,7 +1,5 @@
-USE [PUPOPMSESTPUP]
-GO
 
-/****** Object:  StoredProcedure [dbo].[sp_TaxCP8D]    Script Date: 08/12/2024 12:26:43 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_TaxCP8D]    Script Date: 27/12/2024 11:35:48 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -15,7 +13,9 @@ GO
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_TaxCP8D] 
 	-- Add the parameters for the stored procedure here
-	@Year INT
+	@Year INT,
+	@EstateID INT,
+	@WorkerStatus VARCHAR(2)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -24,7 +24,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT fld_LadangID, fld_DivisionID, fld_Nama, fld_NoPkjPermanent, fld_Nokp, fld_Nopkj FROM tbl_Pkjmast WHERE fld_NoPkjPermanent IN (SELECT fld_NoPkjPermanent
-	FROM tbl_Pkjmast where fld_Kdaktf = '1') order by fld_LadangID, fld_DivisionID, fld_Nama asc
+	FROM tbl_Pkjmast where fld_Kdaktf = @WorkerStatus AND fld_LadangID = @EstateID) order by fld_LadangID, fld_DivisionID, fld_Nama asc
 
 	SELECT fld_WorkerTaxID
 	, fld_NoPkjPermanent
@@ -56,11 +56,13 @@ BEGIN
 	, fld_ContractExpiryDate
 	, fld_Trlhr
 	, fld_TaxMaritalStatus
-	FROM vw_TaxCP8D WITH (NOLOCK) WHERE fld_Year = @Year 
+	FROM vw_TaxCP8D WITH (NOLOCK) WHERE fld_Year = @Year AND fld_Kdaktf = @WorkerStatus AND fld_NoPkjPermanent IN (SELECT fld_NoPkjPermanent
+	FROM tbl_Pkjmast where fld_Kdaktf = @WorkerStatus AND fld_LadangID = @EstateID)
 
-	SELECT fld_NoPkjPermanent, fld_CarumanPekerja, fld_KodCaruman, fld_Month, fld_Year FROM vw_CarumanTambahan WHERE fld_KodCaruman IN ('SBKP', 'SIP') AND fld_Year = @Year AND fld_CarumanPekerja > 0
+	SELECT fld_NoPkjPermanent, fld_CarumanPekerja, fld_KodCaruman, fld_Month, fld_Year FROM vw_CarumanTambahan WHERE fld_KodCaruman IN ('SBKP', 'SIP') AND fld_Year = @Year AND fld_CarumanPekerja > 0 AND fld_NoPkjPermanent IN (SELECT fld_NoPkjPermanent
+	FROM tbl_Pkjmast where fld_Kdaktf = @WorkerStatus AND fld_LadangID = @EstateID)
 
-	SELECT * FROM tbl_SpecialInsentif WHERE fld_Year = @Year
+	SELECT * FROM tbl_SpecialInsentif WHERE fld_Year = @Year 
 END
 GO
 
