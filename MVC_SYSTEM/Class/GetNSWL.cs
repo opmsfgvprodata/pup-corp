@@ -98,5 +98,15 @@ namespace MVC_SYSTEM.Class
 
             return NSWL;
         }
+
+        public void GetSyarikatRCMSDetail(int? Region, int? Estate, out string CorpID, out string ClientID, out string AccNo, out string InitialName)
+        {
+            var getsyarikat = db.tbl_Ladang.Where(x => x.fld_WlyhID == Region && x.fld_ID == Estate).FirstOrDefault();
+            CorpID = getsyarikat.fld_CorporateID;
+            ClientID = getsyarikat.fld_ClientBatchID;
+            AccNo = getsyarikat.fld_NoAcc;
+            InitialName = getsyarikat.fld_LdgCode;
+        }
+
     }
 }

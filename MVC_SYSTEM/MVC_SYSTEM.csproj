@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MVC_SYSTEM</RootNamespace>
     <AssemblyName>MVC_SYSTEM</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.35\lib\net461\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.5.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -131,6 +135,7 @@
     <Reference Include="System" />
     <Reference Include="System.Collections.Concurrent" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO" />
@@ -159,8 +164,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -203,9 +207,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -223,6 +225,7 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -777,6 +780,7 @@
     <Compile Include="Class\CheckSharedFolder.cs" />
     <Compile Include="Class\Connection.cs" />
     <Compile Include="Class\ConnectionStringFactory.cs" />
+    <Compile Include="Class\Constans.cs" />
     <Compile Include="Class\ConvertToPdf.cs" />
     <Compile Include="Class\CreateASC.cs" />
     <Compile Include="Class\DownloadFiles.cs" />
@@ -785,6 +789,7 @@
     <Compile Include="Class\GetActivityDetail.cs" />
     <Compile Include="Class\GetDataCount.cs" />
     <Compile Include="Class\GetFile.cs" />
+    <Compile Include="Class\GetGenerateFile.cs" />
     <Compile Include="Class\GetGroup.cs" />
     <Compile Include="Class\GetIDDataFromDatabase.cs" />
     <Compile Include="Class\GetLadang.cs" />
@@ -843,6 +848,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
+    <Compile Include="Controllers\MaybankFileGenController.cs" />
     <Compile Include="Controllers\MobileLoginController.cs" />
     <Compile Include="Controllers\MobileRequestController.cs" />
     <Compile Include="Controllers\PdfCreatorController.cs" />
@@ -962,6 +968,7 @@
     <Compile Include="ModelsCorporate\tbl_SubCarumanTambahan.cs" />
     <Compile Include="ModelsCorporate\tbl_SuperAdminSelection.cs" />
     <Compile Include="ModelsCorporate\tbl_Syarikat.cs" />
+    <Compile Include="ModelsCorporate\tbl_TaxRelief.cs" />
     <Compile Include="ModelsCorporate\tbl_Upah.cs" />
     <Compile Include="ModelsCorporate\tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCorporate\tbl_UpahMenuai.cs" />
@@ -992,11 +999,20 @@
     <Compile Include="ModelsCorporate\vw_Socso.cs" />
     <Compile Include="ModelsCorporate\vw_TKADetail.cs" />
     <Compile Include="ModelsCorporate\vw_UserIDDetail.cs" />
+    <Compile Include="ModelsCustom\CusMod_Password.cs" />
     <Compile Include="ModelsCustom\CusMod_tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
     <Compile Include="ModelsCustom\CustMod_GeneratePaidLeave.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
     <Compile Include="ModelsCustom\UserIDApplication.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Sip_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Socso_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Kwsp_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsSip_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsSocso_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcmsKwsp_Result.cs" />
+    <Compile Include="ModelsDapper\sp_MaybankRcms_Result.cs" />
+    <Compile Include="ModelsDapper\sp_TaxCP39_Result.cs" />
     <Compile Include="ModelsEstate\MVC_SYSTEM_ModelsEstate.cs" />
     <Compile Include="ModelsEstate\tblHtmlReport.cs" />
     <Compile Include="ModelsEstate\tblStatusPkj.cs" />
@@ -1321,6 +1337,7 @@
     <Compile Include="ViewingModels\tbl_PembekalList.cs" />
     <Compile Include="ViewingModels\tbl_EmailList.cs" />
     <Compile Include="ViewingModels\tbl_SocsoList.cs" />
+    <Compile Include="ViewingModels\tbl_TaxRelief.cs" />
     <Compile Include="ViewingModels\tbl_UpahAktivitiList.cs" />
     <Compile Include="ViewingModels\tbl_UpahMenuaiList.cs" />
     <Compile Include="ViewingModels\tbl_WilayahList.cs" />
@@ -2030,6 +2047,7 @@
     <Content Include="Asset\MultiSelect\README.markdown" />
     <Content Include="Asset\MultiSelect\scss\multi-select.scss" />
     <Content Include="Asset\MultiSelect\test\lib\jasmine-1.2.0\MIT.LICENSE" />
+    <Content Include="Asset\pdf\CP39 FORM-1.pdf" />
     <None Include="Asset\Scripts\jquery-3.1.0.intellisense.js" />
     <None Include="Asset\Scripts\jquery.validate-vsdoc.js" />
     <None Include="Asset\Scripts\_references.js" />
@@ -3488,6 +3506,29 @@
     <Content Include="Views\User\_User.cshtml" />
     <Content Include="Views\Report\PaymentModeReport.cshtml" />
     <Content Include="Views\Report\_PaymentModeReport.cshtml" />
+    <Content Include="Views\MaybankFileGen\TaxCP39.cshtml" />
+    <Content Include="Views\MaybankFileGen\_TaxCP39.cshtml" />
+    <Content Include="Views\MaybankFileGen\Index.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenTax.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmstax.cshtml" />
+    <Content Include="Views\User\Password.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmskwsp.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmssip.cshtml" />
+    <Content Include="Views\MaybankFileGen\_rcmssocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Sip.cshtml" />
+    <Content Include="Views\MaybankFileGen\_RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenKwsp.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenSip.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsGenSocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64KWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Sip.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsZAP64Socso.cshtml" />
+    <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsLampiranASocso.cshtml" />
+    <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsBBCDFormKWSP.cshtml" />
+    <Content Include="Views\MaybankFileGen\RcmsLampiranASip.cshtml" />
     <Content Include="Views\Maintenance\PaidLeaveGenerateMaintenance.cshtml" />
     <Content Include="Views\Maintenance\_PaidLeaveGenerateInfoMaintenance.cshtml" />
     <Content Include="Views\Maintenance\_PaidLeaveGenerateMaintenanceCreate.cshtml" />
@@ -3609,6 +3650,7 @@
     <EmbeddedResource Include="App_LocalResources\GlobalResCorp.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GlobalResCorp.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="App_LocalResources\GlobalResCorp.id.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -11772,7 +11772,7 @@ namespace MVC_SYSTEM.Controllers
             {
                 ViewBag.Message = "Tiada Maklumat";
             }
-
+            ViewBag.JenisKodSubCaruman = SubContributionList;
             return View(records);
         }
 
@@ -11812,42 +11812,68 @@ namespace MVC_SYSTEM.Controllers
             string host, catalog, user, pass = "";
             GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
 
-
             try
             {
                 if (ModelState.IsValid)
                 {
-                    //jadualCarumanTambahan.fld_KodSubCaruman = SubContributionList;
-                    jadualCarumanTambahan.fld_NegaraID = (int)NegaraID;
-                    jadualCarumanTambahan.fld_SyarikatID = (int)SyarikatID;
-                    jadualCarumanTambahan.fld_Deleted = false;
-
-                    db.tbl_JadualCarumanTambahan.Add(jadualCarumanTambahan);
-                    db.SaveChanges();
-
-                    string appname = Request.ApplicationPath;
-                    string domain = Request.Url.GetLeftPart(UriPartial.Authority);
-                    var lang = Request.RequestContext.RouteData.Values["lang"];
-
-                    if (appname != "/")
+                    if (jadualCarumanTambahan.fld_KodSubCaruman == "PCB02" && (jadualCarumanTambahan.fld_TaxPercent_R == null || jadualCarumanTambahan.fld_Category2_B == null || jadualCarumanTambahan.fld_Category1_B == null || jadualCarumanTambahan.fld_GajiLower == null || jadualCarumanTambahan.fld_GajiUpper == null || jadualCarumanTambahan.fld_CarumanPekerja == null))
                     {
-                        domain = domain + appname;
+                        return Json(new
+                        {
+                            success = false,
+                            msg = GlobalResCorp.msgAllFieldsMandatory,
+                            status = "danger",
+                            checkingdata = "0"
+                        });
                     }
-
-                    return Json(new
+                    else
                     {
-                        success = true,
-                        msg = GlobalResCorp.msgAdd,
-                        status = "success",
-                        checkingdata = "0",
-                        method = "2",
-                        div = "contributionTableMaintenanceDetails",
-                        rootUrl = domain,
-                        action = "_ContributionTableMaintenance",
-                        controller = "Maintenance",
-                        paramName = "SubContributionList",
-                        paramValue = jadualCarumanTambahan.fld_KodSubCaruman
-                    });
+                        //jadualCarumanTambahan.fld_KodSubCaruman = SubContributionList;
+                        jadualCarumanTambahan.fld_NegaraID = (int)NegaraID;
+                        jadualCarumanTambahan.fld_SyarikatID = (int)SyarikatID;
+                        jadualCarumanTambahan.fld_Deleted = false;
+                        jadualCarumanTambahan.fld_CarumanMajikan = jadualCarumanTambahan.fld_CarumanMajikan;
+
+                        if (jadualCarumanTambahan.fld_KodSubCaruman == "PCB02")
+                        {
+                            jadualCarumanTambahan.fld_TaxPercent_R = jadualCarumanTambahan.fld_TaxPercent_R;
+                            jadualCarumanTambahan.fld_Category1_B = jadualCarumanTambahan.fld_Category1_B;
+                            jadualCarumanTambahan.fld_Category2_B = jadualCarumanTambahan.fld_Category2_B;
+                            jadualCarumanTambahan.fld_CarumanMajikan = 0;
+                        }
+                        else
+                        {
+                            jadualCarumanTambahan.fld_TaxPercent_R = 0;
+                            jadualCarumanTambahan.fld_Category1_B = 0;
+                            jadualCarumanTambahan.fld_Category2_B = 0;
+                        }
+                        db.tbl_JadualCarumanTambahan.Add(jadualCarumanTambahan);
+                        db.SaveChanges();
+
+                        string appname = Request.ApplicationPath;
+                        string domain = Request.Url.GetLeftPart(UriPartial.Authority);
+                        var lang = Request.RequestContext.RouteData.Values["lang"];
+
+                        if (appname != "/")
+                        {
+                            domain = domain + appname;
+                        }
+
+                        return Json(new
+                        {
+                            success = true,
+                            msg = GlobalResCorp.msgAdd,
+                            status = "success",
+                            checkingdata = "0",
+                            method = "2",
+                            div = "contributionTableMaintenanceDetails",
+                            rootUrl = domain,
+                            action = "_ContributionTableMaintenance",
+                            controller = "Maintenance",
+                            paramName = "SubContributionList",
+                            paramValue = jadualCarumanTambahan.fld_KodSubCaruman
+                        });
+                    }
                 }
 
                 else
@@ -11891,7 +11917,7 @@ namespace MVC_SYSTEM.Controllers
             var contributionTableData = db.tbl_JadualCarumanTambahan
                 .SingleOrDefault(x => x.fld_JadualCarumanTambahanID == id && x.fld_NegaraID == NegaraID &&
                                       x.fld_SyarikatID == SyarikatID);
-
+            ViewBag.JenisKodSubCaruman = contributionTableData.fld_KodSubCaruman;
             return PartialView(contributionTableData);
         }
 
@@ -11919,6 +11945,12 @@ namespace MVC_SYSTEM.Controllers
                     contributionTableData.fld_CarumanPekerja = jadualCarumanTambahan.fld_CarumanPekerja;
                     contributionTableData.fld_CarumanMajikan = jadualCarumanTambahan.fld_CarumanMajikan;
 
+                    if (contributionTableData.fld_KodSubCaruman == "PCB02")
+                    {
+                    contributionTableData.fld_TaxPercent_R = jadualCarumanTambahan.fld_TaxPercent_R;
+                    contributionTableData.fld_Category1_B = jadualCarumanTambahan.fld_Category1_B;
+                    contributionTableData.fld_Category2_B = jadualCarumanTambahan.fld_Category2_B;
+                    }
                     db.SaveChanges();
 
                     string appname = Request.ApplicationPath;
@@ -11987,7 +12019,15 @@ namespace MVC_SYSTEM.Controllers
             var contributionTableData = db.tbl_JadualCarumanTambahan
                 .SingleOrDefault(x => x.fld_JadualCarumanTambahanID == id && x.fld_NegaraID == NegaraID &&
                                       x.fld_SyarikatID == SyarikatID);
-
+            if(contributionTableData.fld_Deleted == true)
+            {
+            ViewBag.StatusJenisKodSubCaruman = "undelete";
+            }
+            else
+            {
+            ViewBag.StatusJenisKodSubCaruman = "delete";
+            }
+           
             return PartialView(contributionTableData);
         }
 
@@ -13570,7 +13610,7 @@ namespace MVC_SYSTEM.Controllers
         }
 
         public ActionResult _IncentiveMaintenance(string IncentiveList, int page = 1,
-            string sort = "fld_KodInsentif",
+            string sort = "fld_JenisInsentifID",
             string sortdir = "ASC")
         {
             int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
@@ -13717,10 +13757,11 @@ namespace MVC_SYSTEM.Controllers
 
             if (!String.IsNullOrEmpty(incentiveType))
             {
+
                 var getIncentiveRunningNo = db.tbl_JenisInsentif
                     .Where(x => x.fld_KodInsentif.Contains(incentiveType) && x.fld_NegaraID == NegaraID &&
                                 x.fld_SyarikatID == SyarikatID)
-                    .OrderByDescending(o => o.fld_KodInsentif)
+                    .OrderByDescending(o => o.fld_JenisInsentifID)
                     .Select(s => new { s.fld_KodInsentif, s.fld_KodAktvt })
                     .FirstOrDefault();
 
@@ -13737,6 +13778,8 @@ namespace MVC_SYSTEM.Controllers
                 {
                     int generateNewInsentiveNo =
                         Convert.ToInt32(getIncentiveRunningNo.fld_KodInsentif.Substring(incentiveTypeCodeLength)) + 1;
+
+                    
                     incentiveCode = incentiveType + generateNewInsentiveNo.ToString("00");
                 }
 
@@ -23557,6 +23600,7 @@ namespace MVC_SYSTEM.Controllers
                             .fldOptConfValue;
 
                         var selectedPublicHolidayCount = db.tbl_CutiUmumLdg.Count(x =>
+                            x.fld_Year == tblCutiUmumLdgViewModelCreateHq.fld_Year && //5 Feb 2024 fizam added
                             x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID &&
                             x.fld_WilayahID == ladangData.fld_WlyhID && x.fld_LadangID == ladangID &&
                             x.fld_Deleted == false);
@@ -31113,6 +31157,388 @@ namespace MVC_SYSTEM.Controllers
                         checkingdata = "0"
                     });
                 }
+            }
+
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                return Json(new
+                {
+                    success = false,
+                    msg = GlobalResCorp.msgError,
+                    status = "danger",
+                    checkingdata = "0"
+                });
+            }
+
+            finally
+            {
+                db.Dispose();
+            }
+        }
+        public ActionResult ContributionTaxreliefTableMaintenance(string filter, int page = 1, string sort = "fld_TaxReliefCode", string sortdir = "ASC")
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            ViewBag.Maintenance = "class = active";
+
+            return View();
+        }
+
+        public ActionResult _ContributionTaxreliefTableMaintenance(string filter, int page = 1, string sort = "fld_TaxReliefCode", string sortdir = "ASC")
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            int pageSize = int.Parse(GetConfig.GetData("paging"));
+            var records = new PagedList<ModelsCorporate.tbl_TaxRelief>();
+            int role = GetIdentity.RoleID(getuserid).Value;
+
+            var TaxReliefData = db.tbl_TaxRelief
+                .Where(x => x.fld_NegaraID == NegaraID &&
+                            x.fld_SyarikatID == SyarikatID);
+
+            records.Content = TaxReliefData.OrderBy(sort + " " + sortdir)
+                 .Skip((page - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToList();
+
+            records.TotalRecords = TaxReliefData
+                .Count();
+
+            records.CurrentPage = page;
+            records.PageSize = pageSize;
+            ViewBag.RoleID = role;
+            ViewBag.pageSize = 1;
+            ViewBag.TotalRecords = TaxReliefData
+                .Count();
+
+            if (TaxReliefData.Count() <= 0)
+            {
+                ViewBag.Message = "No Data";
+            }
+
+
+            return View(records);
+        }
+
+        public ActionResult _ContributionTaxreliefTableMaintenanceCreate()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            MVC_SYSTEM_Viewing dbview = new MVC_SYSTEM_Viewing();
+
+            ModelsCorporate.tbl_TaxRelief taxRelief = new ModelsCorporate.tbl_TaxRelief();
+
+            var taxReliefCode = db.tblOptionConfigsWebs
+                .SingleOrDefault(
+                    x => x.fldOptConfFlag1 == "taxReliefCode" &&
+                         x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID &&
+                         x.fldDeleted == false)
+                .fldOptConfValue;
+
+            var getTaxreliefeRunningNo = db.tbl_TaxRelief
+                    .Where(x => x.fld_TaxReliefCode.Contains(taxReliefCode) && x.fld_NegaraID == NegaraID &&
+                                x.fld_SyarikatID == SyarikatID)
+                    .OrderByDescending(o => o.fld_TaxReliefCode)
+                    .FirstOrDefault();
+
+            if (getTaxreliefeRunningNo == null)
+            {
+                taxRelief.fld_TaxReliefCode = db.tblOptionConfigsWebs
+                                               .SingleOrDefault(
+                                                   x => x.fldOptConfFlag1 == "taxReliefCode" &&
+                                                        x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID &&
+                                                        x.fldDeleted == false)
+                                               .fldOptConfValue + "01";
+            }
+
+            else
+            {
+
+                var generateCurrentRunningTaxReliefCode = Convert.ToInt32(
+                                                          getTaxreliefeRunningNo.fld_TaxReliefCode
+                                                              .Substring(db
+                                                                  .tblOptionConfigsWebs
+                                                                  .SingleOrDefault(
+                                                                      x => x.fldOptConfFlag1 == "taxReliefCode" &&
+                                                                           x.fld_NegaraID == NegaraID &&
+                                                                           x.fld_SyarikatID == SyarikatID &&
+                                                                           x.fldDeleted == false)
+                                                                  .fldOptConfValue.Length)) + 1;
+
+                taxRelief.fld_TaxReliefCode = taxReliefCode + generateCurrentRunningTaxReliefCode.ToString("00");
+
+            }
+
+            return PartialView(taxRelief);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ContributionTaxreliefTableMaintenanceCreate(ModelsCorporate.tbl_TaxRelief taxRelief)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //jadualCarumanTambahan.fld_KodSubCaruman = SubContributionList;
+                    taxRelief.fld_NegaraID = (int)NegaraID;
+                    taxRelief.fld_SyarikatID = (int)SyarikatID;
+                    taxRelief.fld_Deleted = false;
+
+                    db.tbl_TaxRelief.Add(taxRelief);
+                    db.SaveChanges();
+
+                    string appname = Request.ApplicationPath;
+                    string domain = Request.Url.GetLeftPart(UriPartial.Authority);
+                    var lang = Request.RequestContext.RouteData.Values["lang"];
+
+                    if (appname != "/")
+                    {
+                        domain = domain + appname;
+                    }
+
+                    return Json(new
+                    {
+                        success = true,
+                        msg = GlobalResCorp.msgAdd,
+                        status = "success",
+                        checkingdata = "0",
+                        method = "2",
+                        div = "TaxReliefMaintenanceDetails",
+                        rootUrl = domain,
+                        action = "_ContributionTaxreliefTableMaintenance",
+                        controller = "Maintenance",
+                    });
+                }
+
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        msg = GlobalResCorp.msgErrorData,
+                        status = "danger",
+                        checkingdata = "0"
+                    });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                return Json(new
+                {
+                    success = false,
+                    msg = GlobalResCorp.msgError,
+                    status = "danger",
+                    checkingdata = "0"
+                });
+            }
+
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public ActionResult _ContributionTaxreliefTableMaintenanceEdit(int id)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            var contributionTaxreliefData = db.tbl_TaxRelief
+                .SingleOrDefault(x => x.fld_TaxReliefID == id && x.fld_NegaraID == NegaraID &&
+                                      x.fld_SyarikatID == SyarikatID);
+
+            return PartialView(contributionTaxreliefData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ContributionTaxreliefTableMaintenanceEdit(ModelsCorporate.tbl_TaxRelief taxRelief)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var contributionTaxreliefData = db.tbl_TaxRelief.SingleOrDefault(
+                        x => x.fld_TaxReliefID == taxRelief.fld_TaxReliefID &&
+                             x.fld_NegaraID == NegaraID &&
+                             x.fld_SyarikatID == SyarikatID);
+
+                    contributionTaxreliefData.fld_TaxReliefItem = taxRelief.fld_TaxReliefItem;
+                    contributionTaxreliefData.fld_TaxReliefLimit = taxRelief.fld_TaxReliefLimit;
+
+                    db.SaveChanges();
+
+                    string appname = Request.ApplicationPath;
+                    string domain = Request.Url.GetLeftPart(UriPartial.Authority);
+                    var lang = Request.RequestContext.RouteData.Values["lang"];
+
+                    if (appname != "/")
+                    {
+                        domain = domain + appname;
+                    }
+
+                    return Json(new
+                    {
+                        success = true,
+                        msg = GlobalResCorp.msgUpdate,
+                        status = "success",
+                        checkingdata = "0",
+                        method = "2",
+                        div = "TaxReliefMaintenanceDetails",
+                        rootUrl = domain,
+                        action = "_ContributionTaxreliefTableMaintenance",
+                        controller = "Maintenance",
+                    });
+                }
+
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        msg = GlobalResCorp.msgErrorData,
+                        status = "danger",
+                        checkingdata = "0"
+                    });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                return Json(new
+                {
+                    success = false,
+                    msg = GlobalResCorp.msgError,
+                    status = "danger",
+                    checkingdata = "0"
+                });
+            }
+
+            finally
+            {
+                db.Dispose();
+            }
+        }
+
+        public ActionResult _ContributionTaxreliefTableMaintenanceDelete(int id, string status)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            var contributionTaxreliefData = db.tbl_TaxRelief.SingleOrDefault(
+                      x => x.fld_TaxReliefID == id &&
+                           x.fld_NegaraID == NegaraID &&
+                           x.fld_SyarikatID == SyarikatID);
+
+            if (status == "false")
+            {
+                ViewBag.Title = GlobalResCorp.lblContributionTaxreliefUndelete;
+                ViewBag.Msg = GlobalResCorp.msgUndelete2;
+                
+            }
+            else
+            {
+                ViewBag.Title = GlobalResCorp.lblContributionTaxreliefDelete;
+                ViewBag.Msg = GlobalResCorp.msgDelete;
+            }
+
+            ViewBag.Status = status;
+
+            return PartialView(contributionTaxreliefData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult _ContributionTaxreliefTableMaintenanceDelete(ModelsCorporate.tbl_TaxRelief taxRelief)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = GetIdentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+
+            try
+            {
+                var contributionTaxreliefData = db.tbl_TaxRelief.SingleOrDefault(
+                        x => x.fld_TaxReliefID == taxRelief.fld_TaxReliefID &&
+                             x.fld_NegaraID == NegaraID &&
+                             x.fld_SyarikatID == SyarikatID);
+
+                bool status = true;
+
+                var message = "";
+                if (contributionTaxreliefData.fld_Deleted == false)
+                {
+                    status = true;
+                    message = GlobalResCorp.msgDelete2;
+                }
+
+                else
+                {
+                    status = false;
+                    message = GlobalResCorp.msgUndelete;
+                }
+
+                contributionTaxreliefData.fld_Deleted = status;
+
+            
+
+                db.SaveChanges();
+
+                string appname = Request.ApplicationPath;
+                string domain = Request.Url.GetLeftPart(UriPartial.Authority);
+                var lang = Request.RequestContext.RouteData.Values["lang"];
+
+                if (appname != "/")
+                {
+                    domain = domain + appname;
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    msg = message,
+                    status = "success",
+                    checkingdata = "0",
+                    method = "2",
+                    div = "TaxReliefMaintenanceDetails",
+                    rootUrl = domain,
+                    action = "_ContributionTaxreliefTableMaintenance",
+                    controller = "Maintenance"
+                });
             }
 
             catch (Exception ex)

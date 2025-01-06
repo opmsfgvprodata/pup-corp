@@ -83,5 +83,13 @@ namespace MVC_SYSTEM.Models
 
         [StringLength(50)]
         public string fld_OriginatorName { get; set; }
-    }
+
+        [StringLength(15)]
+        public string fld_EmployerTaxNo { get; set; }
+        public string fld_CorporateID { get; set; }
+        public string fld_ClientBatchID { get; set; }
+        public string fld_EmployerEPFNo { get; set; }
+        public string fld_EmployerSocsoNo { get; set; }
+
+}
 }

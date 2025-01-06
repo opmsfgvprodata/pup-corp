@@ -44,6 +44,9 @@ namespace MVC_SYSTEM.ModelsCorporate
         public string fld_Remark { get; set; }
         public int? fld_DivisionID { get; set; } //add by wani 18.6.2021
 
+        [StringLength(50)]
+        public string fld_Purpose { get; set; } // fatin added - 23/05/2024
+
     }
 
     [Table("tbl_BlckKmskknDataKerja")]
@@ -84,6 +87,9 @@ namespace MVC_SYSTEM.ModelsCorporate
         [StringLength(300)]
         public string fld_Remark { get; set; }
         public int? fld_DivisionID { get; set; } //add by wani 18.6.2021
+
+        [StringLength(50)]
+        public string fld_Purpose { get; set; } // fatin added - 23/05/2024
 
     }
 }
