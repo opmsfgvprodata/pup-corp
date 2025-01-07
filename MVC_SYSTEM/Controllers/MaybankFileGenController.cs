@@ -1261,6 +1261,222 @@ namespace MVC_SYSTEM.Controllers
             return View();
         }
 
+        public ActionResult RcmsGenKwsp()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
+        public ActionResult RcmsGenSocso()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
+        public ActionResult RcmsGenSip()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
         public ViewResult _rcmstax(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print, string filter)
         {
             int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
@@ -1354,6 +1570,348 @@ namespace MVC_SYSTEM.Controllers
                     parameters.Add("Estate", LadangIDList);
                     con.Open();
                     maybankrcmsList = SqlMapper.Query<sp_TaxCP39_Result>(con, "sp_TaxCP39", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                ViewBag.RecordNo = maybankrcmsList.Count();
+
+                if (maybankrcmsList.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+                if (filter != "")
+                {
+                    ViewBag.filter = filter;
+                }
+                return View(maybankrcmsList);
+            }
+        }
+
+        public ViewResult _rcmskwsp(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print, string filter)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            string ClientId = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsKwsp_Result> maybankrcmsList = new List<sp_MaybankRcmsKwsp_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_LdgName)
+                .FirstOrDefault();
+            //ViewBag.NamaPendekSyarikat = dbC.tbl_Syarikat
+            //   .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //   .Select(s => s.fld_NamaPndkSyarikat)
+            //   .FirstOrDefault();
+            //ViewBag.NoSyarikat = dbC.tbl_Syarikat
+            //    .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //    .Select(s => s.fld_NoSyarikat)
+            //    .FirstOrDefault();
+            ViewBag.CorpID = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_CorporateID)
+                .FirstOrDefault();
+            ViewBag.ClientId = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_ClientBatchID)
+                .FirstOrDefault();
+
+            //if (filter != "")
+            //{
+            //    ViewBag.clientid = filter;
+            //}
+            //else
+            //{
+            //    if (ClientId == null || ClientId == "")
+            //    {
+            //        if (WilayahIDList == 1)
+            //        {
+            //            ViewBag.clientid = "PUP" + MonthList + YearList;
+            //        }
+
+            //        if (WilayahIDList == 2)
+            //        {
+            //            ViewBag.clientid = "YM" + MonthList + YearList;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ViewBag.clientid = ClientId;
+            //    }
+            //}
+
+            ViewBag.AccNo = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_NoAcc)
+                .FirstOrDefault();
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.WilayahID = WilayahIDList;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+            //ViewBag.Description = "Region " + NamaSyarikat + " - Salary payment for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null)
+            {
+                ViewBag.Message = "Please select month, year and payment date";
+                return View(maybankrcmsList);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Region", WilayahIDList);
+                    parameters.Add("Estate", LadangIDList);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                ViewBag.RecordNo = maybankrcmsList.Count();
+
+                if (maybankrcmsList.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+                if (filter != "")
+                {
+                    ViewBag.filter = filter;
+                }
+                return View(maybankrcmsList);
+            }
+        }
+
+        public ViewResult _rcmssocso(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print, string filter)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            string ClientId = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsSocso_Result> maybankrcmsList = new List<sp_MaybankRcmsSocso_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_LdgName)
+                .FirstOrDefault();
+            //ViewBag.NamaPendekSyarikat = dbC.tbl_Syarikat
+            //   .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //   .Select(s => s.fld_NamaPndkSyarikat)
+            //   .FirstOrDefault();
+            //ViewBag.NoSyarikat = dbC.tbl_Syarikat
+            //    .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //    .Select(s => s.fld_NoSyarikat)
+            //    .FirstOrDefault();
+            ViewBag.CorpID = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_CorporateID)
+                .FirstOrDefault();
+            ViewBag.ClientId = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_ClientBatchID)
+                .FirstOrDefault();
+
+            //if (filter != "")
+            //{
+            //    ViewBag.clientid = filter;
+            //}
+            //else
+            //{
+            //    if (ClientId == null || ClientId == "")
+            //    {
+            //        if (WilayahIDList == 1)
+            //        {
+            //            ViewBag.clientid = "PUP" + MonthList + YearList;
+            //        }
+
+            //        if (WilayahIDList == 2)
+            //        {
+            //            ViewBag.clientid = "YM" + MonthList + YearList;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ViewBag.clientid = ClientId;
+            //    }
+            //}
+
+            ViewBag.AccNo = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_NoAcc)
+                .FirstOrDefault();
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.WilayahID = WilayahIDList;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+            //ViewBag.Description = "Region " + NamaSyarikat + " - Salary payment for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null)
+            {
+                ViewBag.Message = "Please select month, year and payment date";
+                return View(maybankrcmsList);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Region", WilayahIDList);
+                    parameters.Add("Estate", LadangIDList);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                ViewBag.RecordNo = maybankrcmsList.Count();
+
+                if (maybankrcmsList.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+                if (filter != "")
+                {
+                    ViewBag.filter = filter;
+                }
+                return View(maybankrcmsList);
+            }
+        }
+
+        public ViewResult _rcmssip(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print, string filter)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            string ClientId = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsSip_Result> maybankrcmsList = new List<sp_MaybankRcmsSip_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_LdgName)
+                .FirstOrDefault();
+            //ViewBag.NamaPendekSyarikat = dbC.tbl_Syarikat
+            //   .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //   .Select(s => s.fld_NamaPndkSyarikat)
+            //   .FirstOrDefault();
+            //ViewBag.NoSyarikat = dbC.tbl_Syarikat
+            //    .Where(x => x.fld_NegaraID == NegaraID && x.fld_NamaPndkSyarikat == CompCodeList)
+            //    .Select(s => s.fld_NoSyarikat)
+            //    .FirstOrDefault();
+            ViewBag.CorpID = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_CorporateID)
+                .FirstOrDefault();
+            ViewBag.ClientId = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_ClientBatchID)
+                .FirstOrDefault();
+
+            //if (filter != "")
+            //{
+            //    ViewBag.clientid = filter;
+            //}
+            //else
+            //{
+            //    if (ClientId == null || ClientId == "")
+            //    {
+            //        if (WilayahIDList == 1)
+            //        {
+            //            ViewBag.clientid = "PUP" + MonthList + YearList;
+            //        }
+
+            //        if (WilayahIDList == 2)
+            //        {
+            //            ViewBag.clientid = "YM" + MonthList + YearList;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ViewBag.clientid = ClientId;
+            //    }
+            //}
+
+            ViewBag.AccNo = dbC.tbl_Ladang
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahIDList && x.fld_ID == LadangIDList)
+                .Select(s => s.fld_NoAcc)
+                .FirstOrDefault();
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.WilayahID = WilayahIDList;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+            //ViewBag.Description = "Region " + NamaSyarikat + " - Salary payment for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null)
+            {
+                ViewBag.Message = "Please select month, year and payment date";
+                return View(maybankrcmsList);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Region", WilayahIDList);
+                    parameters.Add("Estate", LadangIDList);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).ToList();
                     con.Close();
                 }
                 catch (Exception ex)
@@ -1474,6 +2032,303 @@ namespace MVC_SYSTEM.Controllers
 
         }
 
+        public JsonResult CheckGenDataDetailKwsp(int Month, int Year, int? Region, int? Estate, string[] WorkerId)
+        {
+            string msg = "";
+            string statusmsg = "";
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            string stringyear = "";
+            string stringmonth = "";
+            string CorpID = "";
+            string ClientID = "";
+            string ClientIDText = "";
+            string AccNo = "";
+            string InitialName = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+            decimal? TotalGaji = 0;
+            int CountData = 0;
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            GetNSWL.GetSyarikatRCMSDetail(Region, Estate, out CorpID, out ClientID, out AccNo, out InitialName);
+
+            List<sp_MaybankRcmsKwsp_Result> maybankrcmsList = new List<sp_MaybankRcmsKwsp_Result>();
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Month", Month);
+                parameters.Add("Year", Year);
+                parameters.Add("Region", Region);
+                parameters.Add("Estate", Estate);
+                con.Open();
+
+                if (WorkerId == null)
+                    WorkerId = new string[] { "0" };
+
+                if (WorkerId.Contains("0"))
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+                }
+                else
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                }
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            //var SyarikatDetail = dbC.tbl_Syarikat.Where(x => x.fld_NamaPndkSyarikat == CompCode).FirstOrDefault();
+            string filename = "M2E EPF (" + InitialName.ToUpper() + ") " + "" + stringmonth + stringyear + ".txt";
+
+            if (ClientID == null || ClientID == "")
+            {
+                //if (Region == 1)
+                //{
+                //    ClientIDText = "PUP" + stringmonth + stringyear;
+                //}
+
+                //if (Region == 2)
+                //{
+                //    ClientIDText = "YM" + stringmonth + stringyear;
+                //}
+                ClientIDText = "";
+            }
+            else
+            {
+                ClientIDText = ClientID;
+            }
+
+            if (maybankrcmsList.Count() != 0)
+            {
+                TotalGaji = maybankrcmsList.Sum(s => s.fld_KWSPMjk + s.fld_KWSPPkj);
+                CountData = maybankrcmsList.Count();
+                msg = GlobalResCorp.msgDataFound;
+                statusmsg = "success";
+            }
+            else
+            {
+                msg = GlobalResCorp.msgDataNotFound;
+                statusmsg = "warning";
+            }
+
+            dbSP.Dispose();
+            dbC.Dispose();
+            //return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData, clientid = ClientIDText });
+            return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData });
+
+        }
+
+        public JsonResult CheckGenDataDetailSocso(int Month, int Year, int? Region, int? Estate, string[] WorkerId)
+        {
+            string msg = "";
+            string statusmsg = "";
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            string stringyear = "";
+            string stringmonth = "";
+            string CorpID = "";
+            string ClientID = "";
+            string ClientIDText = "";
+            string AccNo = "";
+            string InitialName = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+            decimal? TotalGaji = 0;
+            int CountData = 0;
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            GetNSWL.GetSyarikatRCMSDetail(Region, Estate, out CorpID, out ClientID, out AccNo, out InitialName);
+
+            List<sp_MaybankRcmsSocso_Result> maybankrcmsList = new List<sp_MaybankRcmsSocso_Result>();
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Month", Month);
+                parameters.Add("Year", Year);
+                parameters.Add("Region", Region);
+                parameters.Add("Estate", Estate);
+                con.Open();
+
+                if (WorkerId == null)
+                    WorkerId = new string[] { "0" };
+
+                if (WorkerId.Contains("0"))
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).ToList();
+                }
+                else
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                }
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            //var SyarikatDetail = dbC.tbl_Syarikat.Where(x => x.fld_NamaPndkSyarikat == CompCode).FirstOrDefault();
+            string filename = "M2E SOCSO (" + InitialName.ToUpper() + ") " + "" + stringmonth + stringyear + ".txt";
+
+            if (ClientID == null || ClientID == "")
+            {
+                //if (Region == 1)
+                //{
+                //    ClientIDText = "PUP" + stringmonth + stringyear;
+                //}
+
+                //if (Region == 2)
+                //{
+                //    ClientIDText = "YM" + stringmonth + stringyear;
+                //}
+                ClientIDText = "";
+            }
+            else
+            {
+                ClientIDText = ClientID;
+            }
+
+            if (maybankrcmsList.Count() != 0)
+            {
+                TotalGaji = maybankrcmsList.Sum(s => s.fld_SocsoMjk + s.fld_SocsoPkj);
+                CountData = maybankrcmsList.Count();
+                msg = GlobalResCorp.msgDataFound;
+                statusmsg = "success";
+            }
+            else
+            {
+                msg = GlobalResCorp.msgDataNotFound;
+                statusmsg = "warning";
+            }
+
+            dbSP.Dispose();
+            dbC.Dispose();
+            //return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData, clientid = ClientIDText });
+            return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData });
+
+        }
+
+        public JsonResult CheckGenDataDetailSip(int Month, int Year, int? Region, int? Estate, string[] WorkerId)
+        {
+            string msg = "";
+            string statusmsg = "";
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            string stringyear = "";
+            string stringmonth = "";
+            string CorpID = "";
+            string ClientID = "";
+            string ClientIDText = "";
+            string AccNo = "";
+            string InitialName = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+            decimal? TotalGaji = 0;
+            int CountData = 0;
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            GetNSWL.GetSyarikatRCMSDetail(Region, Estate, out CorpID, out ClientID, out AccNo, out InitialName);
+
+            List<sp_MaybankRcmsSip_Result> maybankrcmsList = new List<sp_MaybankRcmsSip_Result>();
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Month", Month);
+                parameters.Add("Year", Year);
+                parameters.Add("Region", Region);
+                parameters.Add("Estate", Estate);
+                con.Open();
+
+                if (WorkerId == null)
+                    WorkerId = new string[] { "0" };
+
+                if (WorkerId.Contains("0"))
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).ToList();
+                }
+                else
+                {
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                }
+
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            //var SyarikatDetail = dbC.tbl_Syarikat.Where(x => x.fld_NamaPndkSyarikat == CompCode).FirstOrDefault();
+            string filename = "M2E EIS (" + InitialName.ToUpper() + ") " + "" + stringmonth + stringyear + ".txt";
+
+            if (ClientID == null || ClientID == "")
+            {
+                //if (Region == 1)
+                //{
+                //    ClientIDText = "PUP" + stringmonth + stringyear;
+                //}
+
+                //if (Region == 2)
+                //{
+                //    ClientIDText = "YM" + stringmonth + stringyear;
+                //}
+                ClientIDText = "";
+            }
+            else
+            {
+                ClientIDText = ClientID;
+            }
+
+            if (maybankrcmsList.Count() != 0)
+            {
+                TotalGaji = maybankrcmsList.Sum(s => s.fld_SocsoMjk + s.fld_SocsoPkj);
+                CountData = maybankrcmsList.Count();
+                msg = GlobalResCorp.msgDataFound;
+                statusmsg = "success";
+            }
+            else
+            {
+                msg = GlobalResCorp.msgDataNotFound;
+                statusmsg = "warning";
+            }
+
+            dbSP.Dispose();
+            dbC.Dispose();
+            //return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData, clientid = ClientIDText });
+            return Json(new { msg, statusmsg, file = filename, salary = TotalGaji, totaldata = CountData });
+
+        }
+
         [HttpPost]
         public ActionResult DownloadTextTax(int Month, int Year, int? Region, int? Estate, string filter, string[] WorkerId, DateTime PaymentDate)
         {
@@ -1555,6 +2410,1321 @@ namespace MVC_SYSTEM.Controllers
             return Json(new { msg, statusmsg, link });
         }
 
+        [HttpPost]
+        public ActionResult DownloadTextKwsp(int Month, int Year, int? Region, int? Estate, string filter, string[] WorkerId, DateTime PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            string msg = "";
+            string statusmsg = "";
+            string filePath = "";
+            string filename = "";
 
+            string stringyear = "";
+            string stringmonth = "";
+            string link = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            try
+            {
+                GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+                List<ModelsCorporate.tblOptionConfigsWeb> CountryCodeDetail = new List<ModelsCorporate.tblOptionConfigsWeb>();
+
+                List<sp_MaybankRcmsKwsp_Result> maybankrcmsList = new List<sp_MaybankRcmsKwsp_Result>();
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", Month);
+                    parameters.Add("Year", Year);
+                    parameters.Add("Region", Region);
+                    parameters.Add("Estate", Estate);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+
+                    if (WorkerId == null)
+                        WorkerId = new string[] { "0" };
+
+                    if (WorkerId.Contains("0"))
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+                    }
+                    else
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                    }
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+
+                var SyarikatDetail = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == Region && x.fld_ID == Estate).FirstOrDefault();
+                //CountryCodeDetail = dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "krytnlistlhdn").ToList();
+
+                filePath = GetGenerateFile.GenerateFileMaybankKwsp(maybankrcmsList, SyarikatDetail, stringmonth, stringyear, NegaraID, SyarikatID, Region, Estate, filter, PaymentDate, out filename);
+
+                link = Url.Action("Download", "MaybankFileGen", new { filePath, filename });
+
+                //dbr.Dispose();
+
+                msg = GlobalResCorp.msgGenerateSuccess;
+                statusmsg = "success";
+            }
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                msg = GlobalResCorp.msgGenerateFailed;
+                statusmsg = "warning";
+            }
+
+            return Json(new { msg, statusmsg, link });
+        }
+
+        [HttpPost]
+        public ActionResult DownloadTextSocso(int Month, int Year, int? Region, int? Estate, string filter, string[] WorkerId, DateTime PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            string msg = "";
+            string statusmsg = "";
+            string filePath = "";
+            string filename = "";
+
+            string stringyear = "";
+            string stringmonth = "";
+            string link = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            try
+            {
+                GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+                List<ModelsCorporate.tblOptionConfigsWeb> CountryCodeDetail = new List<ModelsCorporate.tblOptionConfigsWeb>();
+
+                List<sp_MaybankRcmsSocso_Result> maybankrcmsList = new List<sp_MaybankRcmsSocso_Result>();
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", Month);
+                    parameters.Add("Year", Year);
+                    parameters.Add("Region", Region);
+                    parameters.Add("Estate", Estate);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).ToList();
+
+                    if (WorkerId == null)
+                        WorkerId = new string[] { "0" };
+
+                    if (WorkerId.Contains("0"))
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).ToList();
+                    }
+                    else
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSocso_Result>(con, "sp_MaybankRcmsSocso", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                    }
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+
+                var SyarikatDetail = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == Region && x.fld_ID == Estate).FirstOrDefault();
+                //CountryCodeDetail = dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "krytnlistlhdn").ToList();
+
+                filePath = GetGenerateFile.GenerateFileMaybankSocso(maybankrcmsList, SyarikatDetail, stringmonth, stringyear, NegaraID, SyarikatID, Region, Estate, filter, PaymentDate, out filename);
+
+                link = Url.Action("Download", "MaybankFileGen", new { filePath, filename });
+
+                //dbr.Dispose();
+
+                msg = GlobalResCorp.msgGenerateSuccess;
+                statusmsg = "success";
+            }
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                msg = GlobalResCorp.msgGenerateFailed;
+                statusmsg = "warning";
+            }
+
+            return Json(new { msg, statusmsg, link });
+        }
+
+        [HttpPost]
+        public ActionResult DownloadTextSip(int Month, int Year, int? Region, int? Estate, string filter, string[] WorkerId, DateTime PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            string msg = "";
+            string statusmsg = "";
+            string filePath = "";
+            string filename = "";
+
+            string stringyear = "";
+            string stringmonth = "";
+            string link = "";
+            stringyear = Year.ToString();
+            stringmonth = Month.ToString();
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            try
+            {
+                GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+                List<ModelsCorporate.tblOptionConfigsWeb> CountryCodeDetail = new List<ModelsCorporate.tblOptionConfigsWeb>();
+
+                List<sp_MaybankRcmsSip_Result> maybankrcmsList = new List<sp_MaybankRcmsSip_Result>();
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Month", Month);
+                    parameters.Add("Year", Year);
+                    parameters.Add("Region", Region);
+                    parameters.Add("Estate", Estate);
+                    con.Open();
+                    maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).ToList();
+
+                    if (WorkerId == null)
+                        WorkerId = new string[] { "0" };
+
+                    if (WorkerId.Contains("0"))
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).ToList();
+                    }
+                    else
+                    {
+                        maybankrcmsList = SqlMapper.Query<sp_MaybankRcmsSip_Result>(con, "sp_MaybankRcmsSip", parameters).Where(x => WorkerId.Contains(x.fld_Nopkj)).ToList();
+                    }
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+
+                var SyarikatDetail = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == Region && x.fld_ID == Estate).FirstOrDefault();
+                //CountryCodeDetail = dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "krytnlistlhdn").ToList();
+
+                filePath = GetGenerateFile.GenerateFileMaybankSip(maybankrcmsList, SyarikatDetail, stringmonth, stringyear, NegaraID, SyarikatID, Region, Estate, filter, PaymentDate, out filename);
+
+                link = Url.Action("Download", "MaybankFileGen", new { filePath, filename });
+
+                //dbr.Dispose();
+
+                msg = GlobalResCorp.msgGenerateSuccess;
+                statusmsg = "success";
+            }
+            catch (Exception ex)
+            {
+                geterror.catcherro(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString());
+                msg = GlobalResCorp.msgGenerateFailed;
+                statusmsg = "warning";
+            }
+
+            return Json(new { msg, statusmsg, link });
+        }
+        public ActionResult RcmsZAP64KWSP()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> regionList = new List<SelectListItem>();
+
+            regionList = new SelectList(dbC.tbl_Wilayah.OrderBy(x => x.fld_ID), "fld_ID", "fld_WlyhName").ToList();
+
+            regionList.Insert(0, (new SelectListItem { Text = "Please Select", Value = "0" }));
+            ViewBag.regionList = regionList;
+
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
+        public ViewResult _RcmsZAP64KWSP(int? regionList, int? MonthList, int? YearList, string print, string PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsZAP64Kwsp_Result> maybankrcmsZAP64Kwsp = new List<sp_MaybankRcmsZAP64Kwsp_Result>();
+
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Wilayah
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_ID == regionList)
+                .Select(s => s.fld_WlyhName)
+                .FirstOrDefault();
+
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+
+            if (YearList == null && MonthList == null)
+            {
+                ViewBag.DocDate = DateTime.Now.AddMonths(+1).AddDays(-DateTime.Now.Day).ToString("dd.MM.yyyy");
+            }
+            else
+            {
+                var lastday = DateTime.DaysInMonth(YearList.Value, MonthList.Value);
+                ViewBag.DocDate = lastday + "." + MonthList + "." + YearList;
+            }
+            ViewBag.PostingDate = Convert.ToDateTime(PaymentDate).ToString("dd.MM.yyyy");
+            ViewBag.Description = "Region " + NamaSyarikat + " - Maybank Rcms ZAP64 EPF for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null || regionList == 0)
+            {
+                ViewBag.Message = "Please select month, year, company and payment date";
+                return View(maybankrcmsZAP64Kwsp);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Region", regionList);
+                    con.Open();
+                    maybankrcmsZAP64Kwsp = SqlMapper.Query<sp_MaybankRcmsZAP64Kwsp_Result>(con, "sp_MaybankRcmsZAP64Kwsp", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+                ViewBag.RecordNo = maybankrcmsZAP64Kwsp.Count();
+
+                if (maybankrcmsZAP64Kwsp.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+
+                return View(maybankrcmsZAP64Kwsp);
+            }
+        }
+
+        public ActionResult RcmsZAP64Socso()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> regionList = new List<SelectListItem>();
+
+            regionList = new SelectList(dbC.tbl_Wilayah.OrderBy(x => x.fld_ID), "fld_ID", "fld_WlyhName").ToList();
+
+            regionList.Insert(0, (new SelectListItem { Text = "Please Select", Value = "0" }));
+            ViewBag.regionList = regionList;
+
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
+        public ViewResult _RcmsZAP64Socso(int? regionList, int? MonthList, int? YearList, string print, string PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsZAP64Socso_Result> maybankrcmsZAP64Socso = new List<sp_MaybankRcmsZAP64Socso_Result>();
+
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Wilayah
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_ID == regionList)
+                .Select(s => s.fld_WlyhName)
+                .FirstOrDefault();
+
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+
+            if (YearList == null && MonthList == null)
+            {
+                ViewBag.DocDate = DateTime.Now.AddMonths(+1).AddDays(-DateTime.Now.Day).ToString("dd.MM.yyyy");
+            }
+            else
+            {
+                var lastday = DateTime.DaysInMonth(YearList.Value, MonthList.Value);
+                ViewBag.DocDate = lastday + "." + MonthList + "." + YearList;
+            }
+            ViewBag.PostingDate = Convert.ToDateTime(PaymentDate).ToString("dd.MM.yyyy");
+            ViewBag.Description = "Region " + NamaSyarikat + " - Maybank Rcms ZAP64 Socso for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null || regionList == 0)
+            {
+                ViewBag.Message = "Please select month, year, company and payment date";
+                return View(maybankrcmsZAP64Socso);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Region", regionList);
+                    con.Open();
+                    maybankrcmsZAP64Socso = SqlMapper.Query<sp_MaybankRcmsZAP64Socso_Result>(con, "sp_MaybankRcmsZAP64Socso", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+                ViewBag.RecordNo = maybankrcmsZAP64Socso.Count();
+
+                if (maybankrcmsZAP64Socso.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+
+                return View(maybankrcmsZAP64Socso);
+            }
+        }
+
+        public ActionResult RcmsZAP64Sip()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> regionList = new List<SelectListItem>();
+
+            regionList = new SelectList(dbC.tbl_Wilayah.OrderBy(x => x.fld_ID), "fld_ID", "fld_WlyhName").ToList();
+
+            regionList.Insert(0, (new SelectListItem { Text = "Please Select", Value = "0" }));
+            ViewBag.regionList = regionList;
+
+            ViewBag.UserID = getuserid;
+            //dbC.Dispose();
+            return View();
+        }
+
+        public ViewResult _RcmsZAP64Sip(int? regionList, int? MonthList, int? YearList, string print, string PaymentDate)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            //string WilayahName = "";
+            string NamaSyarikat = "";
+            //string LdgCode = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsZAP64Sip_Result> maybankrcmsZAP64Sip = new List<sp_MaybankRcmsZAP64Sip_Result>();
+
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            ViewBag.NamaSyarikat = dbC.tbl_Wilayah
+                .Where(x => x.fld_NegaraID == NegaraID && x.fld_ID == regionList)
+                .Select(s => s.fld_WlyhName)
+                .FirstOrDefault();
+
+            ViewBag.NegaraID = NegaraID;
+            ViewBag.SyarikatID = SyarikatID;
+            ViewBag.UserID = getuserid;
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Date = DateTime.Now.ToShortDateString();
+            ViewBag.Time = DateTime.Now.ToShortTimeString();
+            ViewBag.Print = print;
+
+            if (YearList == null && MonthList == null)
+            {
+                ViewBag.DocDate = DateTime.Now.AddMonths(+1).AddDays(-DateTime.Now.Day).ToString("dd.MM.yyyy");
+            }
+            else
+            {
+                var lastday = DateTime.DaysInMonth(YearList.Value, MonthList.Value);
+                ViewBag.DocDate = lastday + "." + MonthList + "." + YearList;
+            }
+            ViewBag.PostingDate = Convert.ToDateTime(PaymentDate).ToString("dd.MM.yyyy");
+            ViewBag.Description = "Region " + NamaSyarikat + " - Maybank Rcms ZAP64 Sip for " + MonthList + "/" + YearList;
+            if (MonthList == null || YearList == null || regionList == 0)
+            {
+                ViewBag.Message = "Please select month, year, company and payment date";
+                return View(maybankrcmsZAP64Sip);
+            }
+            else
+            {
+                string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+                var con = new SqlConnection(constr);
+                try
+                {
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("NegaraID", NegaraID);
+                    parameters.Add("SyarikatID", SyarikatID);
+                    parameters.Add("Year", YearList);
+                    parameters.Add("Month", MonthList);
+                    parameters.Add("Region", regionList);
+                    con.Open();
+                    maybankrcmsZAP64Sip = SqlMapper.Query<sp_MaybankRcmsZAP64Sip_Result>(con, "sp_MaybankRcmsZAP64Sip", parameters).ToList();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+
+                ViewBag.RecordNo = maybankrcmsZAP64Sip.Count();
+
+                if (maybankrcmsZAP64Sip.Count() == 0)
+                {
+                    ViewBag.Message = GlobalResCorp.msgNoRecord;
+                }
+
+
+                return View(maybankrcmsZAP64Sip);
+            }
+        }
+        public ActionResult RcmsBBCDFormKWSP()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            return View();
+        }
+
+        public FileStreamResult _RcmsBBCDFormKWSP(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            var userDetail = getidentity.UserDetail(User.Identity.Name);
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcmsKwsp_Result> maybankRcms_Result = new List<sp_MaybankRcmsKwsp_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            var tbl_Ladang = dbC.tbl_Ladang.Where(x => x.fld_ID == LadangIDList).FirstOrDefault();
+            var NamaSyarikat = tbl_Ladang.fld_LdgName;
+            var AlamatSyarikat = tbl_Ladang.fld_Adress;
+            var KodMajikan = tbl_Ladang.fld_EmployerEPFNo == null ? " " : tbl_Ladang.fld_EmployerEPFNo;
+            var phoneNo = tbl_Ladang.fld_Tel;
+            string pdfForm = GetConfig.PdfPathFile("BBCD Form EPF.pdf");
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Year", YearList);
+                parameters.Add("Month", MonthList);
+                parameters.Add("Region", WilayahIDList);
+                parameters.Add("Estate", LadangIDList);
+                con.Open();
+                maybankRcms_Result = SqlMapper.Query<sp_MaybankRcmsKwsp_Result>(con, "sp_MaybankRcmsKwsp", parameters).ToList();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            if (maybankRcms_Result.Count() == 0)
+            {
+                Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 5);
+                MemoryStream ms = new MemoryStream();
+                MemoryStream output = new MemoryStream();
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, ms);
+                Chunk chunk = new Chunk();
+                Paragraph para = new Paragraph();
+                pdfDoc.Open();
+                PdfPTable table = new PdfPTable(1);
+                table.WidthPercentage = 100;
+                PdfPCell cell = new PdfPCell();
+                chunk = new Chunk("No Data Found", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
+                cell = new PdfPCell(new Phrase(chunk));
+                cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                cell.Border = 0;
+                table.AddCell(cell);
+                pdfDoc.Add(table);
+                pdfWriter.CloseStream = false;
+                pdfDoc.Close();
+
+                ms.Close();
+
+                byte[] file = ms.ToArray();
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+            else
+            {
+                MemoryStream output = new MemoryStream();
+
+                // open the reader
+                PdfReader reader = new PdfReader(pdfForm);
+                Rectangle size = reader.GetPageSizeWithRotation(1);
+                Document document = new Document(size);
+
+                // open the writer
+                MemoryStream ms = new MemoryStream();
+                //FileStream fs = new FileStream(newFile, FileMode.Create, FileAccess.Write);
+                PdfWriter writer = PdfWriter.GetInstance(document, ms);
+                document.Open();
+                PdfContentByte cb = writer.DirectContent;
+
+                // front page content
+                BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                var contributionMonth = MonthList + 1;
+                var contributionYear = YearList;
+                if (MonthList == 12)
+                {
+                    contributionMonth = 1;
+                    contributionYear++;
+                }
+
+                var month = ((Constans.Month)MonthList).ToString().ToUpper();
+                var contributionMonthStrg = ((Constans.Month)contributionMonth).ToString().ToUpper();
+                var totalKWSP = maybankRcms_Result.Sum(s => s.fld_KWSPMjk + s.fld_KWSPPkj).ToString("n");
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 11);
+                cb.BeginText();
+                string text = contributionMonthStrg + " " + contributionYear.ToString();
+                cb.ShowTextAligned(0, text, 367, 659, 0);
+                cb.EndText();
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                cb.BeginText();
+                text = KodMajikan;
+                cb.ShowTextAligned(0, text, 115, 625, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = contributionMonthStrg + " " + contributionYear.ToString();
+                cb.ShowTextAligned(1, text, 306, 625, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = totalKWSP.ToString();
+                cb.ShowTextAligned(2, text, 500, 625, 0);
+                cb.EndText();
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 8);
+
+                cb.BeginText();
+                text = month + " " + YearList.ToString();
+                cb.ShowTextAligned(0, text, 466, 605, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = "X";
+                cb.ShowTextAligned(1, text, 109, 552, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = NamaSyarikat;
+                cb.ShowTextAligned(0, text, 130, 512, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = AlamatSyarikat;
+                cb.ShowTextAligned(0, text, 130, 499, 0);
+                cb.EndText();
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                cb.BeginText();
+                //text = userDetail.fldUserFullName.ToUpper();
+                text = "NURUL AINI BINTI BAHARUDDIN";
+                cb.ShowTextAligned(0, text, 111, 322, 0);
+                cb.EndText();
+                
+                cb.BeginText();
+                //text = getidentity.RoleName(userDetail.fldRoleID.Value).ToUpper();
+                text = "PAYROLL ADMIN";
+                cb.ShowTextAligned(0, text, 111, 268, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                //text = phoneNo;
+                text = "03-26138516";
+                cb.ShowTextAligned(0, text, 111, 230, 0);
+                cb.EndText();
+
+                PdfImportedPage page = writer.GetImportedPage(reader, 1);
+                cb.AddTemplate(page, 0, 0);
+
+                document.Close();
+                writer.Close();
+                reader.Close();
+                ms.Close();
+                byte[] file = ms.ToArray();
+
+
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+        }
+
+        public ActionResult RcmsLampiranASocso()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            return View();
+        }
+
+        public FileStreamResult _RcmsLampiranASocso(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcms_Result> maybankRcms_Result = new List<sp_MaybankRcms_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            var tbl_Ladang = dbC.tbl_Ladang.Where(x => x.fld_ID == LadangIDList).FirstOrDefault();
+            var NamaSyarikat = tbl_Ladang.fld_LdgName;
+            var AlamatSyarikat = tbl_Ladang.fld_Adress;
+            var KodMajikan = tbl_Ladang.fld_EmployerSocsoNo == null ? " " : tbl_Ladang.fld_EmployerSocsoNo;
+            string pdfForm = GetConfig.PdfPathFile("Lampiran A.pdf");
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Year", YearList);
+                parameters.Add("Month", MonthList);
+                parameters.Add("Region", WilayahIDList);
+                parameters.Add("Estate", LadangIDList);
+                con.Open();
+                maybankRcms_Result = SqlMapper.Query<sp_MaybankRcms_Result>(con, "sp_MaybankRcmsSocso", parameters).ToList();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            if (maybankRcms_Result.Count() == 0)
+            {
+                Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 5);
+                MemoryStream ms = new MemoryStream();
+                MemoryStream output = new MemoryStream();
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, ms);
+                Chunk chunk = new Chunk();
+                Paragraph para = new Paragraph();
+                pdfDoc.Open();
+                PdfPTable table = new PdfPTable(1);
+                table.WidthPercentage = 100;
+                PdfPCell cell = new PdfPCell();
+                chunk = new Chunk("No Data Found", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
+                cell = new PdfPCell(new Phrase(chunk));
+                cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                cell.Border = 0;
+                table.AddCell(cell);
+                pdfDoc.Add(table);
+                pdfWriter.CloseStream = false;
+                pdfDoc.Close();
+
+                ms.Close();
+
+                byte[] file = ms.ToArray();
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+            else
+            {
+                MemoryStream output = new MemoryStream();
+
+                // open the reader
+                PdfReader reader = new PdfReader(pdfForm);
+                Rectangle size = reader.GetPageSizeWithRotation(1);
+                Document document = new Document(size);
+
+                // open the writer
+                MemoryStream ms = new MemoryStream();
+                //FileStream fs = new FileStream(newFile, FileMode.Create, FileAccess.Write);
+                PdfWriter writer = PdfWriter.GetInstance(document, ms);
+                document.Open();
+                PdfContentByte cb = writer.DirectContent;
+
+                // front page content
+                BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                var month = ((Constans.Month)MonthList).ToString().ToUpper();
+                var totalNoWorker = maybankRcms_Result.Where(x => x.fld_SocsoMjk > 0 || x.fld_SocsoPkj > 0).Count();
+                var totalSocso = maybankRcms_Result.Sum(s => s.fld_SocsoMjk + s.fld_SocsoPkj).ToString("n");
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 11);
+                cb.BeginText();
+                string text = month;
+                cb.ShowTextAligned(0, text, 400, 652, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = month;
+                cb.ShowTextAligned(0, text, 504, 652, 0);
+                cb.EndText();
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                cb.BeginText();
+                text = totalNoWorker.ToString();
+                cb.ShowTextAligned(0, text, 163, 573, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = "RM " + totalSocso;
+                cb.ShowTextAligned(1, text, 422, 500, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = KodMajikan;
+                cb.ShowTextAligned(0, text, 182, 459, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = NamaSyarikat;
+                cb.ShowTextAligned(0, text, 182, 444, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = AlamatSyarikat;
+                cb.ShowTextAligned(0, text, 182, 430, 0);
+                cb.EndText();
+
+                PdfImportedPage page = writer.GetImportedPage(reader, 1);
+                cb.AddTemplate(page, 0, 0);
+
+                document.Close();
+                writer.Close();
+                reader.Close();
+                ms.Close();
+                byte[] file = ms.ToArray();
+
+
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+        }
+
+        public ActionResult RcmsLampiranASip()
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+            string host, catalog, user, pass = "";
+            int[] wlyhid = new int[] { };
+            DateTime Minus1month = timezone.gettimezone().AddMonths(-1);
+            int year = Minus1month.Year;
+            int month = Minus1month.Month;
+            int drpyear = 0;
+            int drprangeyear = 0;
+
+            ViewBag.MaybankFileGen = "class = active";
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+
+            drpyear = timezone.gettimezone().Year - int.Parse(GetConfig.GetData("yeardisplay")) + 1;
+            drprangeyear = timezone.gettimezone().Year;
+
+            int? wilayahselection = 0;
+            int? ladangselection = 0;
+
+            var yearlist = new List<SelectListItem>();
+            for (var i = drpyear; i <= drprangeyear; i++)
+            {
+                if (i == year)
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString(), Selected = true });
+                }
+                else
+                {
+                    yearlist.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
+            }
+
+            ViewBag.YearList = yearlist;
+
+            ViewBag.MonthList = new SelectList(dbC.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "monthlist" && x.fldDeleted == false && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID), "fldOptConfValue", "fldOptConfDesc", month);
+
+            List<SelectListItem> WilayahIDList = new List<SelectListItem>();
+            List<SelectListItem> LadangIDList = new List<SelectListItem>();
+
+            if (WilayahID == 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID(SyarikatID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            else if (WilayahID != 0 && LadangID == 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+
+            }
+            else if (WilayahID != 0 && LadangID != 0)
+            {
+                wlyhid = getwilyah.GetWilayahID2(SyarikatID, WilayahID);
+                WilayahIDList = new SelectList(dbC.tbl_Wilayah.Where(x => wlyhid.Contains(x.fld_ID)), "fld_ID", "fld_WlyhName").ToList();
+                LadangIDList = new SelectList(dbC.tbl_Ladang.Where(x => wlyhid.Contains((int)x.fld_WlyhID) && x.fld_ID == LadangID && x.fld_Deleted == false).OrderBy(o => o.fld_LdgName).Select(s => new SelectListItem { Value = s.fld_ID.ToString(), Text = s.fld_LdgCode + " - " + s.fld_LdgName }), "Value", "Text").ToList();
+                wilayahselection = WilayahID;
+                ladangselection = LadangID;
+            }
+            ViewBag.WilayahIDList = WilayahIDList;
+            ViewBag.LadangIDList = LadangIDList;
+            return View();
+        }
+
+        public FileStreamResult _RcmsLampiranASip(int? WilayahIDList, int? LadangIDList, int? MonthList, int? YearList, string print)
+        {
+            int? NegaraID, SyarikatID, WilayahID, LadangID = 0;
+            int? getuserid = getidentity.ID(User.Identity.Name);
+
+            GetNSWL.GetData(out NegaraID, out SyarikatID, out WilayahID, out LadangID, getuserid, User.Identity.Name);
+            List<sp_MaybankRcms_Result> maybankRcms_Result = new List<sp_MaybankRcms_Result>();
+
+            ViewBag.MonthList = MonthList;
+            ViewBag.YearList = YearList;
+            var tbl_Ladang = dbC.tbl_Ladang.Where(x => x.fld_ID == LadangIDList).FirstOrDefault();
+            var NamaSyarikat = tbl_Ladang.fld_LdgName;
+            var AlamatSyarikat = tbl_Ladang.fld_Adress;
+            var KodMajikan = tbl_Ladang.fld_EmployerSocsoNo == null ? " " : tbl_Ladang.fld_EmployerSocsoNo;
+            string pdfForm = GetConfig.PdfPathFile("Lampiran A.pdf");
+
+            string constr = ConfigurationManager.ConnectionStrings["MVC_SYSTEM_HQ_CONN"].ConnectionString;
+            var con = new SqlConnection(constr);
+            try
+            {
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("NegaraID", NegaraID);
+                parameters.Add("SyarikatID", SyarikatID);
+                parameters.Add("Year", YearList);
+                parameters.Add("Month", MonthList);
+                parameters.Add("Region", WilayahIDList);
+                parameters.Add("Estate", LadangIDList);
+                con.Open();
+                maybankRcms_Result = SqlMapper.Query<sp_MaybankRcms_Result>(con, "sp_MaybankRcmsSip", parameters).ToList();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            if (maybankRcms_Result.Count() == 0)
+            {
+                Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 5);
+                MemoryStream ms = new MemoryStream();
+                MemoryStream output = new MemoryStream();
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, ms);
+                Chunk chunk = new Chunk();
+                Paragraph para = new Paragraph();
+                pdfDoc.Open();
+                PdfPTable table = new PdfPTable(1);
+                table.WidthPercentage = 100;
+                PdfPCell cell = new PdfPCell();
+                chunk = new Chunk("No Data Found", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK));
+                cell = new PdfPCell(new Phrase(chunk));
+                cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                cell.Border = 0;
+                table.AddCell(cell);
+                pdfDoc.Add(table);
+                pdfWriter.CloseStream = false;
+                pdfDoc.Close();
+
+                ms.Close();
+
+                byte[] file = ms.ToArray();
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+            else
+            {
+                MemoryStream output = new MemoryStream();
+
+                // open the reader
+                PdfReader reader = new PdfReader(pdfForm);
+                Rectangle size = reader.GetPageSizeWithRotation(1);
+                Document document = new Document(size);
+
+                // open the writer
+                MemoryStream ms = new MemoryStream();
+                //FileStream fs = new FileStream(newFile, FileMode.Create, FileAccess.Write);
+                PdfWriter writer = PdfWriter.GetInstance(document, ms);
+                document.Open();
+                PdfContentByte cb = writer.DirectContent;
+
+                // front page content
+                BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                var month = ((Constans.Month)MonthList).ToString().ToUpper();
+                var totalNoWorker = maybankRcms_Result.Where(x => x.fld_CarumanMajikan > 0 || x.fld_CarumanPekerja > 0).Count();
+                var totalSip = maybankRcms_Result.Sum(s => s.fld_CarumanMajikan + s.fld_CarumanPekerja).ToString("n");
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 11);
+                cb.BeginText();
+                string text = month;
+                cb.ShowTextAligned(0, text, 400, 652, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = month;
+                cb.ShowTextAligned(0, text, 504, 652, 0);
+                cb.EndText();
+
+                bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+                cb.SetColorFill(BaseColor.BLACK);
+                cb.SetFontAndSize(bf, 10);
+
+                cb.BeginText();
+                text = totalNoWorker.ToString();
+                cb.ShowTextAligned(0, text, 163, 573, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = "RM " + totalSip;
+                cb.ShowTextAligned(1, text, 422, 500, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = KodMajikan;
+                cb.ShowTextAligned(0, text, 182, 459, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = NamaSyarikat;
+                cb.ShowTextAligned(0, text, 182, 444, 0);
+                cb.EndText();
+
+                cb.BeginText();
+                text = AlamatSyarikat;
+                cb.ShowTextAligned(0, text, 182, 430, 0);
+                cb.EndText();
+
+                PdfImportedPage page = writer.GetImportedPage(reader, 1);
+                cb.AddTemplate(page, 0, 0);
+
+                document.Close();
+                writer.Close();
+                reader.Close();
+                ms.Close();
+                byte[] file = ms.ToArray();
+
+
+                output.Write(file, 0, file.Length);
+                output.Position = 0;
+                return new FileStreamResult(output, "application/pdf");
+            }
+        }
     }
 }
