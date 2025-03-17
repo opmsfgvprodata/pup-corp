@@ -2094,6 +2094,9 @@
   <data name="lblTitlePmbhgiHargaMaintenance" xml:space="preserve">
     <value>Distribution of OT Prices</value>
   </data>
+  <data name="btnGenerate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
   <data name="lblTitleKmplnKategoriMaintenance" xml:space="preserve">
     <value>Category Working Group</value>
   </data>
@@ -2529,9 +2532,6 @@
   <data name="lblTotalMTDRec" xml:space="preserve">
     <value>Total MTD Records</value>
   </data>
-  <data name="btnGenerate" xml:space="preserve">
-    <value>Generate</value>
-  </data>
   <data name="lblPaidLeaveGenerateInfo" xml:space="preserve">
     <value>Paid Leave Generate Information</value>
   </data>
@@ -2561,5 +2561,8 @@
   </data>
   <data name="lblTotalCP8DRec" xml:space="preserve">
     <value>Total CP8D Records</value>
+  </data>
+  <data name="lblPaymentMode" xml:space="preserve">
+    <value>Payment Mode</value>
   </data>
 </root>

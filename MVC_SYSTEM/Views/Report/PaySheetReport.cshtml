@@ -1,8 +1,8 @@
 ﻿@using MVC_SYSTEM.Class;
-
 @{
-    ViewBag.Title = "PaySheetReport";
+    ViewBag.Title = "Pay Sheet Report";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
     AjaxOptions options = new AjaxOptions
     {
         HttpMethod = "Get",
@@ -17,53 +17,79 @@
 <div id="divLoading" style="display:none;">
     <div class="progressTest">
         <label>
-            @GlobalResDataEntry.WaitMsg
+            @GlobalResCorp.msgWait
         </label>
     </div>
 </div>
 
 <section class="content-wrapper main-content clear-fix">
-    <div class="well bottom">
+    <div class="well bottom" style="padding-bottom:16px;">
         @using (Ajax.BeginForm("_WorkerPaySheetRptSearch", "Report", null, options, new { @id = "WorkerPaySheetRptSearch" }))
         {
             @Html.AntiForgeryToken()
             <div class="row">
-                @*<div class="col-sm-2">
-                    @Html.RadioButton("RadioGroup", 0, new { @checked = "checked" })
-                    @Html.Label("Individu")<br />
-                    @Html.RadioButton("RadioGroup", 1)
-                    @Html.Label("Pilihan Kumpulan")
-                </div>*@
-                <div class="col-sm-2">
-                    <label>Wilayah</label>
-                    @Html.DropDownList("WilayahIDList", null, htmlAttributes: new { @class = "form-control" })
+                <div class="col-sm-2" style="display:flex;justify-content:center; align-items:center; height:100%">
+                    <div>
+                        @Html.RadioButton("RadioGroup", 0, new { @checked = "checked" })
+                        @Html.Label(GlobalResCorp.lblIndividuSelection)<br />
+                        @Html.RadioButton("RadioGroup", 1)
+                        @Html.Label(GlobalResCorp.lblGroupSelection)
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    <label>Ladang</label>
-                    @Html.DropDownList("LadangIDList", null, htmlAttributes: new { @class = "form-control" })
+                <div class="col-sm-10">
+
+                    <div class="col-sm-3">
+                        <label>Wilayah</label>
+                        @Html.DropDownList("WilayahIDList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Ladang</label>
+                        @Html.DropDownList("LadangIDList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@GlobalResCorp.lblMonth</label>
+                        @Html.DropDownList("MonthList", null, htmlAttributes: new { @class = "form-control" })
+                    </div><div class="col-sm-3">
+                        <label>@GlobalResCorp.lblYear</label>
+                        @Html.DropDownList("YearList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="SelectionLabel">@GlobalResCorp.lblWorker</label>
+                        @Html.DropDownList("SelectionList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="SelectionLabel">@GlobalResCorp.lblWorkerType</label>
+                        @Html.DropDownList("JnsPkjList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="SelectionLabel">@GlobalResCorp.lblPaymentMode</label>
+                        @Html.DropDownList("PaymentModeList", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input  style="margin-top:24px" class="btn btn-primary btn-block" type="submit" name="Lihat" value=@GlobalResCorp.btnView />
+                        @*<a data-modal1='' href="@Url.Action("_WorkerPaySheetRptAdvanceSearch", "Report")" class='btn btn-primary btn-block' role='button'>@GlobalResCorp.btnSearchAdvance</a>*@
+                    </div>
                 </div>
-                <div class="col-sm-2">
-                    <label>Bulan</label>
-                    @Html.DropDownList("MonthList", null, htmlAttributes: new { @class = "form-control" })
-                </div><div class="col-sm-2">
-                    <label>Tahun</label>
-                    @Html.DropDownList("YearList", null, htmlAttributes: new { @class = "form-control" })
-                </div>
-                @*<div class="col-sm-4">
-                    <label id="SelectionLabel">Pekerja</label>
-                    @Html.DropDownList("SelectionList", null, htmlAttributes: new { @class = "form-control" })
-                </div>*@
-                <div class="col-sm-2">
-                    <input class="btn btn-primary btn-block" type="submit" name="Lihat" value="Lihat" />
-                    @*<a data-modal1='' href="@Url.Action("_WorkerPaySheetRptAdvanceSearch", "Report")" class='btn btn-primary btn-block' role='button'>Carian Tambahan</a>*@
-                </div>
+                <!--<div class="col-sm-2">-->
+                    @* added by faeza 09.06.2021 *@
+
+                    <!--<div class="col-sm-12">
+                            <input class="btn btn-primary btn-block" type="submit" name="Lihat" value=@GlobalResCorp.btnView />-->
+                            @*<a data-modal1='' href="@Url.Action("_WorkerPaySheetRptAdvanceSearch", "Report")" class='btn btn-primary btn-block' role='button'>@GlobalResCorp.btnSearchAdvance</a>*@
+                    <!--</div>
+                </div>-->
             </div>
         }
     </div>
-    <div class="well">
-        <p style="text-align:center;"><label>Laporan Paysheet</label></p>
-        <div id="searchResultWorkerPaySheetRptInfo">
-            @Html.Action("_WorkerPaySheetRptSearch")
+    <div class="well" style="margin-top:7px;">
+        <div class="panel panel-primary">
+            <div class="panel-heading">@GlobalResCorp.lblPaysheetReport</div>
+            <div class="panel-body">
+                <div id="searchResultWorkerPaySheetRptInfo">
+                    @Html.Action("_WorkerPaySheetRptSearch")
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -92,60 +118,15 @@
 
 <script>
     $(document).ready(function () {
-         if ($("#WilayahIDList").val() == 0) {
-            var WilayahIDList = {};
-            var disableoption = "";
-            WilayahIDList.url = "@Url.Action("GetLadang", "Report")";
-            WilayahIDList.type = "POST";
-            WilayahIDList.data = JSON.stringify({ WilayahID: $("#WilayahIDList").val() });
-            WilayahIDList.datatype = "json";
-            WilayahIDList.contentType = "application/json";
-            WilayahIDList.success = function (ladanglist) {
-                $("#LadangIDList").empty();
-                $("#LadangIDList").append("<option value=0>@GlobalResWorkerSalary.sltAll</option>");
-                for (var i = 0; i < ladanglist.length; i++) {
-                    if ($("#WilayahIDList").val() == 0)
-                    {
-                        disableoption = "disabled";
-                    }
-                    $("#LadangIDList").append("<option value=" + ladanglist[i].Value + " " + disableoption + ">" + ladanglist[i].Text + "</option>");
-                }
-            };
-            WilayahIDList.error = function () { $.simplyToast('Sistem masalah', 'danger'); };
-            $.ajax(WilayahIDList);
-        }
-
-        $("#WilayahIDList").change(function () {
-            var WilayahIDList = {};
-            var disableoption = "";
-            WilayahIDList.url = "@Url.Action("GetLadang", "Report")";
-            WilayahIDList.type = "POST";
-            WilayahIDList.data = JSON.stringify({ WilayahID: $("#WilayahIDList").val() });
-            WilayahIDList.datatype = "json";
-            WilayahIDList.contentType = "application/json";
-            WilayahIDList.success = function (ladanglist) {
-                $("#LadangIDList").empty();
-                $("#LadangIDList").append("<option value=0>@GlobalResWorkerSalary.sltAll</option>");
-                for (var i = 0; i < ladanglist.length; i++) {
-                    if ($("#WilayahIDList").val() == 0) {
-                        disableoption = "disabled";
-                    }
-                    $("#LadangIDList").append("<option value=" + ladanglist[i].Value + " " + disableoption + ">" + ladanglist[i].Text + "</option>");
-                }
-            };
-            WilayahIDList.error = function () { $.simplyToast('Sistem masalah', 'danger'); };
-            $.ajax(WilayahIDList);
-         });
-
-        @*$('input[name="RadioGroup"]').on("click", function (e) {
+        $('input[name="RadioGroup"]').on("click", function (e) {
             console.log($('input[name=RadioGroup]:checked').val());
             var Radiogrp = $('input[name=RadioGroup]:checked').val();
             var radiogroup = {};
             var disableoption = "";
             $('#divLoading').show();
-            radiogroup.url = "@Url.Action("GetList", "Report")";
+            radiogroup.url = "@Url.Action("GetList2", "Report")";
             radiogroup.type = "POST";
-            radiogroup.data = JSON.stringify({ RadioGroup: Radiogrp, StatusList: $("#StatusList").val() });
+            radiogroup.data = JSON.stringify({ RadioGroup: Radiogrp, wlyh: $("#WilayahIDList").val(), ladang: $("#LadangIDList").val() });
             radiogroup.datatype = "json";
             radiogroup.contentType = "application/json";
             radiogroup.success = function (result) {
@@ -158,6 +139,58 @@
             };
             radiogroup.error = function () { $.simplyToast('Sistem masalah', 'danger'); };
             $.ajax(radiogroup);
-        });*@
+        });
+        getSelection($('input[name=RadioGroup]:checked').val(), $("#WilayahIDList").val(), $("#LadangIDList").val())
+        getLadangList($("#WilayahIDList").val())
     });
+
+    function getSelection(radiogroup, wilayah, ldg) {
+         var selection = {};
+        var disableoption = "";
+        selection.url = "@Url.Action("GetList2", "Report")";
+         selection.type = "POST";
+        selection.data = JSON.stringify({ RadioGroup: radiogroup, wlyh: wilayah, ladang: ldg });
+         selection.datatype = "json";
+         selection.contentType = "application/json";
+         selection.success = function (result) {
+             document.getElementById("SelectionLabel").innerText = result.SelectionLabel;
+             $("#SelectionList").empty();
+             for (var i = 0; i < result.SelectionList.length; i++) {
+                 $("#SelectionList").append("<option value=" + result.SelectionList[i].Value + " " + disableoption + ">" + result.SelectionList[i].Text + "</option>");
+             }
+             $('#divLoading').hide();
+         };
+         selection.error = function () { $.simplyToast('Sistem masalah', 'danger'); };
+         $.ajax(selection);
+    }
+
+    $("#WilayahIDList").change(function (e) {
+        getLadangList(e.target.value);
+    });
+
+    $("#LadangIDList").change(function (e) {
+        getSelection($('input[name=RadioGroup]:checked').val(), $("#WilayahIDList").val(),e.target.value);
+    });
+
+      function getLadangList(wilayah) {
+      var WilayahIDList = {};
+      var disableoption = "";
+      WilayahIDList.url = "@Url.Action("GetLadang", "ApplicationSupport")";
+      WilayahIDList.type = "POST";
+      WilayahIDList.data = JSON.stringify({ WilayahID: wilayah });
+      WilayahIDList.datatype = "json";
+      WilayahIDList.contentType = "application/json";
+      WilayahIDList.success = function (ladanglist) {
+          $("#LadangIDList").empty();
+          $("#LadangIDList").append("<option value=0>@GlobalResActiveWorker.sltAll</option>");
+          for (var i = 0; i < ladanglist.length; i++) {
+              if ($("#WilayahIDList").val() == 0) {
+                  disableoption = "disabled";
+              }
+              $("#LadangIDList").append("<option value=" + ladanglist[i].Value + " " + disableoption + ">" + ladanglist[i].Text + "</option>");
+          }
+      };
+      WilayahIDList.error = function () { $.simplyToast('Sistem masalah', 'danger'); };
+      $.ajax(WilayahIDList);
+    };
 </script>

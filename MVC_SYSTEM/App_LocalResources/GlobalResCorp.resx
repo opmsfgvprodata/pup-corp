@@ -3735,4 +3735,7 @@
   <data name="lblTotalCP8DRec" xml:space="preserve">
     <value>Total CP8D Records</value>
   </data>
+  <data name="lblPaymentMode" xml:space="preserve">
+    <value>Jenis Pembayaran</value>
+  </data>
 </root>

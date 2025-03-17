@@ -6640,6 +6640,15 @@ namespace MVC_SYSTEM.App_LocalResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jenis Pembayaran.
+        /// </summary>
+        public static string lblPaymentMode {
+            get {
+                return ResourceManager.GetString("lblPaymentMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Jadual Kadar Upah (Menuai).
         /// </summary>
         public static string lblPayrate {

@@ -93,7 +93,7 @@ namespace MVC_SYSTEM.ViewingModels
         //public virtual DbSet<vw_GajiPekerja> vw_GajiPekerja { get; set; }
         //public virtual DbSet<vw_KehadiranPekerja> vw_KehadiranPekerja { get; set; }
         public virtual DbSet<vw_MingguNegeri> vw_MingguNegeri { get; set; }
-        //public virtual DbSet<vw_PaySheetPekerja> vw_PaySheetPekerja { get; set; }
+        public virtual DbSet<vw_PaySheetPekerja> vw_PaySheetPekerja { get; set; }
         //public virtual DbSet<tbl_GajiMinima> tbl_GajiMinima { get; set; }
         //public virtual DbSet<vw_GajiMinima> vw_GajiMinima { get; set; }
         //public virtual DbSet<tbl_Produktiviti> tbl_Produktiviti { get; set; }
