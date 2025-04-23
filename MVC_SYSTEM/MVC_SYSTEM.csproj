@@ -1002,6 +1002,7 @@
     <Compile Include="ModelsCustom\CusMod_Password.cs" />
     <Compile Include="ModelsCustom\CusMod_tbl_UpahAktiviti.cs" />
     <Compile Include="ModelsCustom\CustMod_DesignationIncentiveEligibility.cs" />
+    <Compile Include="ModelsCustom\CustMod_GeneratePaidLeave.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerIncentiveList.cs" />
     <Compile Include="ModelsCustom\UserIDApplication.cs" />
     <Compile Include="ModelsDapper\sp_MaybankRcmsZAP64Sip_Result.cs" />
@@ -3529,6 +3530,9 @@
     <Content Include="Views\MaybankFileGen\TaxCP39Form.cshtml" />
     <Content Include="Views\MaybankFileGen\RcmsBBCDFormKWSP.cshtml" />
     <Content Include="Views\MaybankFileGen\RcmsLampiranASip.cshtml" />
+    <Content Include="Views\Maintenance\PaidLeaveGenerateMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_PaidLeaveGenerateInfoMaintenance.cshtml" />
+    <Content Include="Views\Maintenance\_PaidLeaveGenerateMaintenanceCreate.cshtml" />
     <Content Include="Views\MaybankFileGen\TaxCP8D.cshtml" />
     <Content Include="Views\MaybankFileGen\_TaxCP8D.cshtml" />
   </ItemGroup>

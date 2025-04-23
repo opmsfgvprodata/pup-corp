@@ -1379,7 +1379,7 @@ namespace MVC_SYSTEM.Controllers
             List<sp_TaxCP39_Result> taxCP39 = new List<sp_TaxCP39_Result>();
 
             var SyarikatDetail = dbC.tbl_Syarikat.Where(x => x.fld_SyarikatID == SyarikatID).FirstOrDefault();
-            string filename = "Tax CP8D (" + SyarikatDetail.fld_NamaPndkSyarikat.ToUpper() + ") " + "" + stringmonth + stringyear + ".txt";
+            string filename = "P" + "0990252604_" + Year + ".txt";
             string constr = Connection.GetConnectionString(Region.Value, SyarikatID.Value, NegaraID.Value);
             var con = new SqlConnection(constr);
             try
